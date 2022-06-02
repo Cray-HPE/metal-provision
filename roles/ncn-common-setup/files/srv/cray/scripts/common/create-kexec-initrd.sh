@@ -275,6 +275,7 @@ while getopts "hk:" opt; do
       echo "Copying new kernel and initrd to bootraid..."
       # Backup the existing artifacts and replace them with the newly created ones
       update_bootraid_artifacts
+
       # check the wipe status before continuing, modifying it if necessary
       echo "Checking wipe status..."
       check_wipe_status 
@@ -290,6 +291,7 @@ while getopts "hk:" opt; do
         "${NEW_KERNEL_PATH}"
 
       echo "Run 'kexec -e' to use the new kernel."
+
       shift
       ;;
     \?)

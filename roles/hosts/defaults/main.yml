@@ -1,0 +1,8 @@
+---
+fadn: "{{ inventory_hostname }}"
+region: "region"
+local_hostname: "{{ inventory_hostname_short }}"
+# ds.meta_data.xname:
+# ds.meta_data.Global.host_records
+# host_record.ip
+# host_record.aliases

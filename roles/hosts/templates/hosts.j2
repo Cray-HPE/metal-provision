@@ -1,0 +1,25 @@
+# Your system is configured by metal-provision.
+# As a result, if you wish for changes to this file to persist
+# then you will need to make changes to the master file in hosts.j2
+#
+# The following lines are desirable for IPv4 capable hosts
+127.0.0.1 {{ region }}-{{ local_hostname }}.local {{ region }}-{{ local_hostname }} {{ local_hostname }} {{ ds.meta_data.xname }}
+127.0.0.1 localhost.localdomain localhost
+127.0.0.1 localhost4.localdomain4 localhost4
+
+# The following lines are desirable for IPv6 capable hosts
+::1 {{ region }}-{{ local_hostname }}.local {{ region }}-{{ local_hostname }} {{ local_hostname }} {{ ds.meta_data.xname }}
+::1 localhost.localdomain localhost
+::1 localhost6.localdomain6 localhost6
+::1 localhost ipv6-localhost ipv6-loopback
+
+fe00::0 ipv6-localnet
+ff00::0 ipv6-mcastprefix
+ff02::1 ipv6-allnodes
+ff02::2 ipv6-allrouters
+ff02::3 ipv6-allhosts
+
+# The following lines are desirable for IPv4 fallback (e.g. breaker-off).
+{% for host_record in ds.meta_data.Global.host_records -%}
+    {{ '% -16s' | format( host_record.ip )}}{{ '% -65s' | format(host_record.aliases | sort(reverse=true) | join(' ')) }}
+{% endfor %}

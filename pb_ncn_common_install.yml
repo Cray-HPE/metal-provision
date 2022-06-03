@@ -1,5 +1,7 @@
 ---
-- hosts: packer
+- hosts:
   remote_user: root
   roles:
+    - hostname
+    - hosts
     - ncn-common-install

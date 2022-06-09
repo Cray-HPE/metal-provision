@@ -18,8 +18,15 @@
     enabled: yes
     masked: no
   with_items:
-    - kdump-cray
     - cloud-init-oneshot
+    - kdump-cray
+
+- name: disable services
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    masked: no
+  with_items:
     - metal-iptables
 
 - name: add sshd_config for metal

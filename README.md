@@ -1,2 +1,3 @@
-# metal-template
-A template to create new repos from.
+# Metal Provisioning
+
+Ansible for building and configuring non-compute nodes.

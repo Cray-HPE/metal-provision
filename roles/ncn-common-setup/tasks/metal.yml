@@ -24,7 +24,7 @@
 - name: disable services
   systemd:
     name: "{{ item }}"
-    enabled: yes
+    enabled: no
     masked: no
   with_items:
     - metal-iptables

@@ -67,6 +67,6 @@
   systemd:
     enabled: "{{ item.enabled }}"
     name: "{{ item.name }}"
-    masked: "{{ item.masked | default(no) }}"
-    started: "{{ item.started }}
-  with_items: "{{ services_common }}""
+    masked: "{{ item.masked | default(false) }}"
+    state: "{{ item.state }}"
+  with_items: "{{ services_common }}"

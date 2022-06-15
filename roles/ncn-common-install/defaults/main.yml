@@ -8,7 +8,7 @@ services_common:
     state: stopped
   - name: getty@tty1.service
     enabled: yes
-    state: stopped
+    state: started
   - name: goss-servers
     enabled: yes
     state: started
@@ -50,20 +50,27 @@ services_common:
     state: stopped
   - name: sshd.service
     enabled: yes
-    state: stopped
+    state: started
   - name: wicked.service
     enabled: yes
-    state: stopped
+    state: started
   - name: wickedd-auto4.service
     enabled: yes
-    state: stopped
+    state: started
   - name: wickedd-dhcp4.service
     enabled: yes
-    state: stopped
+    state: started
   - name: wickedd-dhcp6.service
     enabled: yes
-    state: stopped
+    state: started
   - name: wickedd-nanny.service
+    enabled: yes
+    state: started
+services_google:
+  - name: kdump-early.service
+    enabled: yes
+    state: stopped
+  - name: kdump.service
     enabled: yes
     state: stopped
 services_metal:
@@ -82,6 +89,12 @@ services_metal:
   - name: cpqScsi
     enabled: no
     state: stopped
+  - name: kdump-early.service
+    enabled: yes
+    state: started
+  - name: kdump.service
+    enabled: yes
+    state: started
   - name: smad
     enabled: no
     state: stopped

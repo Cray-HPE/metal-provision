@@ -23,28 +23,16 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 
-# This script does not use bind mounts and thus executes correctly in a container.
-set -e
-set -x
+# Dracut Arguments
+export OMIT=( "btrfs" "cifs" "dmraid" "dmsquash-live-ntfs" "fcoe" "fcoe-uefi" "iscsi" "modsign" "multipath" "nbd" "nfs" "ntfs-3g" )
+export OMIT_DRIVERS=( "ecb" "hmac" "md5" )
+export ADD=( "mdraid" )
+export FORCE_ADD=( "dmsquash-live" "livenet" "mdraid" )
+export INSTALL=( "less" "rmdir" "sgdisk" "vgremove" "wipefs" )
 
-
-# Source common dracut parameters.
-. "$(dirname $0)/dracut-lib.sh"
-
-echo "Generating initrd..."
-
-dracut \
---force \
---omit "$(printf '%s' "${OMIT[*]}")" \
---omit-drivers "$(printf '%s' "${OMIT_DRIVERS[*]}")" \
---add "$(printf '%s' "${ADD[*]}")" \
---force-add "$(printf '%s' "${FORCE_ADD[*]}")" \
---install "$(printf '%s' "${INSTALL[*]}")" \
---kver "${KVER}" \
---no-hostonly \
---no-hostonly-cmdline \
---printsize \
---xz \
-"/boot/initrd-${KVER}"
-
-exit 0
+# Kernel Version
+version_full=$(rpm -q --queryformat "%{VERSION}-%{RELEASE}.%{ARCH}\n" kernel-default)
+version_base=${version_full%%-*}
+version_suse=${version_full##*-}
+version_suse=${version_suse%.*.*}
+export KVER="${version_base}-${version_suse}-default"

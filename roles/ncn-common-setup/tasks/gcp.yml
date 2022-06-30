@@ -1,5 +1,13 @@
 ---
 
+- name: ensure it is known this is a google system
+  file:
+    path: /etc/google_system
+    state: touch
+    mode: '0644'
+    owner: root
+    group: root
+    
 - name: use Cray DNS servers at buld-time
   replace:
     path: /etc/sysconfig/network/config
@@ -10,14 +18,6 @@
   systemd:
     name: network
     state: restarted
-    
-- name: ensure it is known this is a google system
-  file:
-    path: /etc/google_system
-    state: touch
-    mode: '0644'
-    owner: root
-    group: root
 
 - name: install google guest environment packages
   zypper:

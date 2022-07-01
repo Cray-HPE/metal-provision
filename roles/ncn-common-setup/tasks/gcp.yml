@@ -7,12 +7,12 @@
     mode: '0644'
     owner: root
     group: root
-    
+
 - name: backup /etc/sysconfig/network/config
   copy:
     src: /etc/sysconfig/network/config
     dest: /etc/sysconfig/network/config.backup
-    
+
 - name: use Cray DNS servers at buld-time
   replace:
     path: /etc/sysconfig/network/config

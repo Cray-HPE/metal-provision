@@ -17,7 +17,7 @@
   replace:
     path: /etc/sysconfig/network/config
     regexp: '^(NETCONFIG_DNS_STATIC_SERVERS=).*'
-    replace: '\1"172.31.84.40 172.30.84.40"'
+    replace: '\1"{{ cray_dns_servers[0] }} {{ cray_dns_servers[1] }}"'
 
 - name: Restart network
   systemd:
@@ -65,10 +65,9 @@
 
 - name: get available suse extensions
   command: /usr/sbin/SUSEConnect --list-extensions
-  register: suse_extensions
-  changed_when: False
+  register: available_suse_extensions
 
-- name: activate suse public cloud module
-  command: /usr/sbin/SUSEConnect -p {{ suse_extensions.stdout | regex_search ('sle-module-public-cloud.*') }}
-  register: module_activation
-  failed_when: module_activation.rc != 0
+- name: activate wanted suse extensions
+  command: /usr/sbin/SUSEConnect -p {{ available_suse_extensions.stdout | regex_search(item + '/.*/.*') }}
+  with_items: "{{ required_suse_extensions }}"
+

@@ -25,8 +25,9 @@
 <!--- invalid checkbox: [] -->
 
 - [ ] I have included documentation in my PR (or it is not required)
-- [ ] I tested this on internal system (if yes, please include results or a description of the test)
-- [ ] I tested this on a vshasta system (if yes, please include results or a description of the test)
+- [ ] I have tested this by building an image using this branch HEAD, or this is does not pertain to the node-images pipeline.
+- [ ] I tested this on internal system or this pertains to the node-images pipeline (if yes and not build related, please include results or a description of the test)
+- [ ] I tested this on a vshasta system or this pertains to the node-images pipeline (if yes and not build related, please include results or a description of the test)
  
 ### Idempotency
  

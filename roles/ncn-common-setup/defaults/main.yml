@@ -28,4 +28,8 @@ services_metal:
   - name: metal-iptables
     enabled: no
     state: stopped
-    
+cray_dns_servers:
+  - 172.31.84.40
+  - 172.30.84.40
+required_suse_extensions:
+  - sle-module-public-cloud

@@ -66,7 +66,7 @@ check_size() {
     local max=20000000 # kdump initrds larger than 20M may run into issues with memory
     
     if [[ "$(stat --format=%s $initrd)" -ge "$max" ]]; then
-        echo >&2 "CAUTION: initrd might be too large ($(stat --format=%s $initrd)) and may OOM if used"
+        echo >&2 "CAUTION: initrd might be too large ($(stat --format=%s $initrd)) and may exceed available memory (OOM) if used"
     else
         echo "initrd size is $(stat --format=%s $initrd) bytes"
     fi

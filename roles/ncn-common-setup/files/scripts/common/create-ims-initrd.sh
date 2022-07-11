@@ -28,23 +28,14 @@ set -e
 set -x
 
 
-# Source common dracut parameters.
-. "$(dirname $0)/dracut-lib.sh"
-
 echo "Generating initrd..."
 
 dracut \
---force \
---omit "$(printf '%s' "${OMIT[*]}")" \
---omit-drivers "$(printf '%s' "${OMIT_DRIVERS[*]}")" \
 --add "$(printf '%s' "${ADD[*]}")" \
---force-add "$(printf '%s' "${FORCE_ADD[*]}")" \
---install "$(printf '%s' "${INSTALL[*]}")" \
---kver "${KVER}" \
+--force \
+--kver ${KVER} \
 --no-hostonly \
 --no-hostonly-cmdline \
---printsize \
---xz \
-"/boot/initrd-${KVER}"
+--printsize
 
 exit 0

@@ -1,0 +1,13 @@
+[Unit]
+Description=mount the metal fstab
+Before=containerd.service etcd.service kubelet.service
+
+[Service]
+Type=oneshot
+ExecCondition=/bin/bash -c "[ -f /etc/fstab.metal ]"
+ExecStart=/usr/bin/mount -a -T /etc/fstab.metal
+RemainAfterExit=false
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

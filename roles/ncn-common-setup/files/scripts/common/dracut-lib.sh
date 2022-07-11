@@ -23,12 +23,10 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 
-# Dracut Arguments
-export OMIT=( "btrfs" "cifs" "dmraid" "dmsquash-live-ntfs" "fcoe" "fcoe-uefi" "iscsi" "modsign" "multipath" "nbd" "nfs" "ntfs-3g" )
-export OMIT_DRIVERS=( "ecb" "hmac" "md5" )
-export ADD=( "mdraid" )
-export FORCE_ADD=( "dmsquash-live" "livenet" "mdraid" )
-export INSTALL=( "less" "rmdir" "sgdisk" "vgremove" "wipefs" )
+# These modules can't exist in the dracut.conf files because they fail on --hostonly builds of dracut,
+# for example when kdump.service runs it uses --hostonly. These modules are necessary when building a
+# PXE bootable initrd, but not for things such as kdump.
+export ADD=( "dmsquash-live" )
 
 # Kernel Version
 # This won't work well if multiple kernels are installed, this'll return the highest installed which might not what's actually running.

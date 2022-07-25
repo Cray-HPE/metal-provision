@@ -106,17 +106,6 @@ def get_bss_data(token, xname):
         response.raise_for_status()
 
 
-def get_cache_data(filepath):
-    """Read the cache file and return the data.
-    @param filepath: string. Specify a path to a file to read.
-    """
-    with open(filepath) as user_data_file:
-        user_data = user_data_file.read()
-    # user-data.txt is in yml, so convert it to json
-    cache_data = yaml.safe_load(user_data)
-    return cache_data
-
-
 def remove_dist_files(confdir=None):
     """Remove *.dist files from the specified path.
     @param confdir: string. Specify a path to a folder to check for *.dist files.

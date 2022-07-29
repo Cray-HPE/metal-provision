@@ -22,7 +22,7 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-set -ex
+set -e
 trap cleanup EXIT
 
 function cleanup {
@@ -44,37 +44,42 @@ if [[ "$1" != "squashfs-only" ]]; then
     
     # NOTE: These mounts help create metal artifacts when running inside of the NCN pipeline, they are not necessary when this script runs
     #       on a physical server. These are harmless enough that they're always mounted, regardless of context.
-    mkdir -pv /mnt/squashfs/proc /mnt/squashfs/run /mnt/squashfs/dev /mnt/squashfs/sys /mnt/squashfs/var
-    mount --bind /proc /mnt/squashfs/proc
-    mount --bind /tmp /mnt/squashfs/run
-    mount --bind /dev /mnt/squashfs/dev
-    mount --bind /sys /mnt/squashfs/sys
-    mount --bind /var /mnt/squashfs/var
+    if [ "$(stat -c %d:%i / >/dev/null 2>&1)" != "$(stat -c %d:%i /proc/1/root/. 2>&1 >/dev/null)" ]; then
+      echo "Not mounting proc, run, dev, sys, or var since we are in a chroot."
+    else
+        mkdir -pv /mnt/squashfs/dev /mnt/squashfs/proc /mnt/squashfs/run /mnt/squashfs/sys /mnt/squashfs/var
+        mount --bind /dev /mnt/squashfs/dev
+        mount --bind /proc /mnt/squashfs/proc
+        mount --bind /tmp /mnt/squashfs/run
+        mount --bind /sys /mnt/squashfs/sys
+        mount --bind /var /mnt/squashfs/var
+    fi
     
     # This has been here since we first made images, more or less as a last/final check that we have no cache left-over from the auto-install.  
     [ -f /var/adm/autoinstall/cache ] && rm -rf /var/adm/autoinstall/cache
     
     unshare -R /mnt/squashfs bash -c "dracut \
-        --omit \"$(printf '%s' "${OMIT[*]}")\" \
-        --omit-drivers \"$(printf '%s' "${OMIT_DRIVERS[*]}")\" \
         --add \"$(printf '%s' "${ADD[*]}")\" \
-        --force-add \"$(printf '%s' "${FORCE_ADD[*]}")\" \
-        --install \"$(printf '%s' "${INSTALL[*]}")\" \
-        --persistent-policy by-label \
-        --show-modules \
-        --ro-mnt \
+        --force \
+        --kver ${KVER} \
         --no-hostonly \
         --no-hostonly-cmdline \
-        --kver ${KVER} \
         --printsize \
-        --force \
-        --xz \
         /tmp/initrd.img.xz"
+
+    # Recreate the kdump initrd; this will ensure i    
+    unshare -R /mnt/squashfs bash -c "mkdumprd -K /boot/vmlinuz-${KVER} -I /boot/initrd-${KVER}-kdump -f"
     
     cp -v /mnt/squashfs/boot/vmlinuz-${KVER} /squashfs/${KVER}.kernel
     cp -v /mnt/squashfs/tmp/initrd.img.xz /squashfs/initrd.img.xz
+    rm -f /mnt/squashfs/tmp/initrd.img.xz
     chmod 644 /squashfs/initrd.img.xz
-    umount -v /mnt/squashfs/proc /mnt/squashfs/dev /mnt/squashfs/run /mnt/squashfs/sys /mnt/squashfs/var
+
+    if [ "$(stat -c %d:%i / >/dev/null 2>&1)" != "$(stat -c %d:%i /proc/1/root/. 2>&1 >/dev/null)" ]; then
+        echo "Not unmouting dev, proc, run, sys, or var because we're in a chroot."
+    else
+          umount -v /mnt/squashfs/dev /mnt/squashfs/proc /mnt/squashfs/run /mnt/squashfs/sys /mnt/squashfs/var
+    fi
 fi
 
 if [[ "$1" != "kernel-initrd-only" ]]; then

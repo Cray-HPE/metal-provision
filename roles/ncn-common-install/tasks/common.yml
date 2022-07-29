@@ -32,6 +32,13 @@
     regexp: '^export PYTHONPATH='
     line: 'export PYTHONPATH="/srv/cray/utilities/common"'
 
+- name: Blacklist modules for kdump
+  lineinfile:
+    backrefs: yes
+    path: /etc/sysconfig/kdump
+    regexp: '^(KDUMP_COMMANDLINE_APPEND)="(.*)"'
+    line: "\\g<1>=\"module_blacklist={{ kdump_blacklist | join(',') }} \\g<2>\""
+
 - name: Create /etc/containers
   file:
     path: /etc/containers

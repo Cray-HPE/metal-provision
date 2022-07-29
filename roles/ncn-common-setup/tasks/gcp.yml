@@ -44,7 +44,7 @@
 
 - name: stub out network interface configuration files
   copy:
-    src: files/etc/sysconfig/network/ifcfg-eth
+    src: /srv/cray/resources/google/sysconfig/network/ifcfg-eth
     dest: "/etc/sysconfig/network/ifcfg-eth{{ item }}"
     owner: root
     group: root

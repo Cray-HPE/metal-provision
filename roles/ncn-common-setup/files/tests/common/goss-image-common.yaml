@@ -35,39 +35,24 @@ service:
   chronyd:
     enabled: true
     running: false
-  cloud-config:
+  cloud-config.service:
     enabled: true
     running: false
-  cloud-config:
+  cloud-init.service:
     enabled: true
     running: false
-  cloud-final:
+  cloud-init-local.service:
     enabled: true
     running: false
-  cloud-final:
+  cloud-final.service:
     enabled: true
     running: false
-  cloud-init-local:
-    enabled: true
-    running: false
-  cloud-init-local:
-    enabled: true
-    running: false
-  cloud-init:
-    enabled: true
-    running: false
-  cloud-init:
-    enabled: true
-    running: false
-  getty@tty1:
+  getty@tty1.service:
     enabled: true
     running: true
   goss-servers:
     enabled: true
     running: true
-  issue-generator:
-    enabled: true
-    running: false
   issue-generator:
     enabled: true
     running: false
@@ -83,25 +68,25 @@ service:
   rc-local:
     enabled: true
     running: false
-  rollback:
+  rollback.service:
     enabled: true
     running: false
   spire-agent:
     enabled: true
     running: false
-  sshd:
+  sshd.service:
     enabled: true
     running: true
   wicked:
     enabled: true
     running: true
-  wickedd-auto4:
+  wickedd-auto4.service:
     enabled: true
     running: true
-  wickedd-dhcp4:
+  wickedd-dhcp4.service:
     enabled: true
     running: true
-  wickedd-dhcp6:
+  wickedd-dhcp6.service:
     enabled: true
     running: true
   wickedd-nanny:

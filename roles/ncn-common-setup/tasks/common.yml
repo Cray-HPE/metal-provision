@@ -11,7 +11,7 @@
 
 - name: copy /srv/cray files
   copy:
-    src: files/srv/cray/
+    src: files/
     dest: /srv/cray/
     owner: root
     group: root
@@ -34,8 +34,8 @@
 
 - name: copy logrotate file
   copy:
-    src: files/etc/logrotate.d/cray
-    dest: /etc/logrotate.d/cray
+    src: /srv/cray/resources/common/logrotate.d/
+    dest: /etc/logrotate.d/
     owner: root
     group: root
     mode: '0644'

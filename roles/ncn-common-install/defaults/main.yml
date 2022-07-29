@@ -1,9 +1,26 @@
 ---
+kdump_blacklist:
+  - mlx5_core
+  - mlx5_ib
+  - sunrpc
+  - xhci_hcd
 services_common:
   - name: ca-certificates.service
     enabled: yes
     state: stopped
   - name: chronyd.service
+    enabled: yes
+    state: stopped
+  - name: cloud-config.service
+    enabled: yes
+    state: stopped
+  - name: cloud-init.service
+    enabled: yes
+    state: stopped
+  - name: cloud-init-local.service
+    enabled: yes
+    state: stopped
+  - name: cloud-final.service
     enabled: yes
     state: stopped
   - name: getty@tty1.service
@@ -13,12 +30,6 @@ services_common:
     enabled: yes
     state: started
   - name: issue-generator.service
-    enabled: yes
-    state: stopped
-  - name: kdump-early.service
-    enabled: yes
-    state: stopped
-  - name: kdump.service
     enabled: yes
     state: stopped
   - name: lldpad.service
@@ -67,10 +78,10 @@ services_common:
     enabled: yes
     state: started
 services_google:
-  - name: kdump-early.service
+  - name: kdump.service
     enabled: yes
     state: stopped
-  - name: kdump.service
+  - name: kdump-early.service
     enabled: yes
     state: stopped
 services_metal:
@@ -89,10 +100,10 @@ services_metal:
   - name: cpqScsi
     enabled: no
     state: stopped
-  - name: kdump-early.service
+  - name: kdump.service
     enabled: yes
     state: started
-  - name: kdump.service
+  - name: kdump-early.service
     enabled: yes
     state: started
   - name: smad

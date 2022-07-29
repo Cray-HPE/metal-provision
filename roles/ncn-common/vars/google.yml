@@ -22,7 +22,28 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- hosts: packer
-  remote_user: root
-  roles:
-    - ncn-common-cos
+services:
+  - name: google-guest-agent.service
+    enabled: yes
+    state: started
+  - name: google-osconfig-agent.service
+    enabled: yes
+    state: started
+  - name: google-oslogin-cache.service
+    enabled: yes
+    state: stopped
+  - name: google-oslogin-cache.timer
+    enabled: yes
+    state: started
+  - name: google-shutdown-scripts.service
+    enabled: yes
+    state: stopped
+  - name: google-startup-scripts.service
+    enabled: yes
+    state: stopped
+  - name: kdump.service
+    enabled: yes
+    state: stopped
+  - name: kdump-early.service
+    enabled: yes
+    state: stopped

@@ -21,8 +21,46 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-- hosts: packer
-  remote_user: root
-  roles:
-    - ncn-common-cos
+file:
+  /etc/zypp/services.d/Basesystem_Module_15_SP2_x86_64.service:
+    exists: false
+  /etc/zypp/services.d/Server_Applications_Module_15_SP2_x86_64.service:
+    exists: false
+  /etc/zypp/services.d/Public_Cloud_Module_15_SP2_x86_64.service:
+    exists: false
+  /etc/zypp/services.d/SUSE_Linux_Enterprise_Server_15_SP2_x86_64.service:
+    exists: false
+service:
+  amsd.service:
+    enabled: false
+    running: false
+  ahslog.service:
+    enabled: false
+    running: false
+  cpqFca.service:
+    enabled: false
+    running: false
+  cpqIde.service:
+    enabled: false
+    running: false
+  cpqScsi.service:
+    enabled: false
+    running: false
+  kdump.service:
+    enabled: true
+    running: true
+  kdump-early.service:
+    enabled: true
+    running: true
+  metal-iptables.service:
+    enabled: false
+    running: false
+  metalfs.service:
+    enabled: true
+    running: false
+  smad.service:
+    enabled: false
+    running: false
+  sysstat.service:
+    enabled: true
+    running: true

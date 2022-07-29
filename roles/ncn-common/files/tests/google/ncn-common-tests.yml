@@ -21,8 +21,31 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-- hosts: packer
-  remote_user: root
-  roles:
-    - ncn-common-cos
+service:
+  google-guest-agent.service:
+    enabled: true
+    running: true
+  google-osconfig-agent.service:
+    enabled: true
+    running: true
+  google-oslogin-cache.service:
+    enabled: true
+    running: false
+  google-shutdown-scripts.service:
+    enabled: true
+    running: true
+  google-startup-scripts.service:
+    enabled: true
+    running: false
+  kdump.service:
+    enabled: true
+    running: false
+  kdump-early.service:
+    enabled: true
+    running: true
+  metal-iptables.service:
+    enabled: false
+    running: false
+  metalfs.service:
+    enabled: false
+    running: false

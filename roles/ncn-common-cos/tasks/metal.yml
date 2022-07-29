@@ -22,7 +22,5 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- hosts: packer
-  remote_user: root
-  roles:
-    - ncn-common-cos
+- include_vars:
+    file: metal.yml

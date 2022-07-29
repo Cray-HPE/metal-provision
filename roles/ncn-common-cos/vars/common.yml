@@ -22,7 +22,13 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- hosts: packer
-  remote_user: root
-  roles:
-    - ncn-common-cos
+services:
+  - name: cfs-state-reporter.service
+    enabled: yes
+    state: started
+  - name: cray-heartbeat.service
+    enabled: yes
+    state: started
+  - name: csm-node-identity.service
+    enabled: yes
+    state: started

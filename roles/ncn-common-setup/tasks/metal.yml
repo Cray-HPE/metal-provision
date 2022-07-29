@@ -22,3 +22,10 @@
   copy:
     src: /srv/cray/resources/metal/dracut.conf.d/
     dest: /etc/dracut.conf.d/
+
+- name: Setup Daemons
+  systemd:
+    name: "{{ item.name }}"
+    enabled: "{{ item.enabled }}"
+    masked: "{{ item.masked | default(false) }}"
+  with_items: "{{ services_metal }}"

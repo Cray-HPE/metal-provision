@@ -24,7 +24,7 @@ service:
     enabled: true
     running: true
   metal-iptables.service:
-    enabled: true
+    enabled: false
     running: false
   metalfs.service:
     enabled: true
@@ -33,7 +33,7 @@ service:
     enabled: false
     running: false
   sysstat.service:
-    enabled: false
+    enabled: true
     running: true
   systemd-remount-fs.service:
     enabled: false

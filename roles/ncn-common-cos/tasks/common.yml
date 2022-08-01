@@ -22,7 +22,22 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- hosts: packer
-  remote_user: root
-  roles:
-    - ncn-common-cos
+- include_vars:
+    file: common.yml
+
+- name: Add files to /srv/cray
+  synchronize:
+    src: files/
+    dest: /srv/cray/
+
+- name: rsyslog configs
+  synchronize:
+    src: /srv/cray/resources/common/rsyslog.d/
+    dest: /etc/rsyslog.d/
+
+- name: Setup Daemons
+  systemd:
+    name: "{{ item.name }}"
+    enabled: "{{ item.enabled }}"
+    masked: "{{ item.masked | default(false) }}"
+  loop: "{{ services }}"

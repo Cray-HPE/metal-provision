@@ -22,7 +22,44 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- hosts: packer
-  remote_user: root
-  roles:
-    - ncn-common-cos
+dhcp:
+  - regexp: '^DHCLIENT_FQDN_ENABLED='
+    line: 'DHCLIENT_FQDN_ENABLED="enabled"'
+  - regexp: '^DHCLIENT_FQDN_UPDATE='
+    line: 'DHCLIENT_FQDN_UPDATE="both"'
+  - regexp: '^DHCLIENT_SET_HOSTNAME='
+    line: 'DHCLIENT_SET_HOSTNAME="no"'
+services:
+  - name: ahslog
+    enabled: no
+    state: stopped
+  - name: amsd
+    enabled: no
+    state: stopped
+  - name: cpqFca
+    enabled: no
+    state: stopped
+  - name: cpqIde
+    enabled: no
+    state: stopped
+  - name: cpqScsi
+    enabled: no
+    state: stopped
+  - name: kdump.service
+    enabled: yes
+    state: started
+  - name: kdump-early.service
+    enabled: yes
+    state: started
+  - name: metal-iptables.service
+    enabled: no
+    state: stopped
+  - name: metalfs.service
+    enabled: yes
+    state: stopped
+  - name: smad
+    enabled: no
+    state: stopped
+  - name: sysstat.service
+    enabled: yes
+    state: started

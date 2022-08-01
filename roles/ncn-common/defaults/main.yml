@@ -21,8 +21,17 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-- hosts: packer
-  remote_user: root
-  roles:
-    - ncn-common-cos
+cray_dns_servers:
+  - 172.31.84.40
+  - 172.30.84.40
+kernel:
+  blacklists:
+    standard:
+      - libiscsi
+    kdump:
+      - mlx5_core
+      - mlx5_ib
+      - sunrpc
+      - xhci_hcd
+required_suse_extensions:
+  - sle-module-public-cloud

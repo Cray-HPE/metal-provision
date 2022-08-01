@@ -22,7 +22,26 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- hosts: packer
-  remote_user: root
-  roles:
-    - ncn-common-cos
+- name: Common tasks
+  include_tasks:
+    file: common.yml
+    apply:
+      tags: common
+  tags:
+    - common
+
+- name: Google tasks
+  include_tasks:
+    file: google.yml
+    apply:
+      tags: google
+  tags:
+    - google
+
+- name: Metal tasks
+  include_tasks:
+    file: metal.yml
+    apply:
+      tags: metal
+  tags:
+    - metal

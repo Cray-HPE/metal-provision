@@ -1,0 +1,85 @@
+#
+# MIT License
+#
+# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+---
+- include_vars:
+    file: google.yml
+
+- name: Set layer's identification
+  file:
+    path: /etc/google_system
+    state: touch
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy sysctl configuration
+  synchronize:
+    src: /srv/cray/sysctl/google/
+    dest: /etc/sysctl.d/
+
+- name: Backup /etc/sysconfig/network/config before setting temporary DNS
+  copy:
+    src: /etc/sysconfig/network/config
+    dest: /etc/sysconfig/network/config.backup
+  register: dns_backup
+
+- name: Use Cray DNS servers at buld-time
+  replace:
+    path: /etc/sysconfig/network/config
+    regexp: '^(NETCONFIG_DNS_STATIC_SERVERS=).*'
+    replace: '\1"{{ cray_dns_servers[0] }} {{ cray_dns_servers[1] }}"'
+
+- name: Load new DNS
+  command: netconfig update -f
+  when: dns_backup.changed
+
+- name: Get available SUSE extensions
+  command: /usr/sbin/SUSEConnect --list-extensions
+  register: available_suse_extensions
+
+- name: Activate desired SUSE extensions
+  command: /usr/sbin/SUSEConnect -p {{ available_suse_extensions.stdout | regex_search(item + '/.*/.*') }}
+  loop: "{{ required_suse_extensions }}"
+
+- name: Stub out network interface configuration files
+  copy:
+    src: /srv/cray/resources/google/sysconfig/network/ifcfg-eth
+    dest: "/etc/sysconfig/network/ifcfg-eth{{ item }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop: "{{ range(0, 10 + 1, 1)|list }}"
+
+- name: Cron job to ensure /root/.ssh/authorized_keys file has our /root/.ssh/id_rsa.pub only every minute
+  cron:
+    name: "gcp authorized keys"
+    minute: "*/1"
+    job: "cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys >> /var/log/cray/cron.log 2>&1"
+
+- name: Setup Daemons
+  systemd:
+    name: "{{ item.name }}"
+    enabled: "{{ item.enabled }}"
+    masked: "{{ item.masked | default(false) }}"
+  loop: "{{ services }}"

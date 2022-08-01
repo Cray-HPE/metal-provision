@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # MIT License
 #
@@ -21,8 +22,7 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-- hosts: packer
-  remote_user: root
-  roles:
-    - ncn-common-cos
+
+function mprint {
+    printf '[% -25s] %s\n' "$0" "$1"
+}

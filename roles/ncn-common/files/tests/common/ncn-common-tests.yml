@@ -1,0 +1,103 @@
+#
+# MIT License
+#
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+file:
+  /root/.ssh:
+    exists: false
+  /var/adm/autoinstall/cache:
+    exists: false
+command:
+  no_root_password:
+    exit-status: 0
+    exec: "grep root /etc/shadow"
+    stdout:
+    - "/^root:\\*:\\d*::::::$/"
+    stderr: []
+    timeout: 2000 # in milliseconds
+    skip: false
+command:
+  no_host_keys:
+    # due to pipe, exit status will be zero
+    exit-status: 0
+    exec: "ls /etc/ssh/ssh_host* | wc -l"
+    stdout:
+    - 0
+    skip: false
+service:
+  ca-certificates:
+    enabled: true
+    running: false
+  ca-certificates:
+    enabled: true
+    running: false
+  chronyd:
+    enabled: true
+    running: true
+  cloud-config.service:
+    enabled: true
+    running: true
+  cloud-init.service:
+    enabled: true
+    running: true
+  cloud-init-local.service:
+    enabled: true
+    running: true
+  cloud-final.service:
+    enabled: true
+    running: true
+  getty@tty1.service:
+    enabled: true
+    running: true
+  goss-servers:
+    enabled: true
+    running: true
+  issue-generator:
+    enabled: true
+    running: false
+  purge-kernels:
+    enabled: true
+    running: false
+  rc-local:
+    enabled: true
+    running: false
+  rollback.service:
+    enabled: true
+    running: false
+  sshd.service:
+    enabled: true
+    running: true
+  wicked:
+    enabled: true
+    running: true
+  wickedd-auto4.service:
+    enabled: true
+    running: true
+  wickedd-dhcp4.service:
+    enabled: true
+    running: true
+  wickedd-dhcp6.service:
+    enabled: true
+    running: true
+  wickedd-nanny:
+    enabled: true
+    running: true

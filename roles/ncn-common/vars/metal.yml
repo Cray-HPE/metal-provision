@@ -36,6 +36,9 @@ services:
   - name: amsd
     enabled: no
     state: stopped
+  - name: cloud-init-oneshot.service
+    enabled: yes
+    state: started
   - name: cpqFca
     enabled: no
     state: stopped

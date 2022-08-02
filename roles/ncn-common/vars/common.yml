@@ -53,6 +53,9 @@ services:
   - name: multi-user.target
     enabled: yes
     state: started
+  - name: postfix.service
+    enabled: no
+    state: stopped
   - name: purge-kernels.service
     enabled: yes
     state: stopped

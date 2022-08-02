@@ -121,7 +121,7 @@
   copy:
     remote_src: yes
     src: /srv/cray/resources/common/cloud.cfg
-    dest: /etc/cloud.cfg
+    dest: /etc/cloud/cloud.cfg
 
 - name: Copy motd
   copy:

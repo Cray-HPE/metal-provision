@@ -53,18 +53,6 @@ service:
   chronyd:
     enabled: true
     running: true
-  cloud-config.service:
-    enabled: true
-    running: true
-  cloud-init.service:
-    enabled: true
-    running: true
-  cloud-init-local.service:
-    enabled: true
-    running: true
-  cloud-final.service:
-    enabled: true
-    running: true
   getty@tty1.service:
     enabled: true
     running: true
@@ -73,6 +61,9 @@ service:
     running: true
   issue-generator:
     enabled: true
+    running: false
+  postfix.service:
+    enabled: false
     running: false
   purge-kernels:
     enabled: true

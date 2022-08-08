@@ -24,18 +24,21 @@
 #
 
 # This script does not use bind mounts and thus executes correctly in a container.
-set -e
-set -x
+set -ex
 
 . "$(dirname $0)/dracut-lib.sh"
 
 echo "Generating initrd..."
-
 dracut \
 --force \
 --kver ${KVER} \
 --no-hostonly \
 --no-hostonly-cmdline \
 --printsize
+
+echo "Copying vmlinuz and initrd into /squashfs for disk-bootloader setup."
+rm -f /squashfs/*
+cp -pv /boot/vmlinuz-${KVER} /squashfs/${KVER}.kernel
+cp -pv /boot/initrd-${KVER} /squashfs/initrd.img.xz
 
 exit 0

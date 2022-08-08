@@ -125,7 +125,7 @@ menuentry "$name" --class sles --class gnu-linux --class gnu {
     echo    'Loading kernel ...'
     linuxefi \$prefix/../$disk_cmdline
     echo    'Loading initial ramdisk ...'
-    initrdefi \$prefix/../$INITRD
+    initrdefi \$prefix/../initrd.img.xz
 }
 EOF
 }
@@ -141,29 +141,30 @@ function update_auxiliary_fstab {
     fi
 }
 
+# Gets the boot artifacts and puts them into the bootloader partition.
 function get_boot_artifacts {
-    local squashfs_storage
-    local base_dir
-    local live_dir
-    local working_path
     local artifact_error=0
+    local base_dir=/squashfs # This must copy from /squashfs and not /boot, the initrd at /squashfs is non-hostonly
+    local working_path
 
     mount -L ${boot_authority} -T /etc/fstab.metal && echo 'continuing ...'
     working_path="$(lsblk -o MOUNTPOINT -nr /dev/disk/by-${boot_scheme,,}/${boot_authority})"
     mkdir -pv $working_path/boot
 
-    squashfs_storage=$(grep -Po 'root=\w+:?\w+=\w+' /proc/cmdline | cut -d '=' -f3)
-    [ -z "$squashfs_storage" ] && squashfs_storage=SQFSRAID
-
-    # rd.live.dir - fetched from /proc/cmdline ; grab any customization or deviation from the default preference, aling with dracut.
-    live_dir=$(grep -Eo 'rd.live.dir=.* ' /proc/cmdline | cut -d '=' -f2 | sed 's![^/]$!&/!')
-    [ -z "$live_dir" ] && live_dir=LiveOS/
-
     # pull the loaded items from the mounted squashFS storage into the fallback bootloader
-    base_dir="$(lsblk $(blkid -L $squashfs_storage) -o MOUNTPOINT -n)/$live_dir"
-    [ -d $base_dir ] || echo >&2 'SQFSRAID was not mounted!' return 1
-    cp -pv "${base_dir}kernel" "$working_path/boot/" || echo >&2 "Kernel file NOT found in $base_dir!" || artifact_error=1
-    cp -pv "${base_dir}${INITRD}" "$working_path/boot/" || echo >&2 "${INITRD} file NOT found in $base_dir!" || artifact_error=1
+    . /srv/cray/scripts/common/dracut-lib.sh
+    if [ -z ${KVER} ]; then
+        echo >&2 'Failed to find KVER from /srv/cray/scripts/common/dracut-lib.sh'
+        return 1
+    fi
+    if ! cp -pv ${base_dir}/${KVER}.kernel "$working_path/boot/kernel" ; then
+        echo >&2 "Kernel file NOT found in $base_dir!"
+        artifact_error=1
+    fi
+    if ! cp -pv ${base_dir}/initrd.img.xz "$working_path/boot/initrd.img.xz" ; then
+        echo >&2 "initrd.img.xz file NOT found in $base_dir!"
+        artifact_error=1
+    fi
 
     [ "$artifact_error" = 0 ] && return 0 || return 1
 }

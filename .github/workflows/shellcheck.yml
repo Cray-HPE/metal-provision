@@ -21,22 +21,24 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-name: shellcheck
+name: Shellcheck
 on:
   pull_request:
     branches:
-      - develop
       - main
       - lts/*
 
 jobs:
   shellcheck:
-    name: shellcheck
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     
-    - name: run shellcheck
+    - name: Shellcheck
       uses: ludeeus/action-shellcheck@1.1.0
       with:
+        # initial commit of shellcheck will only check here, remove or modify as we adjust more
+        scandir: 'boxes/ncn-common/files/scripts/common'
+        # fail on any of the following or lower (error, warning, info, style)
+        # in future iterations, this can be adjusted for info and styling as well
         severity: warning

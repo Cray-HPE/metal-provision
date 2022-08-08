@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 #
 # MIT License
 #
@@ -25,10 +26,16 @@ import json
 import subprocess
 import sys
 
+
 class Metal:
 
     def execute(self, cmd):
-        process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(
+            cmd,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            )
         (result, error) = process.communicate()
         rc = process.wait()
         if rc != 0:
@@ -47,4 +54,4 @@ class Metal:
             else:
                 return resp['ds']['meta_data']['Global'][key]
         except Exception as e:
-            sys.exit('Error getting metadata value: {}'.format(e))
+            sys.exit(f'Error getting metadata value: {e}')

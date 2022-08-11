@@ -28,6 +28,7 @@ kernel:
   blacklists:
     standard:
       - libiscsi
+      - rpcrdma
     kdump:
       - mlx5_core
       - mlx5_ib

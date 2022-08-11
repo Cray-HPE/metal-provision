@@ -37,12 +37,6 @@ service:
   google-startup-scripts.service:
     enabled: true
     running: false
-  kdump.service:
-    enabled: true
-    running: false
-  kdump-early.service:
-    enabled: true
-    running: true
   metal-iptables.service:
     enabled: false
     running: false

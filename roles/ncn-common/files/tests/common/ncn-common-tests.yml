@@ -43,6 +43,13 @@ command:
     stdout:
     - 0
     skip: false
+  single_kernel:
+    exit-status: 0
+    # due to pipe, exit status will be zero
+    exec: "rpm -q | grep kernel-default | wc -l
+    stdout:
+    - 1
+    skip: false
 service:
   ca-certificates:
     enabled: true

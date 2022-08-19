@@ -27,11 +27,11 @@
 set -e
 set -x
 
+. "$(dirname $0)/dracut-lib.sh"
 
 echo "Generating initrd..."
 
 dracut \
---add "$(printf '%s' "${ADD[*]}")" \
 --force \
 --kver ${KVER} \
 --no-hostonly \

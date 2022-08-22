@@ -23,6 +23,6 @@
 #
 ---
 - hosts: packer
-  remote_user: root
+  become: yes # Enable builds that do not login as root to escalate privilege.
   roles:
     - ncn-common

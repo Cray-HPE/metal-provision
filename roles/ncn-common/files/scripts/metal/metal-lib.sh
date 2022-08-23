@@ -61,7 +61,7 @@ install_grub2() {
     local index
     local init_cmdline
     local disk_cmdline
-    mount -v -L ${boot_authority} -t /etc/fstab.metal 2>/dev/null || echo 'already mounted continuing ...'
+    mount -v -L ${boot_authority} -T /etc/fstab.metal 2>/dev/null || echo 'already mounted continuing ...'
     working_path="$(lsblk -o MOUNTPOINT -nr /dev/disk/by-${boot_scheme,,}/${boot_authority})"
 
     # Remove all existing entries; anything with CRAY (lower or uppercase). We

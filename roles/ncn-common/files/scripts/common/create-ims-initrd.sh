@@ -31,6 +31,7 @@ set -ex
 echo "Generating initrd..."
 dracut \
 --force \
+--force-add "dmsquash-live livenet" \
 --kver ${KVER} \
 --no-hostonly \
 --no-hostonly-cmdline \

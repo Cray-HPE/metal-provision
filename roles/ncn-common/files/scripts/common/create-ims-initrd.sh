@@ -42,4 +42,7 @@ rm -f /squashfs/*
 cp -pv /boot/vmlinuz-${KVER} /squashfs/${KVER}.kernel
 cp -pv /boot/initrd-${KVER} /squashfs/initrd.img.xz
 
+echo "Purging old kdumps initrd; kdump.service will generate a new one on first boot."
+rm -f /boot/initrd-*-kdump
+
 exit 0

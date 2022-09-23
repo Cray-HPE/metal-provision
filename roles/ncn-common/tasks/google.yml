@@ -71,12 +71,6 @@
     mode: '0644'
   loop: "{{ range(0, 10 + 1, 1)|list }}"
 
-- name: Cron job to ensure /root/.ssh/authorized_keys file has our /root/.ssh/id_rsa.pub only every minute
-  cron:
-    name: "gcp authorized keys"
-    minute: "*/1"
-    job: "cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys >> /var/log/cray/cron.log 2>&1"
-
 - name: Setup Daemons
   systemd:
     name: "{{ item.name }}"

@@ -26,6 +26,7 @@
 set -e
 
 echo "Setting up root SSH keys from 'cloud-init' (aka platform metadata)"
+mkdir -p /root/.ssh && chmod 700 /root/.ssh
 craysys metadata get root-private-key > /root/.ssh/id_rsa
 chmod 600 /root/.ssh/id_rsa
 craysys metadata get root-public-key > /root/.ssh/id_rsa.pub

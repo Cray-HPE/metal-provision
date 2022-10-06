@@ -23,7 +23,7 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-set -euo pipefail
+set -eu
 
 # Remove any existing files
 rm -f suse.linux.enterprise.server.15.xml

@@ -22,34 +22,10 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Common tasks
-  include_tasks:
-    file: common.yml
-    apply:
-      tags: common
-  tags:
-    - common
-
-- name: Google tasks
-  include_tasks:
-    file: google.yml
-    apply:
-      tags: google
-  tags:
-    - google
-
-- name: Metal tasks
-  include_tasks:
-    file: metal.yml
-    apply:
-      tags: metal
-  tags:
-    - metal
-
-- name: Vagrant tasks
-  include_tasks:
-    file: vagrant.yml
-    apply:
-      tags: vagrant
-  tags:
-    - vagrant
+services:
+  - name: cray-heartbeat
+    enabled: no
+    state: stopped
+  - name: spire-agent
+    enabled: no
+    state: stopped

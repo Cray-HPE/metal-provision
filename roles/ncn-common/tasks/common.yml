@@ -29,11 +29,6 @@
   hostname:
     name: ncn
 
-- name: Import Shasta RPM key
-  rpm_key:
-    state: present
-    key: https://arti.dev.cray.com/artifactory/dst-misc-stable-local/SigningKeys/HPE-SHASTA-RPM-PROD.asc
-
 - name: Initialize cray directories
   file:
     path: /srv/cray

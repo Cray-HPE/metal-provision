@@ -469,7 +469,7 @@ function paginate() {
 }
 
 function install_csm_rpms() {
-    local repos="csm-sle-15sp2 csm-sle-15sp3"
+    local repos="csm-sle-15sp2 csm-sle-15sp3 csm-sle-15sp4"
     local canu_url
     local goss_servers_url
     local csm_testing_url
@@ -487,7 +487,7 @@ function install_csm_rpms() {
             exit 1
         fi
 
-        # Retreive the packages from nexus
+        # Retrieve the packages from nexus
         test -n "$canu_url" || canu_url=$(paginate "https://packages.local/service/rest/v1/components?repository=$repo" \
             | jq -r  '.items[] | .assets[] | .downloadUrl' | grep canu | sort -V | tail -1)
         test -n "$goss_servers_url" || goss_servers_url=$(paginate "https://packages.local/service/rest/v1/components?repository=$repo" \

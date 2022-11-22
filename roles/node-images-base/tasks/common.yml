@@ -21,10 +21,53 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# crontab for sysstat
+---
+- name: Initialize cray directories
+  file:
+    path: /srv/cray
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+  register: create_cray_dir
 
-# Activity reports every 3 minutes everyday
-*/3 * * * * root [ -x /usr/lib64/sa/sa1 ] && exec /usr/lib64/sa/sa1 -S DISK 1 1
+- name: Add files to /srv/cray
+  synchronize:
+    src: files/
+    dest: /srv/cray/
 
-# Update reports every 6 hours
-55 5,11,17,23 * * * root [ -x /usr/lib64/sa/sa2 ] && exec /usr/lib64/sa/sa2 -A
+- name: Symlink python3 to python
+  file:
+    src: /usr/bin/python3
+    dest: /usr/bin/python
+    state: link
+
+- name: Get current systemd default
+  command: "systemctl get-default"
+  changed_when: false
+  register: systemdefault
+
+- name: Set default to multi-user target
+  command: "systemctl set-default multi-user.target"
+  when: "'multi-user' not in systemdefault.stdout"
+
+- name: Initialize log directory
+  file:
+    path: /var/log/cray
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Initialize log file
+  file:
+    path: /var/log/cray/no.log
+    state: touch
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy limit configuration
+  synchronize:
+    src: /srv/cray/limits/common/
+    dest: /etc/security/limits.d/

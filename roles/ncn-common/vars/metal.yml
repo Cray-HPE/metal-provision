@@ -22,13 +22,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-dhcp:
-  - regexp: '^DHCLIENT_FQDN_ENABLED='
-    line: 'DHCLIENT_FQDN_ENABLED="enabled"'
-  - regexp: '^DHCLIENT_FQDN_UPDATE='
-    line: 'DHCLIENT_FQDN_UPDATE="both"'
-  - regexp: '^DHCLIENT_SET_HOSTNAME='
-    line: 'DHCLIENT_SET_HOSTNAME="no"'
 services:
   - name: ahslog
     enabled: no

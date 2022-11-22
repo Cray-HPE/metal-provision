@@ -1,8 +1,7 @@
-#!/bin/bash
 #
 # MIT License
 #
-# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,16 +21,6 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-
-# These modules can't exist in the dracut.conf files because they fail on --hostonly builds of dracut,
-# for example when kdump.service runs it uses --hostonly. These modules are necessary when building a
-# PXE bootable initrd, but not for things such as kdump.
-export ADD=( "dmsquash-live" )
-
-# Kernel Version
-# This won't work well if multiple kernels are installed, this'll return the highest installed which might not what's actually running.
-version_full=$(rpm -q --queryformat "%{VERSION}-%{RELEASE}.%{ARCH}\n" kernel-default)
-version_base=${version_full%%-*}
-version_suse=${version_full##*-}
-version_suse=${version_suse%.*.*}
-export KVER="${version_base}-${version_suse}-default"
+cray_dns_servers:
+  - 172.31.84.40
+  - 172.30.84.40

@@ -1,4 +1,4 @@
-#
+#!/bin/bash
 # MIT License
 #
 # (C) Copyright 2022 Hewlett Packard Enterprise Development LP
@@ -20,11 +20,16 @@
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-#
-# crontab for sysstat
 
-# Activity reports every 3 minutes everyday
-*/3 * * * * root [ -x /usr/lib64/sa/sa1 ] && exec /usr/lib64/sa/sa1 -S DISK 1 1
+# These modules can't exist in the dracut.conf files because they fail on --hostonly builds of dracut,
+# for example when kdump.service runs it uses --hostonly. These modules are necessary when building a
+# PXE bootable initrd, but not for things such as kdump.
+export ADD=( "dmsquash-live" )
 
-# Update reports every 6 hours
-55 5,11,17,23 * * * root [ -x /usr/lib64/sa/sa2 ] && exec /usr/lib64/sa/sa2 -A
+# Kernel Version
+# This won't work well if multiple kernels are installed, this'll return the highest installed which might not what's actually running.
+version_full=$(rpm -q --queryformat "%{VERSION}-%{RELEASE}.%{ARCH}\n" kernel-default)
+version_base=${version_full%%-*}
+version_suse=${version_full##*-}
+version_suse=${version_suse%.*.*}
+export KVER="${version_base}-${version_suse}-default"

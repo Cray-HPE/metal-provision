@@ -1,7 +1,8 @@
+#!/bin/bash
 #
 # MIT License
 #
-# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,10 +22,21 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-# crontab for sysstat
+set -eu
 
-# Activity reports every 3 minutes everyday
-*/3 * * * * root [ -x /usr/lib64/sa/sa1 ] && exec /usr/lib64/sa/sa1 -S DISK 1 1
+# Remove any existing files
+rm -f suse.linux.enterprise.server.15.xml
+rm -f suse.linux.enterprise.server.15-patch.xml
+# Obtain the relevant OVAL files
+curl -f -O -J https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.server.15.xml
+curl -f -O -J https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.server.15-patch.xml
 
-# Update reports every 6 hours
-55 5,11,17,23 * * * root [ -x /usr/lib64/sa/sa2 ] && exec /usr/lib64/sa/sa2 -A
+# Run a test, output the results
+echo 'Running OVAL test...'
+oscap oval eval --results /tmp/oval-results.xml suse.linux.enterprise.server.15.xml > /tmp/oval-standard-out.txt
+# Convert to html
+oscap oval generate report --output /tmp/oval-report.html /tmp/oval-results.xml
+echo 'Running OVAL Patch test...'
+oscap oval eval --results /tmp/oval-patch-results.xml suse.linux.enterprise.server.15-patch.xml > /tmp/oval-patch-standard-out.txt
+# Convert to html
+oscap oval generate report --output /tmp/oval-patch-report.html /tmp/oval-patch-results.xml

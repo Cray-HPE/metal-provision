@@ -25,35 +25,6 @@
 - include_vars:
     file: google.yml
 
-- name: Set layer's identification
-  file:
-    path: /etc/google_system
-    state: touch
-    mode: '0644'
-    owner: root
-    group: root
-
-- name: Copy sysctl configuration
-  synchronize:
-    src: /srv/cray/sysctl/google/
-    dest: /etc/sysctl.d/
-
-- name: Backup /etc/sysconfig/network/config before setting temporary DNS
-  copy:
-    src: /etc/sysconfig/network/config
-    dest: /etc/sysconfig/network/config.backup
-  register: dns_backup
-
-- name: Use Cray DNS servers at buld-time
-  replace:
-    path: /etc/sysconfig/network/config
-    regexp: '^(NETCONFIG_DNS_STATIC_SERVERS=).*'
-    replace: '\1"{{ cray_dns_servers[0] }} {{ cray_dns_servers[1] }}"'
-
-- name: Load new DNS
-  command: netconfig update -f
-  when: dns_backup.changed
-
 - name: Get available SUSE extensions
   command: /usr/sbin/SUSEConnect --list-extensions
   register: available_suse_extensions
@@ -61,15 +32,6 @@
 - name: Activate desired SUSE extensions
   command: /usr/sbin/SUSEConnect -p {{ available_suse_extensions.stdout | regex_search(item + '/.*/.*') }}
   loop: "{{ required_suse_extensions }}"
-
-- name: Stub out network interface configuration files
-  copy:
-    src: /srv/cray/resources/google/sysconfig/network/ifcfg-eth
-    dest: "/etc/sysconfig/network/ifcfg-eth{{ item }}"
-    owner: root
-    group: root
-    mode: '0644'
-  loop: "{{ range(0, 10 + 1, 1)|list }}"
 
 - name: Setup Daemons
   systemd:

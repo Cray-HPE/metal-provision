@@ -1,4 +1,4 @@
-#
+#!/bin/bash
 # MIT License
 #
 # (C) Copyright 2022 Hewlett Packard Enterprise Development LP
@@ -20,11 +20,27 @@
 # OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
-#
-# crontab for sysstat
 
-# Activity reports every 3 minutes everyday
-*/3 * * * * root [ -x /usr/lib64/sa/sa1 ] && exec /usr/lib64/sa/sa1 -S DISK 1 1
+# This script does not use bind mounts and thus executes correctly in a container.
+set -ex
 
-# Update reports every 6 hours
-55 5,11,17,23 * * * root [ -x /usr/lib64/sa/sa2 ] && exec /usr/lib64/sa/sa2 -A
+. "$(dirname $0)/dracut-lib.sh"
+
+echo "Generating initrd..."
+dracut \
+--force \
+--force-add "dmsquash-live livenet" \
+--kver ${KVER} \
+--no-hostonly \
+--no-hostonly-cmdline \
+--printsize
+
+echo "Copying vmlinuz and initrd into /squashfs for disk-bootloader setup."
+rm -f /squashfs/*
+cp -pv /boot/vmlinuz-${KVER} /squashfs/${KVER}.kernel
+cp -pv /boot/initrd-${KVER} /squashfs/initrd.img.xz
+
+echo "Purging old kdumps initrd; kdump.service will generate a new one on first boot."
+rm -f /boot/initrd-*-kdump
+
+exit 0

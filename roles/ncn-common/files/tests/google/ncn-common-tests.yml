@@ -25,9 +25,6 @@ service:
   google-guest-agent.service:
     enabled: true
     running: true
-  google-osconfig-agent.service:
-    enabled: true
-    running: true
   google-oslogin-cache.service:
     enabled: true
     running: false

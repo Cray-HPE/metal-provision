@@ -26,9 +26,6 @@ services:
   - name: google-guest-agent.service
     enabled: yes
     state: started
-  - name: google-osconfig-agent.service
-    enabled: yes
-    state: started
   - name: google-oslogin-cache.service
     enabled: yes
     state: stopped

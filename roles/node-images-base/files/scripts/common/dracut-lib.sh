@@ -24,7 +24,7 @@
 # These modules can't exist in the dracut.conf files because they fail on --hostonly builds of dracut,
 # for example when kdump.service runs it uses --hostonly. These modules are necessary when building a
 # PXE bootable initrd, but not for things such as kdump.
-export ADD=( "dmsquash-live" )
+export ADD=( "dmsquash-live" "livenet" )
 
 # Kernel Version
 # This won't work well if multiple kernels are installed, this'll return the highest installed which might not what's actually running.

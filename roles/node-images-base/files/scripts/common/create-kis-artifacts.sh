@@ -60,6 +60,7 @@ if [[ "$1" != "squashfs-only" ]]; then
         --add \"$(printf '%s' "${ADD[*]}")\" \
         --force \
         --kver ${KVER} \
+        --install /usr/bin/killall \
         --no-hostonly \
         --no-hostonly-cmdline \
         --printsize \

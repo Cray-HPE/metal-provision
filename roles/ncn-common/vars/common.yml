@@ -41,6 +41,9 @@ services:
   - name: cloud-final.service
     enabled: yes
     state: stopped
+  - name: csm-node-identity.service
+    enabled: yes
+    state: started
   - name: getty@tty1.service
     enabled: yes
     state: started

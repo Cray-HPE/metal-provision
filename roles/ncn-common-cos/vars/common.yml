@@ -26,6 +26,3 @@ services:
   - name: cfs-state-reporter.service
     enabled: yes
     state: started
-  - name: csm-node-identity.service
-    enabled: yes
-    state: started

@@ -27,9 +27,20 @@
 export ADD=( "dmsquash-live" "livenet" )
 
 # Kernel Version
-# This won't work well if multiple kernels are installed, this'll return the highest installed which might not what's actually running.
-version_full=$(rpm -q --queryformat "%{VERSION}-%{RELEASE}.%{ARCH}\n" kernel-default)
+# This won't work well if multiple kernels are installed, this rpm command returns the highest
+# installed version (which might not what's actually running). This script is used for dracut commands
+# and other kernel dependent commands that need to run against the intended kernel. For example, during builds
+# the kernel version might have changed (new RPM installed, old RPM removed) but because the build is ongoing
+# the old kernel is still active. Therefore any scripts ran to prepare artifacts under the new kernel must key off
+# of the actual installed package instead of `uname -r`.
+version_full=$(rpm -q --queryformat "%{VERSION}-%{RELEASE}\n" kernel-default)
 version_base=${version_full%%-*}
 version_suse=${version_full##*-}
-version_suse=${version_suse%.*.*}
+
+# If a TEST or PTF kernel is installed, the RELEASE string matches what's in /lib/modules. For released
+# kernels the value of RELEASE does NOT match what's in /lib/modules and the revision digit on the end needs
+# to be stripped.
+if ! [[ ${version_suse} =~ \.(TEST|PTF)\. ]]; then
+    version_suse=${version_suse%.*}
+fi
 export KVER="${version_base}-${version_suse}-default"

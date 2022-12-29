@@ -71,3 +71,14 @@
   synchronize:
     src: /srv/cray/limits/common/
     dest: /etc/security/limits.d/
+
+- name: Remove default NTP pool
+    lineinfile:
+      path: /etc/chrony.conf
+      regexp: '^#?\s*pool\s.*'
+      line: ""
+
+- name: Remove default NTP pool configuration file
+  file:
+    path: /etc/chrony.d/pool.conf
+    state: absent

@@ -73,10 +73,10 @@
     dest: /etc/security/limits.d/
 
 - name: Remove default NTP pool
-    lineinfile:
-      path: /etc/chrony.conf
-      regexp: '^#?\s*pool\s.*'
-      line: ""
+  lineinfile:
+    path: /etc/chrony.conf
+    regexp: '^#?\s*pool\s.*'
+    line: ""
 
 - name: Remove default NTP pool configuration file
   file:

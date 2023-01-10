@@ -1,7 +1,7 @@
 #!/bin/bash
 # MIT License
 #
-# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -31,7 +31,7 @@ function cleanup {
 }
 
 # Source common dracut parameters.
-. "$(dirname $0)/dracut-lib.sh"
+. "$(dirname $0)/../common/dracut-lib.sh"
 
 # This facilitates creating the artifacts in the NCN pipeline.
 mkdir -pv /mnt/squashfs /squashfs

@@ -31,3 +31,9 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   loop: "{{ dhcp }}"
+
+- name: Copy dracut configuration
+  synchronize:
+    delete: no
+    src: /srv/cray/resources/metal/dracut.conf.d/
+    dest: /etc/dracut.conf.d/

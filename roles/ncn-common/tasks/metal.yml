@@ -37,12 +37,6 @@
     src: /srv/cray/resources/metal/systemd/
     dest: /usr/lib/systemd/system/
 
-- name: Copy dracut configuration
-  synchronize:
-    delete: no
-    src: /srv/cray/resources/metal/dracut.conf.d/
-    dest: /etc/dracut.conf.d/
-
 - name: Copy sysstat cron configuration
   synchronize:
     delete: no

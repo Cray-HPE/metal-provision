@@ -29,6 +29,20 @@
   hostname:
     name: compute
 
+- name: Initialize cray directories
+  file:
+    path: /srv/cray
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+  register: create_cray_dir
+
+- name: Add files to /srv/cray
+  synchronize:
+    src: files/
+    dest: /srv/cray/
+
 - name: Blacklist kernel modules
   lineinfile:
     create: yes

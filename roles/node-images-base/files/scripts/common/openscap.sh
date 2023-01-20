@@ -23,20 +23,23 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 set -eu
+trap cleanup EXIT
 
-# Remove any existing files
-rm -f suse.linux.enterprise.server.15.xml
-rm -f suse.linux.enterprise.server.15-patch.xml
-# Obtain the relevant OVAL files
-curl -f -O -J https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.server.15.xml
-curl -f -O -J https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.server.15-patch.xml
+SLES_MAJOR=$(awk -F= '/VERSION_ID/{gsub(/["]/,"");printf("%d", $NF)}' /etc/os-release)
+TEMP_DIR=$(mktemp -d)
 
-# Run a test, output the results
-echo 'Running OVAL test...'
-oscap oval eval --results /tmp/oval-results.xml suse.linux.enterprise.server.15.xml > /tmp/oval-standard-out.txt
-# Convert to html
+# Obtain the relevant OVAL files, download to a temporary directory.
+cd $TEMP_DIR
+curl -f -O -J https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}.xml
+curl -f -O -J https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}-patch.xml
+
+# Create oval test results in /tmp so the Pipeline can find them in an expected location.
+echo 'Running OVAL test ...'
+oscap oval eval --results /tmp/oval-results.xml suse.linux.enterprise.server.${SLES_MAJOR}.xml > /tmp/oval-standard-out.txt
 oscap oval generate report --output /tmp/oval-report.html /tmp/oval-results.xml
+
 echo 'Running OVAL Patch test...'
-oscap oval eval --results /tmp/oval-patch-results.xml suse.linux.enterprise.server.15-patch.xml > /tmp/oval-patch-standard-out.txt
-# Convert to html
+oscap oval eval --results /tmp/oval-patch-results.xml suse.linux.enterprise.server.${SLES_MAJOR}-patch.xml > /tmp/oval-patch-standard-out.txt
 oscap oval generate report --output /tmp/oval-patch-report.html /tmp/oval-patch-results.xml
+
+cd && rm -rf ${TEMP_DIR}

@@ -23,7 +23,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 set -eu
-trap cleanup EXIT
 
 SLES_MAJOR=$(awk -F= '/VERSION_ID/{gsub(/["]/,"");printf("%d", $NF)}' /etc/os-release)
 TEMP_DIR=$(mktemp -d)

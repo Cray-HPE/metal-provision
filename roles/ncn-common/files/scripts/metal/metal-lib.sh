@@ -186,6 +186,16 @@ function configure_lldp() {
     echo 'LLDP is configured for all bond interfaces and their members (mgmt and sun)'
 }
 
+# Return netmask for a given netmask [0-32].
+cidr_to_netmask() {
+    local cidr
+    local value
+
+    cidr="$(echo $1 | awk -F/ '{print $NF}')"
+    value=$(( 0xffffffff ^ ((1 << (32 - $cidr)) - 1) ))
+    echo "$(( (value >> 24) & 0xff )).$(( (value >> 16) & 0xff )).$(( (value >> 8) & 0xff )).$(( value & 0xff ))"
+}
+
 function set_static_fallback() {
 
     #
@@ -195,30 +205,50 @@ function set_static_fallback() {
     local defgw
     local ipaddr
     local lan
+    local node_ip
     local netmask
-    local netconf=/tmp/netconf
+    local netmask_cidr
+    local vendor
 
     # BMCs either run dedicated on lan3 (last LAN channel as is the case with Intel's),
     # or lan1 (when there's only one channel).
-    if ipmi_output_3=$(ipmitool lan print 3 2>/dev/null); then
-        lan=3
-        echo "$ipmi_output_3" > $netconf
-    elif [ -z $lan ] && ipmi_output_1=$(ipmitool lan print 1 2>/dev/null); then
-        lan=1
-        echo "$ipmi_output_1" > $netconf
-    elif [ -z $lan ]; then
-        echo "Failed to determine which LAN channel to use!"
+    printf 'scanning vendor ... '
+    vendor=$(ipmitool fru | grep -i 'board mfg' | tail -n 1 | cut -d ':' -f2 | tr -d ' ')
+    echo "$vendor"
+    case $vendor in
+        *'Intel'*'Corporation'*)
+            lan=3
+            ;;
+        *)
+            lan=1
+            ;;
+    esac
+    ipaddr=$(host $(hostname)-mgmt | awk '{print $NF}')
+    if [[ "$ipaddr" =~ 'NXDOMAIN' ]]; then
+        echo >&2 "Failed to resolve $(hostname)-mgmt!"
+        return 1
     fi
-
-    ipaddr=$(grep -Ei 'IP Address\s+\:' $netconf | awk '{print $NF}')
-    netmask=$(grep -Ei 'Subnet Mask\s+\:' $netconf | awk '{print $NF}')
-    defgw=$(grep -Ei 'Default Gateway IP\s+\:' $netconf | awk '{print $NF}')
-    ipmitool lan set $lan ipsrc static || :
+    node_ip=$(craysys metadata get --level node ipam | jq -r '.hmn.ip')
+    if [[ "$node_ip" =~ 'null' ]]; then
+        echo >&2 'Failed to resolve HMN netmask from the HMN IP! cloud-init node level ipam metadata was empty.'
+        return 1
+    else
+        netmask=$(cidr_to_netmask $node_ip)
+    fi
+    defgw=$(craysys metadata get --level node ipam | jq -r '.hmn.gateway')
+    if [[ "$defgw" =~ 'null' ]] || [[ "$defgw" = '0.0.0.0 ' ]]; then
+        echo >&2 'Failed to resolve HMN gateway! cloud-init node level ipam metadata was empty.'
+        return 1
+    fi
+    if ipmitool lan set $lan ipsrc static ; then
+        echo 'Setting LAN ipsrc to static'
+    else
+        echo >&2 'Setting LAN ipsrc to static FAILED!'
+        return 1
+    fi
     ipmitool lan set $lan ipaddr $ipaddr || :
     ipmitool lan set $lan netmask $netmask || :
     ipmitool lan set $lan defgw ipaddr $defgw || :
-    ipmitool lan print $lan || :
-    rm -f $netconf
 }
 
 function reset_bmc() {

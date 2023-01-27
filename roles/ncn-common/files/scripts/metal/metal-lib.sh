@@ -482,7 +482,8 @@ function install_csm_rpms() {
             echo "***"
             echo "WARNING: Unable to contact Nexus. This is expected if Nexus is unhealthy or not deployed"
             echo "         (e.g. during initial NCN deployment). One or more of the following RPMs may not be"
-            echo "         up to date and/or not installed: canu, goss-servers, csm-testing, platform-utils"
+            echo "         up to date and/or not installed: canu, goss-servers, csm-testing, platform-utils,"
+            echo "         iuf-cli."
             echo "***"
             exit 1
         fi
@@ -496,6 +497,8 @@ function install_csm_rpms() {
             | jq -r  '.items[] | .assets[] | .downloadUrl' | grep csm-testing | sort -V | tail -1)
         test -n "$platform_utils_url" || platform_utils_url=$(paginate "https://packages.local/service/rest/v1/components?repository=$repo" \
             | jq -r  '.items[] | .assets[] | .downloadUrl' | grep platform-utils | sort -V | tail -1)
+        test -n "$iuf_cli_url" || iuf_cli_url=$(paginate "https://packages.local/service/rest/v1/components?repository=$repo" \
+            | jq -r  '.items[] | .assets[] | .downloadUrl' | grep iuf-cli | sort -V | tail -1)
 
     done
 
@@ -503,6 +506,7 @@ function install_csm_rpms() {
     test -z "$goss_servers_url" && echo WARNING: unable to install goss-servers
     test -z "$csm_testing_url" && echo WARNING: unable to install csm-testing
     test -z "$platform_utils_url" && echo WARNING: unable to install platform-utils
+    test -z "$iuf_cli_url" && echo WARNING: unable to install iuf-cli
 
-    zypper install -y $canu_url $goss_servers_url $csm_testing_url $platform_utils_url && systemctl enable goss-servers && systemctl restart goss-servers
+    zypper install -y $canu_url $goss_servers_url $csm_testing_url $platform_utils_url $iuf_cli_url && systemctl enable goss-servers && systemctl restart goss-servers
 }

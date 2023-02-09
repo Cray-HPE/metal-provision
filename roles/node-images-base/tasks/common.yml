@@ -82,3 +82,13 @@
   file:
     path: /etc/chrony.d/pool.conf
     state: absent
+
+- name: Add ll alias
+  lineinfile:
+    path: /root/.bashrc
+    line: "alias ll='ls -l --color'"
+    owner: root
+    regexp: "^alias ll='.*$"
+    state: present
+    insertafter: EOF
+    create: True

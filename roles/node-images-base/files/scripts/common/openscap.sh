@@ -34,11 +34,14 @@ curl -f -O -J https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterpr
 
 # Create oval test results in /tmp so the Pipeline can find them in an expected location.
 echo 'Running OVAL test ...'
-oscap oval eval --results /tmp/oval-results.xml suse.linux.enterprise.server.${SLES_MAJOR}.xml > /tmp/oval-standard-out.txt
-oscap oval generate report --output /tmp/oval-report.html /tmp/oval-results.xml
+oscap oval eval --results oval-results.xml suse.linux.enterprise.server.${SLES_MAJOR}.xml > oval-standard-out.txt
+oscap oval generate report --output oval-report.html oval-results.xml
 
 echo 'Running OVAL Patch test...'
-oscap oval eval --results /tmp/oval-patch-results.xml suse.linux.enterprise.server.${SLES_MAJOR}-patch.xml > /tmp/oval-patch-standard-out.txt
-oscap oval generate report --output /tmp/oval-patch-report.html /tmp/oval-patch-results.xml
+oscap oval eval --results oval-patch-results.xml suse.linux.enterprise.server.${SLES_MAJOR}-patch.xml > oval-patch-standard-out.txt
+oscap oval generate report --output oval-patch-report.html oval-patch-results.xml
+
+# Make available for Packer to download.
+mv oval*.xml oval*.html /tmp
 
 cd && rm -rf ${TEMP_DIR}

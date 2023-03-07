@@ -21,20 +21,16 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-services:
-  - name: sshd.service
-    enabled: yes
-    state: started
-  - name: cmdline-perm.service
-    enabled: yes
-    state: stopped
-  - name: spire-agent.service
-    enabled: yes
-    state: stopped
-  - name: csm-node-identity.service
-    enabled: yes
-    state: stopped
-  - name: cray-heartbeat.service
-    enabled: yes
-    state: stopped
+[Unit]
+Description=Reduce permissions on /proc/cmdline
+After=network.service
+Before=sshd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/chmod 0400 /proc/cmdline
+Restart=no
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target

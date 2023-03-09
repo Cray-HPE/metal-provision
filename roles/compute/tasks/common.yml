@@ -25,6 +25,11 @@
 - include_vars:
     file: common.yml
 
+- name: Add files to /srv/cray
+  synchronize:
+    src: files/
+    dest: /srv/cray/
+
 - name: Set layer's hostname
   hostname:
     name: compute
@@ -58,6 +63,17 @@
     path: /etc/profile.d/cray.sh
     regexp: '^export PYTHONPATH='
     line: 'export PYTHONPATH="/srv/cray/utilities/common"'
+
+- name: Create directory
+  file:
+    path: /opt/cray/overlay-preload/config/dist
+    state: directory
+    
+- name: Install cmdline-perm.service
+  copy:
+    src: /srv/cray/resources/cmdline-perm.service
+    dest: /usr/lib/systemd/system/cmdline-perm.service
+    remote_src: yes
 
 - name: Setup Daemons
   systemd:

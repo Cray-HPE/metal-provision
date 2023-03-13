@@ -39,3 +39,12 @@
     masked: "{{ item.masked | default(false) }}"
     state: "{{ item.state }}"
   loop: "{{ services }}"
+
+- name: Clear /etc/fstab
+  copy:
+    content: ""
+    dest: /etc/fstab
+    force: true
+    group: root
+    owner: root
+    mode: 0644

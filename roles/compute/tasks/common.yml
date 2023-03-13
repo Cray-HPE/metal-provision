@@ -68,7 +68,7 @@
   file:
     path: /opt/cray/overlay-preload/config/dist
     state: directory
-    
+
 - name: Install cmdline-perm.service
   copy:
     src: /srv/cray/resources/cmdline-perm.service

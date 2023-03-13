@@ -26,6 +26,9 @@ services:
   - name: sshd.service
     enabled: yes
     state: started
+  - name: chronyd.service
+    enabled: yes
+    state: stopped
   - name: cmdline-perm.service
     enabled: yes
     state: stopped

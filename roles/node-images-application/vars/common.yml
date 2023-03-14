@@ -23,27 +23,28 @@
 #
 ---
 services:
-  - name: chronyd.service
-    enabled: yes
-    state: stopped
-  - name: cmdline-perm.service
-    enabled: yes
-    state: stopped
-  - name: spire-agent.service
-    enabled: yes
-    state: stopped
-  - name: csm-node-identity.service
-    enabled: yes
-    state: stopped
   - name: cfs-state-reporter.service
     enabled: yes
     state: stopped
-  - name: cray-heartbeat.service
-    enabled: yes
-    state: stopped
-  - name: cloud-init.service
+  - name: chronyd.service
     enabled: yes
     state: stopped
   - name: cloud-init-local.service
     enabled: yes
     state: stopped
+  - name: cloud-init.service
+    enabled: yes
+    state: stopped
+  - name: cmdline-perm.service
+    enabled: yes
+    state: stopped
+  - name: cray-heartbeat.service
+    enabled: yes
+    state: stopped
+  - name: csm-node-identity.service
+    enabled: yes
+    state: stopped
+  - name: spire-agent.service
+    enabled: yes
+    state: stopped
+

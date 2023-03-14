@@ -22,7 +22,29 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- hosts: packer
-  become: yes # Enable builds that do not login as root to escalate privilege.
-  roles:
-    - compute
+- include_vars:
+    file: metal.yml
+
+- name: Configure dhcp settings
+  lineinfile:
+    path: /etc/sysconfig/network/dhcp
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop: "{{ dhcp }}"
+
+- name: Setup Daemons
+  systemd:
+    name: "{{ item.name }}"
+    enabled: "{{ item.enabled }}"
+    masked: "{{ item.masked | default(false) }}"
+    state: "{{ item.state }}"
+  loop: "{{ services }}"
+
+- name: Clear /etc/fstab
+  copy:
+    content: ""
+    dest: /etc/fstab
+    force: true
+    group: root
+    owner: root
+    mode: 0644

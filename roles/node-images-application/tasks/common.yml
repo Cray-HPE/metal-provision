@@ -51,6 +51,12 @@
     dest: /usr/lib/systemd/system/cmdline-perm.service
     remote_src: yes
 
+- name: Remove ROOTRAID mount
+  lineinfile:
+    path: /etc/fstab
+    state: absent
+    regexp: '^LABEL=ROOTRAID.*'
+    
 - name: Setup Daemons
   systemd:
     name: "{{ item.name }}"

@@ -22,19 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
-  - name: sshd.service
-    enabled: yes
-    state: started
-  - name: cmdline-perm.service
-    enabled: yes
-    state: stopped
-  - name: spire-agent.service
-    enabled: yes
-    state: stopped
-  - name: csm-node-identity.service
-    enabled: yes
-    state: stopped
-  - name: cray-heartbeat.service
-    enabled: yes
-    state: stopped
+- hosts: packer
+  become: yes # Enable builds that do not login as root to escalate privilege.
+  roles:
+    - node-images-compute

@@ -39,3 +39,67 @@
     enabled: "{{ item.enabled }}"
     masked: "{{ item.masked | default(false) }}"
   loop: "{{ services }}"
+
+#### BEGIN TEMPORARY SECTION ####
+- name: Remove RPMs
+  zypper:
+    name: "{{ item }}"
+    state: absent
+    force: true
+  with_items:
+    - audit
+    - google-osconfig-agent
+    - google-guest-configs
+    - google-opensans-fonts
+    - google-guest-oslogin
+    - python3-google-auth
+    - google-guest-agent
+    - google-opensans-fonts
+    - cloud-regionsrv-client
+    - cloud-regionsrv-client-plugin-gce
+    - cloud-netconfig-gce
+    - python3-gcemetadata
+    - regionServiceClientConfigGCE
+
+- name: Change ownership
+  shell: "find / -path /sys -prune -o -path /proc -prune -o -path /dev -prune -o -path /tmp -prune -o -type d -group 'google-sudoers' -exec chown -R root:root '{}' \\;"
+
+- name: Get users
+  shell: ls -1 /home/
+  register: users_list
+
+- name: Delete users
+  user:
+    name: "{{ item }}"
+    state: absent
+    remove: true
+  loop: "{{ users_list.stdout_lines }}"
+
+- name: Delete google groups
+  group:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - 'google-sudoers'
+
+- name: sshd remove key only
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '.*PasswordAuthentication.*'
+    state: absent
+    create: yes
+
+- name: sshd allow password
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    line: 'PasswordAuthentication yes'
+    state: present
+
+- name: Clear /etc/fstab
+  file:
+    path: /etc/fstab
+    state: "{{ item }}"
+  loop:
+    - absent
+    - touch
+#### END TEMPORARY SECTION ####

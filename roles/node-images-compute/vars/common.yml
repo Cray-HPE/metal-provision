@@ -23,9 +23,6 @@
 #
 ---
 services:
-  - name: cfs-state-reporter.service
-    enabled: yes
-    state: stopped
   - name: chronyd.service
     enabled: yes
     state: stopped

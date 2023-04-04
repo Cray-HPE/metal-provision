@@ -4,6 +4,7 @@ Before=containerd.service etcd.service kubelet.service
 
 [Service]
 Type=oneshot
+ExecStartPre=/bin/bash -c '(while ! /sbin/blkid | grep -q ETCDK8S; do echo "metalfs: waiting for ETCDK8S..."; sleep 2; done);'
 ExecCondition=/bin/bash -c "[ -f /etc/fstab.metal ]"
 ExecStart=/usr/bin/mount -a -T /etc/fstab.metal
 RemainAfterExit=false

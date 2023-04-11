@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,13 +22,75 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Common tasks
-  include_tasks:
-    file: common.yml
+- include_tasks:
+    file: packages.yml
     apply:
-      tags: common
+      tags: packages
   tags:
-    - common
+    - never
+    - packages
+
+- name: Symlink python3 to python
+  file:
+    src: /usr/bin/python3
+    dest: /usr/bin/python
+    state: link
+
+- name: Get current systemd default
+  command: "systemctl get-default"
+  changed_when: false
+  register: systemdefault
+
+- name: Set default to multi-user target
+  command: "systemctl set-default multi-user.target"
+  when: "'multi-user' not in systemdefault.stdout"
+
+- name: Initialize log directory
+  file:
+    path: /var/log/cray
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Initialize log file
+  file:
+    path: /var/log/cray/no.log
+    state: touch
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy limit configuration
+  synchronize:
+    src: limits.d/
+    dest: /etc/security/limits.d/
+
+- name: Remove default NTP pool
+  lineinfile:
+    path: /etc/chrony.conf
+    regexp: '^#?\s*pool\s.*'
+    line: ""
+
+- name: Remove default NTP pool configuration file
+  file:
+    path: /etc/chrony.d/pool.conf
+    state: absent
+
+- name: Add ll alias
+  lineinfile:
+    path: /root/.bashrc
+    line: "alias ll='ls -l --color'"
+    owner: root
+    regexp: "^alias ll='.*$"
+    state: present
+    insertafter: EOF
+    create: True
+
+- name: Install scripts
+  synchronize:
+    src: scripts
+    dest: /srv/cray/
 
 - name: Google tasks
   include_tasks:
@@ -37,6 +99,7 @@
       tags: google
   tags:
     - google
+    - never
 
 - name: Metal tasks
   include_tasks:
@@ -45,3 +108,4 @@
       tags: metal
   tags:
     - metal
+    - never

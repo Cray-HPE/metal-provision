@@ -1,0 +1,47 @@
+---
+# TODO: Add pins
+packages:
+  # NTP
+  - cron
+  # Partitioning / bootloader /dracut
+  # TODO: No biosdevname
+  # TODO: no checkmedia
+  - cryptsetup
+  - dmraid
+  - dosfstools
+  - fdisk
+  - gdisk
+  - grub2
+  - iproute2
+  - lvm2
+  - mdadm
+  - mtools
+  - nvme-cli
+  - parted
+  - pciutils
+  - squashfs-tools-ng
+  - tpm2-abrmd
+  - tpm2-tools
+  - xfsprogs
+  - xfsprogs
+  - xorriso
+  # kdump
+  - crash
+  # Google Compute
+  - google-guest-agent
+  - google-guest-configs
+  - google-guest-oslogin
+  # user tools
+  - bash-completion
+  - emacs
+  - ethtool
+  - htop
+  - jq
+  - ledmon
+  - lshw
+  - lsscsi
+  - rsync
+  - tmux
+  - unzip
+  - vim
+  - zip

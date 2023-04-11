@@ -22,13 +22,62 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Common tasks
-  include_tasks:
-    file: common.yml
+- include_tasks:
+    file: packages.yml
     apply:
-      tags: common
+      tags: packages
   tags:
-    - common
+    - never
+    - packages
+
+- name: Blacklist kernel modules
+  lineinfile:
+    create: yes
+    path: /etc/modprobe.d/disabled-modules.conf
+    regexp: 'install {{ item }} /bin/true'
+    line: 'install {{ item }} /bin/true'
+    state: present
+  loop: "{{ kernel.blacklists.standard }}"
+
+- name: Blacklist kernel modules for kdump
+  lineinfile:
+    backrefs: yes
+    path: /etc/sysconfig/kdump
+    regexp: '^(KDUMP_COMMANDLINE_APPEND)="(.*)"'
+    line: "\\g<1>=\"module_blacklist={{ kernel.blacklists.kdump | join(',') }} \\g<2>\""
+
+- name: Create cray.sh profile
+  file:
+    path: /etc/profile.d/cray.sh
+    state: touch
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Export cray path
+  lineinfile:
+    path: /etc/profile.d/cray.sh
+    regexp: '^export PYTHONPATH='
+    line: 'export PYTHONPATH="/srv/cray/utilities/common"'
+
+- name: Create directory
+  file:
+    path: /opt/cray/overlay-preload/config/dist
+    state: directory
+
+- name: Install cmdline-perm.service
+  copy:
+    src: cmdline-perm.service
+    dest: /usr/lib/systemd/system/cmdline-perm.service
+
+- name: Remove ROOTRAID mount
+  lineinfile:
+    path: /etc/fstab
+    state: absent
+    regexp: '^LABEL=ROOTRAID.*'
+
+- include_tasks:
+    file: services.yml
 
 - name: Google tasks
   include_tasks:
@@ -37,6 +86,7 @@
       tags: google
   tags:
     - google
+    - never
 
 - name: Metal tasks
   include_tasks:
@@ -45,6 +95,7 @@
       tags: metal
   tags:
     - metal
+    - never
 
 - name: Vagrant tasks
   include_tasks:
@@ -52,4 +103,5 @@
     apply:
       tags: vagrant
   tags:
+    - never
     - vagrant

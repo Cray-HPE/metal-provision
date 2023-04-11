@@ -22,13 +22,33 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Common tasks
-  include_tasks:
-    file: common.yml
+- include_tasks:
+    file: packages.yml
     apply:
-      tags: common
+      tags: packages
   tags:
-    - common
+    - never
+    - packages
+
+- name: Copy cloud.cfg configuration
+  copy:
+    src: files/cloud.cfg
+    dest: /etc/cloud/cloud.cfg
+
+# Perms shold be set a different way
+- name: Install cmdline-perm.service
+  copy:
+    src: cmdline-perm.service
+    dest: /usr/lib/systemd/system/cmdline-perm.service
+
+- name: Remove ROOTRAID mount
+  lineinfile:
+    path: /etc/fstab
+    state: absent
+    regexp: '^LABEL=ROOTRAID.*'
+
+- include_tasks:
+    file: services.yml
 
 - name: Google tasks
   include_tasks:
@@ -37,6 +57,7 @@
       tags: google
   tags:
     - google
+    - never
 
 - name: Metal tasks
   include_tasks:
@@ -45,6 +66,7 @@
       tags: metal
   tags:
     - metal
+    - never
 
 - name: Vagrant tasks
   include_tasks:
@@ -52,4 +74,5 @@
     apply:
       tags: vagrant
   tags:
+    - never
     - vagrant

@@ -35,5 +35,11 @@
 - name: Copy dracut configuration
   synchronize:
     delete: no
-    src: /srv/cray/resources/metal/dracut.conf.d/
+    src: metal/dracut.conf.d/
     dest: /etc/dracut.conf.d/
+
+- name: Copy mdadm configuration
+  synchronize:
+    delete: no
+    src: metal/mdadm.conf
+    dest: /etc/

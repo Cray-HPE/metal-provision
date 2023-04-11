@@ -32,7 +32,7 @@
 
 - name: Copy sysctl configuration
   synchronize:
-    src: /srv/cray/sysctl/google/
+    src: google/sysctl.d/
     dest: /etc/sysctl.d/
 
 - name: Backup /etc/sysconfig/network/config before setting temporary DNS
@@ -53,7 +53,7 @@
 
 - name: Stub out network interface configuration files
   copy:
-    src: /srv/cray/resources/google/sysconfig/network/ifcfg-eth
+    src: google/ifcfg-eth
     dest: "/etc/sysconfig/network/ifcfg-eth{{ item }}"
     owner: root
     group: root

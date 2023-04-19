@@ -94,6 +94,5 @@ if [[ "$1" != "kernel-initrd-only" ]]; then
       -noappend \
       -no-recovery \
       -processors "$(nproc)" \
-      -e /mnt/squashfs/squashfs/filesystem.squashfs \
-      -e /squashfs
+      -e /mnt/squashfs/squashfs/filesystem.squashfs
 fi

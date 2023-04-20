@@ -65,7 +65,12 @@ if [[ "$1" != "squashfs-only" ]]; then
         --printsize \
         /tmp/initrd.img.xz"
 
-    cp -v /mnt/squashfs/boot/vmlinuz-${KVER} /squashfs/${KVER}.kernel
+    ls -1 "/mnt/squashfs/boot/Image-${KVER}" &> /dev/null && \
+        ARCH_KERNEL="Image-${KVER}" || \
+        ARCH_KERNEL="vmlinuz-${KVER}"
+
+    cp -v /mnt/squashfs/boot/${ARCH_KERNEL} /squashfs/${KVER}.kernel
+
     cp -v /mnt/squashfs/tmp/initrd.img.xz /squashfs/initrd.img.xz
     rm -f /mnt/squashfs/tmp/initrd.img.xz
     chmod 644 /squashfs/initrd.img.xz
@@ -74,12 +79,20 @@ if [[ "$1" != "squashfs-only" ]]; then
         echo "Not unmouting dev, proc, run, sys, or var because we're in a chroot."
     else
         # Recreate the kdump initrd; ensure the kdump initrd has parity with the initrd.
-        unshare -R /mnt/squashfs bash -c "mkdumprd -K /boot/vmlinuz-${KVER} -I /boot/initrd-${KVER}-kdump -f"
+        unshare -R /mnt/squashfs bash -c "mkdumprd -K /boot/${ARCH_KERNEL} -I /boot/initrd-${KVER}-kdump -f"
         umount -v /mnt/squashfs/dev /mnt/squashfs/proc /mnt/squashfs/run /mnt/squashfs/sys /mnt/squashfs/var
     fi
 fi
 
 if [[ "$1" != "kernel-initrd-only" ]]; then
   echo "Creating squashfs artifact"
-  mksquashfs /mnt/squashfs /squashfs/filesystem.squashfs -no-xattrs -comp gzip -no-exports -noappend -no-recovery -processors "$(nproc)" -e /mnt/squashfs/squashfs/filesystem.squashfs
+  mksquashfs /mnt/squashfs \
+      /squashfs/filesystem.squashfs \
+      -no-xattrs \
+      -comp gzip \
+      -no-exports \
+      -noappend \
+      -no-recovery \
+      -processors "$(nproc)" \
+      -e /mnt/squashfs/squashfs/filesystem.squashfs
 fi

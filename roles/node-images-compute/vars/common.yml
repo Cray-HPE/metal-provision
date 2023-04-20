@@ -23,9 +23,6 @@
 #
 ---
 services:
-  - name: cfs-state-reporter.service
-    enabled: yes
-    state: stopped
   - name: chronyd.service
     enabled: yes
     state: stopped
@@ -44,4 +41,6 @@ services:
   - name: sshd.service
     enabled: yes
     state: started
-
+#  - name: cfs-state-reporter.service
+#    enabled: yes
+#    state: stopped

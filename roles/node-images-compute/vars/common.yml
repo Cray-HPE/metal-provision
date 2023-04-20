@@ -41,4 +41,6 @@ services:
   - name: sshd.service
     enabled: yes
     state: started
-
+#  - name: cfs-state-reporter.service
+#    enabled: yes
+#    state: stopped

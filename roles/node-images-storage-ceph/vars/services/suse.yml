@@ -38,15 +38,9 @@ services:
   - enabled: yes
     name: spire-agent
   - enabled: yes
-    name: apache2
-  - enabled: yes
-    name: basecamp
-  - enabled: yes
     name: ca-certificates
   - enabled: yes
     name: chronyd
-  - enabled: yes
-    name: dnsmasq
   - enabled: yes
     name: getty@tty1
   - enabled: yes
@@ -59,8 +53,6 @@ services:
     name: lldpad
   - enabled: yes
     name: multi-user.target
-  - enabled: yes
-    name: nexus
   - enabled: yes
     name: purge-kernels
   - enabled: yes

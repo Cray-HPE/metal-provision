@@ -24,8 +24,4 @@
 ---
 services:
   - enabled: yes
-    name: registry.container
-  - enabled: yes
     name: keepalived
-  - enabled: yes
-    name: haprxy

@@ -24,12 +24,6 @@
 ---
 services:
   - enabled: yes
-    name: containerd
-  - enabled: yes
     name: kubelet
   - enabled: yes
     name: spire-agent
-  - enabled: yes
-    name: etcd
-  - enabled: yes
-    name: nginx

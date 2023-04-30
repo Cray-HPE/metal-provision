@@ -27,6 +27,7 @@ packages:
   # - mkisofs?
   # - terraform?
   - cloud-init
+  - helm
   - libguestfs0
   - libvirt-clients
   - libvirt0

@@ -27,7 +27,9 @@ packages:
   - cloud-init-config-suse<23.2
   - cloud-init-doc<23.2
   - cloud-init<23.2
+  - helm=3.11.2-150000.1.19.1
   - helm-bash-completion=3.11.2-150000.1.19.1
+  - helm-zsh-completion=3.11.2-150000.1.19.1
   - libguestfs=1.44.2-150400.3.3.1
   - libvirt-client=8.0.0-150400.7.3.1
   - libvirt=8.0.0-150400.7.3.1

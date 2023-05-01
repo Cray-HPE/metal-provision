@@ -8,5 +8,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Ansible Lint
-        uses: ansible-community/ansible-lint-action@v6.2.1
+        uses: ansible-community/ansible-lint-action@v6.15.0
 

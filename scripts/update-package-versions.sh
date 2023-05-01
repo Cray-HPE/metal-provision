@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #
 # MIT License
 #
@@ -39,6 +39,7 @@ Usage:
     If you choose to update the version then the given packages-file is updated directly.
     You can then git commit to the appropriate branch and create a PR.
 
+    -a|--architecture          Required: Set the target architecture (eg x86_64 or aarch64)
     -p|--packages-file <path>  Required: The packages file path to update versions in (eg packages/node-images-base/base.packages)
 
     [-f|--filter <pattern>]    Package regex pattern to filter against. Only packages matching the filter will be queried and prompted to update. (eg cray-)
@@ -54,27 +55,28 @@ Usage:
 
     Examples
 
-    ./scripts/update-package-versions.sh -p packages/node-images-base/base.packages
+    ./scripts/update-package-versions.sh -a x86_64 -p packages/node-images-base/base.packages
+    ./scripts/update-package-versions.sh -a aarch64 -p packages/node-images-base/base.packages
 
     --------------
     Query all packages in base.packages and prompt the user to update the version if a newer version is found in the repos one by one.
 
 
-    ./scripts/update-package-versions.sh -p packages/node-images-base/base.packages -f '^cray' -o
+    ./scripts/update-package-versions.sh -a x86_64 -p packages/node-images-base/base.packages -f '^cray' -o
     --------------
     Query packages in base.packages that start with 'cray'. Only print out packages that have a different version found
 
 
-    ./scripts/update-package-versions.sh -p packages/node-images-base/base.packages -f cray-network-config -r shasta-1.4
+    ./scripts/update-package-versions.sh -a x86_64 -p packages/node-images-base/base.packages -f cray-network-config -r shasta-1.4
     --------------
     Only update the package cray-network-config in a repo that contains the shasta-1.4 name
 
 
-    ./scripts/update-package-versions.sh -p packages/node-images-base/base.packages -r buildonly-SUSE
+    ./scripts/update-package-versions.sh -a aarch64 -p packages/node-images-base/base.packages -r buildonly-SUSE
     --------------
-    Only update packages found in the upstream SUSE repos.
+    Only update packages found in the upstream SUSE repos for aarch64
 
-    ./scripts/update-package-versions.sh -p packages/node-images-base/base.packages -r buildonly-SUSE -y
+    ./scripts/update-package-versions.sh -a x86_64 -p packages/node-images-base/base.packages -r buildonly-SUSE -y
     --------------
     Same as the last example, but automatically update all SUSE packages rather than prompt one by one
 
@@ -91,7 +93,6 @@ AUTO_YES="false"
 DOCKER_CACHE_IMAGE="csm-rpms-cache"
 DOCKER_BASE_IMAGE="artifactory.algol60.net/csm-docker/stable/csm-docker-sle:15.4"
 
-ARCH="$(uname -m)"
 while [[ "$#" -gt 0 ]]
 do
   case $1 in
@@ -101,6 +102,9 @@ do
       ;;
     -a|--architecture)
       export ARCH="$2"
+      [[ ${ARCH} == "x86_64" ]] && DOCKER_ARCH="linux/amd64"
+      [[ ${ARCH} == "aarch64" ]] && DOCKER_ARCH="linux/arm64"
+      DOCKER_CACHE_IMAGE="${DOCKER_CACHE_IMAGE}-${ARCH}"
       ;;
     -p|--packages-file)
       PACKAGES_FILE="$2"
@@ -137,9 +141,12 @@ do
   esac
   shift
 done
-[[ ${ARCH} == "x86_64" ]] && DOCKER_ARCH="linux/amd64"
-[[ ${ARCH} == "aarch64" ]] && DOCKER_ARCH="linux/arm64"
-DOCKER_CACHE_IMAGE="${DOCKER_CACHE_IMAGE}-${ARCH}"
+
+if [[ -z "$ARCH" ]]; then
+    echo >&2 "error: missing -a architecture option"
+    usage
+    exit 3
+fi
 
 if [[ "$NO_CACHE" == "true" && "$(docker images -q $DOCKER_CACHE_IMAGE 2> /dev/null)" != "" ]]; then
   echo "Removing docker image cache $DOCKER_CACHE_IMAGE"
@@ -203,14 +210,14 @@ else
   DOCKER_TTY_ARG="-it"
 fi
 
-docker run --platform $DOCKER_ARCH -e ARCH=$ARCH $DOCKER_TTY_ARG --rm -v "$(realpath "$SOURCE_DIR"):/app" -v "$(realpath "$PACKAGES_FILE"):/$(basename $PACKAGES_FILE)" --init $DOCKER_CACHE_IMAGE bash -c "
+docker run --platform $DOCKER_ARCH -e ARCH=$ARCH $DOCKER_TTY_ARG --rm -v "$(realpath "$SOURCE_DIR"):/app" -v "$(realpath "$PACKAGES_FILE"):/packages" --init $DOCKER_CACHE_IMAGE bash -c "
   set -e
   source /app/scripts/rpm-functions.sh
   if [[ \"$VALIDATE\" == \"true\" ]]; then
-    validate-package-versions "/$(basename $PACKAGES_FILE)"
+    validate-package-versions /packages
   else
-    cp /$(basename $PACKAGES_FILE) /tmp/$(basename $PACKAGES_FILE)
-    update-package-versions /tmp/$(basename $PACKAGES_FILE) ${REPOS_FILTER} ${OUTPUT_DIFFS_ONLY} ${AUTO_YES} ${FILTER}
-    cp /tmp/$(basename $PACKAGES_FILE) /$(basename $PACKAGES_FILE)
+    cp /packages /tmp/packages
+    update-package-versions /tmp/packages ${REPOS_FILTER} ${OUTPUT_DIFFS_ONLY} ${AUTO_YES} ${FILTER}
+    cp /tmp/packages /packages
   fi
 "

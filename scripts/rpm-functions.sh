@@ -287,7 +287,7 @@ function get-current-package-list() {
     local inventory_file=$(mktemp)
     local output_path="$1"
     local packages="$2"
-    local base_inventory="${3:-''}"
+    local base_inventory="${3:-""}"
 
     if [[ ! -z "$base_inventory" ]]; then
         local base_arg="-b $base_inventory"

@@ -63,10 +63,12 @@ function cleanup_package_manager {
             yum clean all
             ;;
         suse)
-            echo '- Generating BOM'
-            rpm -qa | sort -h > /tmp/installed.packages
-            zypper lr -e /tmp/installed.repos
             . /srv/cray/metal-provision/scripts/rpm-functions.sh
+
+            echo '- Generating BOM'
+            get-current-package-list /tmp/installed.packages explicit
+            get-current-package-list /tmp/installed.deps.packages deps
+            zypper lr -e /tmp/installed.repos
 
             echo '- Removing Zypper Repos'
             cleanup-package-repos

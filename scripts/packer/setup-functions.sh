@@ -89,7 +89,8 @@ function setup_repositories {
             set +eu
             . /srv/cray/metal-provision/scripts/rpm-functions.sh
             setup-package-repos "$@"
-            rpm -qa | sort -h > /tmp/initial.packages
+            get-current-package-list /tmp/initial.packages explicit
+            get-current-package-list /tmp/initial.deps.packages deps
             set -eu
             ;;
     esac

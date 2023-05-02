@@ -23,6 +23,7 @@
 #
 ---
 required_suse_extensions:
+  - sle-module-server-applications
   - sle-module-public-cloud
 services:
   - enabled: yes

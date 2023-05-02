@@ -30,5 +30,4 @@
     name: "{{ item.name }}"
     enabled: "{{ item.enabled }}"
     masked: "{{ item.masked | default(false) }}"
-    state: "{{ item.state }}"
   loop: "{{ services }}"

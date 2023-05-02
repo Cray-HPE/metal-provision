@@ -24,6 +24,7 @@
 ---
 required_suse_extensions:
   - sle-module-public-cloud
+  - sle-module-server-applications
 services:
   - enabled: yes
     name: google-guest-agent.service

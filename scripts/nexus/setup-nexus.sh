@@ -84,7 +84,7 @@ while getopts ":pscC" o; do
         C)
             CSM_PATH="${OPTARG}"
             ;;
-        *|h|'')
+        *)
             usage
             exit 2
             ;;
@@ -127,6 +127,7 @@ function nexus-reset() {
     list-cray-repos-files
     list-compute-repos-files
 
+    #shellcheck disable=SC2010
     mapfile -t repo_files < <(ls ${WORKING_DIR}/../repos/*.repos | grep -v template)
     for repo_file in "${repo_files[@]}"; do
         mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
@@ -150,6 +151,7 @@ function zypper-reset() {
     list-cray-repos-files
     list-compute-repos-files
 
+    #shellcheck disable=SC2010
     mapfile -t repo_files < <(ls ${WORKING_DIR}/../repos/*.repos | grep -v template)
     for repo_file in "${repo_files[@]}"; do
         mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
@@ -169,6 +171,7 @@ function nexus-proxy() {
     list-cray-repos-files
     list-compute-repos-files
 
+    #shellcheck disable=SC2010
     mapfile -t repo_files < <(ls ${WORKING_DIR}/..//repos/*.repos | grep -v template)
     for repo_file in "${repo_files[@]}"; do
         mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
@@ -232,6 +235,7 @@ function setup-zypper-nexus() {
     list-cray-repos-files
     list-compute-repos-files
 
+    #shellcheck disable=SC2010
     mapfile -t repo_files < <(ls ${WORKING_DIR}/../repos/*.repos | grep -v template)
     for repo_file in "${repo_files[@]}"; do
         mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')

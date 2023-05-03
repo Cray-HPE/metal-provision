@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #
 # MIT License
 #
@@ -60,7 +60,7 @@ function install_ansible {
     python3 -m pip install ansible-core==$ANSIBLE_CORE_VERSION ansible==${ANSIBLE_VERSION}
 
     echo "Installing requirements: ${requirements[*]}"
-    for requirement in ${requirements[*]}; do
+    for requirement in "${requirements[@]}"; do
         python3 -m pip install -U "${requirement}"
     done
     deactivate
@@ -104,7 +104,7 @@ function resize_root {
     # Find device and partition of /
     cd /
     df . | tail -n 1 | tr -s " " | cut -d " " -f 1 | sed -E -e 's/^([^0-9]+)([0-9]+)$/\1 \2/' |
-    if read dev_disk dev_partition_nr && [ -n "$dev_partition_nr" ]; then
+    if read -r dev_disk dev_partition_nr && [ -n "$dev_partition_nr" ]; then
         echo "Expanding $dev_disk partition $dev_partition_nr";
         sgdisk --move-second-header
         sgdisk --delete=${dev_partition_nr} "$dev_disk"

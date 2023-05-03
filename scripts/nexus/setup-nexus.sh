@@ -127,9 +127,10 @@ function nexus-reset() {
     list-cray-repos-files
     list-compute-repos-files
 
-    #shellcheck disable=SC2010
-    mapfile -t repo_files < <(ls ${WORKING_DIR}/../repos/*.repos | grep -v template)
-    for repo_file in "${repo_files[@]}"; do
+    for repo_file in "${WORKING_DIR}"/../repos/*.repos; do
+        if [[ $repo_file =~ template ]]; then
+            continue
+        fi
         mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
         for repo in "${repos[@]}"; do
             name="$(echo ${repo} | awk -F, '{print $NF}')"
@@ -151,9 +152,10 @@ function zypper-reset() {
     list-cray-repos-files
     list-compute-repos-files
 
-    #shellcheck disable=SC2010
-    mapfile -t repo_files < <(ls ${WORKING_DIR}/../repos/*.repos | grep -v template)
-    for repo_file in "${repo_files[@]}"; do
+    for repo_file in "${WORKING_DIR}"/../repos/*.repos; do
+        if [[ $repo_file =~ template ]]; then
+            continue
+        fi
         mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
         for repo in "${repos[@]}"; do
             name="$(echo ${repo} | awk -F, '{print $NF}')"
@@ -171,9 +173,10 @@ function nexus-proxy() {
     list-cray-repos-files
     list-compute-repos-files
 
-    #shellcheck disable=SC2010
-    mapfile -t repo_files < <(ls ${WORKING_DIR}/..//repos/*.repos | grep -v template)
-    for repo_file in "${repo_files[@]}"; do
+    for repo_file in "${WORKING_DIR}"/../repos/*.repos; do
+        if [[ $repo_file =~ template ]]; then
+            continue
+        fi
         mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
         for repo in "${repos[@]}"; do
             name="$(echo ${repo} | awk -F, '{print $NF}')"
@@ -235,9 +238,10 @@ function setup-zypper-nexus() {
     list-cray-repos-files
     list-compute-repos-files
 
-    #shellcheck disable=SC2010
-    mapfile -t repo_files < <(ls ${WORKING_DIR}/../repos/*.repos | grep -v template)
-    for repo_file in "${repo_files[@]}"; do
+    for repo_file in "${WORKING_DIR}"/../repos/*.repos; do
+        if [[ $repo_file =~ template ]]; then
+            continue
+        fi
         mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
         for repo in "${repos[@]}"; do
             name="$(echo ${repo} | awk -F, '{print $NF}')"

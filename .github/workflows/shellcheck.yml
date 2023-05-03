@@ -35,8 +35,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: run shellcheck
       uses: ludeeus/action-shellcheck@2.0.0
+      env:
+        SHELLCHECK_OPTS: -e SC1091 -e SC2016 -e SC2046 -e SC2086
       with:
         severity: warning

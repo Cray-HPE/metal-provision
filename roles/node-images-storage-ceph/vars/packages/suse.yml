@@ -23,7 +23,7 @@
 #
 ---
 packages:
-  - cephadm>17
+  - cephadm<17.2.6
   - golang-github-prometheus-node_exporter=1.3.0-150100.3.20.2
   - libfmt8=8.0.1-150400.1.8
   - ses-release=7-64.1

@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #
 # MIT License
 #
@@ -23,7 +23,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}")/.." &> /dev/null && pwd )"
-echo $BASE_DIR
+echo ${BASE_DIR}
 function list-compute-repos-files() {
     /usr/bin/envsubst '$ARTIFACTORY_USER $ARTIFACTORY_TOKEN' < ${BASE_DIR}/scripts/repos/compute.template.repos > ${BASE_DIR}/scripts/repos/compute.repos
     cat <<-EOF
@@ -106,7 +106,7 @@ function cleanup-csm-rpms {
 
 function zypper-add-repos() {
     remove-comments-and-empty-lines \
-        | while read url name flags; do
+        | while read -r url name flags; do
             local alias="buildonly-${name}"
             echo "Adding repo ${alias} at ${url}"
             zypper -n addrepo $flags "${url}" "${alias}"
@@ -177,7 +177,7 @@ function update-package-versions() {
     local auto_yes="$4"
     local filter="$5"
 
-    if [[ ! -z "$filter" ]]; then
+    if [[ -n "$filter" ]]; then
         echo "Filtering packages with regex $filter"
     fi
 
@@ -191,7 +191,7 @@ function update-package-versions() {
         #shellcheck disable=SC2034
         local version="${parts[1]/[<>]/}"
 
-        if [[ ! -z "$filter" && ! $package =~ $filter ]]; then
+        if [[ -n "$filter" && ! $package =~ $filter ]]; then
             continue
         fi
 
@@ -248,7 +248,7 @@ function update-package-versions() {
 
         if [[ "$current_version" != "$latest_version" && $output_diffs_only != "true" ]]; then
             if [[ "$auto_yes" != "true" ]]; then
-                read -p "Update package lock version (y/N)?" answer
+                read -rp "Update package lock version (y/N)?" answer
             fi
             if [[ "$auto_yes" == "true" || "$answer" == "y" ]]; then
                 update-package-version $packages_path $package $current_version $latest_version
@@ -289,7 +289,7 @@ function get-current-package-list() {
     local packages="$2"
     local base_inventory="${3:-""}"
 
-    if [[ ! -z "$base_inventory" ]]; then
+    if [[ -n "$base_inventory" ]]; then
         local base_arg="-b $base_inventory"
     else
         local base_arg=""
@@ -312,7 +312,7 @@ function get-package-list-from-inventory() {
         local jq_script='. | map("\(.name)=\(.version)") | unique | .[]'
     fi
 
-    cat $inventory_file | jq -r "${jq_script}" > $output_path
+    jq -r "${jq_script}" < $inventory_file > $output_path
 }
 
 function cleanup-package-repos() {

@@ -44,10 +44,8 @@ EFI_X64_BINARY='bootx64.efi'
 
 if [ ${ARCH,,} = 'arm64' ]; then
     EFI_BINARY=${EFI_A64_BINARY}
-    EFI_FORMAT=arm-efi
 elif [ ${ARCH,,} = 'x86_64' ]; then
     EFI_BINARY=${EFI_X64_BINARY}
-    EFI_FORMAT=${ARCH}-efi
 fi
 
 echo "Building for [${ARCH}] [${EFI_BINARY}]"
@@ -73,7 +71,8 @@ function install-grub2 {
     random_hex="$(openssl rand -hex 4)"
     export app_id="0x${random_hex}"
     export BOOT_LOADER_DIR
-    export name=$(grep PRETTY_NAME /etc/*release* | cut -d '=' -f2 | tr -d '"')
+    name=$(grep PRETTY_NAME /etc/*release* | cut -d '=' -f2 | tr -d '"')
+    export name
 
     mkdir -pv "${ISO_SOURCE}/${EFI_DIR}" "${ISO_SOURCE}/${BOOT_LOADER_DIR}" || return 1
 

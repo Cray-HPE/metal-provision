@@ -22,8 +22,16 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 file:
+  # If cloud-init.log or cloud-init-output.log exist that means cloud-init ran in the pipeline; must prevent it from
+  # running at all costs.
+  /var/log/cloud-init.log:
+    exists: false
+  /var/log/cloud-init-output.log:
+    exists: false
+  # Never ship .ssh keys.
   /root/.ssh:
     exists: false
+  # Never ship cache that may contain secrets.
   /var/adm/autoinstall/cache:
     exists: false
 command:
@@ -54,8 +62,8 @@ service:
   ca-certificates:
     enabled: true
     running: false
-  ca-certificates:
-    enabled: true
+  cloud-init-oneshot.service:
+    enabled: false
     running: false
   chronyd:
     enabled: true

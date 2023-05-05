@@ -24,6 +24,23 @@
 ---
 services:
   - enabled: yes
-    name: kubelet
+    name: cloud-config.service
+    state: stopped
   - enabled: yes
-    name: spire-agent
+    name: cloud-init.service
+    state: stopped
+  - enabled: yes
+    name: cloud-init-local.service
+    state: stopped
+  - enabled: yes
+    name: cloud-final.service
+    state: stopped
+  - enabled: true
+    name: csm-node-identity.service
+    state: stopped
+  - enabled: yes
+    name: kubelet.service
+    state: stopped
+  - enabled: true
+    name: spire-agent.service
+    state: stopped

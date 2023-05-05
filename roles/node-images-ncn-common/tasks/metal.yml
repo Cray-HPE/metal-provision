@@ -25,7 +25,7 @@
 - name: Copy sysctl configuration
   synchronize:
     delete: no
-    src: metal/sysctl.d
+    src: metal/sysctl.d/
     dest: /etc/sysctl.d/
 
 - name: Copy systemd configuration

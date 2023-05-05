@@ -83,6 +83,12 @@
     src: logrotate.d/
     dest: /etc/logrotate.d/
 
+- name: Copy systemd configuration
+  synchronize:
+    delete: no
+    src: systemd/
+    dest: /usr/lib/systemd/system/
+
 - name: Copy sysctl configuration
   synchronize:
     src: sysctl.d/

@@ -25,49 +25,76 @@
 services:
   - enabled: yes
     name: ca-certificates.service
+    state: stopped
   - enabled: yes
     name: chronyd.service
-  - enabled: yes
+    state: stopped
+  - enabled: no
     name: cloud-config.service
-  - enabled: yes
+    state: stopped
+  - enabled: no
     name: cloud-init.service
-  - enabled: yes
+    state: stopped
+  - enabled: no
     name: cloud-init-local.service
-  - enabled: yes
+    state: stopped
+  - enabled: false
+    name: cloud-init-oneshot.service
+    state: stopped
+  - enabled: no
     name: cloud-final.service
-  - enabled: yes
+    state: stopped
+  - enabled: no
     name: csm-node-identity.service
+    state: stopped
   - enabled: yes
     name: getty@tty1.service
+    state: started
   - enabled: yes
     name: goss-servers
+    state: stopped
   - enabled: yes
     name: issue-generator.service
+    state: stopped
   - enabled: yes
     name: multi-user.target
+    state: started
   - enabled: no
     name: postfix.service
+    state: stopped
   - enabled: yes
     name: purge-kernels.service
+    state: stopped
   - enabled: yes
     name: rasdaemon.service
+    state: stopped
   - enabled: yes
     name: rc-local.service
+    state: stopped
   - enabled: yes
     name: rollback.service
+    state: stopped
   - enabled: yes
     name: serial-getty@ttyS0.service
-  - enabled: yes
+    state: stopped
+  - enabled: false
     name: spire-agent.service
+    state: stopped
   - enabled: yes
     name: sshd.service
+    state: started
   - enabled: yes
     name: wicked.service
+    state: started
   - enabled: yes
     name: wickedd-auto4.service
+    state: started
   - enabled: yes
     name: wickedd-dhcp4.service
+    state: started
   - enabled: yes
     name: wickedd-dhcp6.service
+    state: started
   - enabled: yes
     name: wickedd-nanny.service
+    state: started

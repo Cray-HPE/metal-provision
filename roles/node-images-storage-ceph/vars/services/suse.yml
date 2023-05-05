@@ -23,53 +23,21 @@
 #
 ---
 services:
-  - enabled: no
-    name: cray-heartbeat
-  - enabled: no
-    name: postfix
-  - enabled: no
-    name: mdcheck_continue
-  - enabled: no
-    name: mdcheck_start
-  - enabled: no
-    name: mdmonitor-oneshot
-  - enabled: no
-    name: mdmonitor
   - enabled: yes
-    name: spire-agent
+    name: cloud-config.service
+    state: stopped
   - enabled: yes
-    name: ca-certificates
+    name: cloud-init.service
+    state: stopped
   - enabled: yes
-    name: chronyd
+    name: cloud-init-local.service
+    state: stopped
   - enabled: yes
-    name: getty@tty1
+    name: cloud-final.service
+    state: stopped
+  - enabled: true
+    name: csm-node-identity.service
+    state: stopped
   - enabled: yes
-    name: issue-generator
-  - enabled: yes
-    name: kdump-early
-  - enabled: yes
-    name: kdump
-  - enabled: yes
-    name: lldpad
-  - enabled: yes
-    name: multi-user.target
-  - enabled: yes
-    name: purge-kernels
-  - enabled: yes
-    name: rc-local
-  - enabled: yes
-    name: rollback
-  - enabled: yes
-    name: serial-getty@ttyS0
-  - enabled: yes
-    name: sshd
-  - enabled: yes
-    name: wicked
-  - enabled: yes
-    name: wickedd-auto4
-  - enabled: yes
-    name: wickedd-dhcp4
-  - enabled: yes
-    name: wickedd-dhcp6
-  - enabled: yes
-    name: wickedd-nanny
+    name: spire-agent.service
+    state: stopped

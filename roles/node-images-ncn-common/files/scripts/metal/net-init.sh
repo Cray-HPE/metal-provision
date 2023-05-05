@@ -161,4 +161,12 @@ function iptables_config() {
 }
 iptables_config
 
+function cloud-init-oneshot {
+    printf 'net-init: [ % -20s ]\n' 'enabling: cloud-init oneshot'
+    if ! systemctl enable cloud-init-oneshot.service; then
+        printf 'net-init: [ % -20s ]\n' 'enabling: cloud-init oneshot failed!'
+    fi
+}
+cloud-init-oneshot
+
 printf 'net-init: [ % -20s ]\n' 'completed'

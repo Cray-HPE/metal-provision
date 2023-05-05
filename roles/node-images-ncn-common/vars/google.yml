@@ -29,15 +29,22 @@ required_suse_extensions:
 services:
   - enabled: yes
     name: google-guest-agent.service
+    state: started
   - enabled: yes
     name: google-oslogin-cache.service
+    state: stopped
   - enabled: yes
     name: google-oslogin-cache.timer
+    state: started
   - enabled: yes
     name: google-shutdown-scripts.service
+    state: stopped
   - enabled: yes
     name: google-startup-scripts.service
+    state: stopped
   - enabled: yes
     name: kdump.service
+    state: stopped
   - enabled: yes
     name: kdump-early.service
+    state: stopped

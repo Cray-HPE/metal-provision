@@ -41,5 +41,5 @@ packages:
   - cray-system-setup-scripts=1.4.3-2.5_20230113094810__ge0ef7dd
   - cray-udev-network-cn=1.7.13-2.5_20230222143904__g4571a11
   - cray-ckdump-helper=2.12.1-2.5_20230113045052__g9e95309
-  - cray-heartbeat=1.9.1-2.5_2.4__gcf13165.shasta
+  - cray-heartbeat=1.9.1-2.5_2.8__gcf13165.shasta
 patterns:

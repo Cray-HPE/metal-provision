@@ -23,18 +23,18 @@
 #
 ---
 services:
-  - enabled: yes
+  - enabled: true
     name: libvirtd.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: nfs-server.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: cloud-init.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: cloud-init-local.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: cloud-final.service
     state: stopped

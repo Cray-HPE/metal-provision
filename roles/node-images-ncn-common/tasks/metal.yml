@@ -24,19 +24,19 @@
 ---
 - name: Copy sysctl configuration
   synchronize:
-    delete: no
+    delete: false
     src: metal/sysctl.d/
     dest: /etc/sysctl.d/
 
 - name: Copy systemd configuration
   synchronize:
-    delete: no
+    delete: false
     src: metal/systemd/
     dest: /usr/lib/systemd/system/
 
 - name: Copy sysstat cron configuration
   synchronize:
-    delete: no
+    delete: false
     src: metal/sysstat/
     dest: /etc/sysstat/
   register: copy_sysstat_service
@@ -47,13 +47,13 @@
 
 - name: Copy cloud.cfg.d configuration
   synchronize:
-    delete: yes
+    delete: true
     src: metal/cloud/cloud.cfg.d/
     dest: /etc/cloud/cloud.cfg.d/
 
 - name: Copy cloud templates configuration
   synchronize:
-    delete: yes
+    delete: true
     src: metal/cloud/templates/
     dest: /etc/cloud/templates/
 

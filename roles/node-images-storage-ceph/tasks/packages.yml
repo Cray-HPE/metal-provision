@@ -32,10 +32,10 @@
 
     - name: Install packages
       apt:
-        allow_downgrade: yes
+        allow_downgrade: true
         name: "{{ packages }}"
         state: present
-        install_recommends: no
+        install_recommends: false
 
     - include_vars:
         dir: packages
@@ -46,10 +46,10 @@
 
     - name: Install architecture specific packages
       apt:
-        allow_downgrade: yes
+        allow_downgrade: true
         name: "{{ packages }}"
         state: present
-        install_recommends: no
+        install_recommends: false
       when: result.ansible_included_var_files | length != 0
 
   when: ansible_distribution_file_variety == "Debian"
@@ -64,10 +64,10 @@
 
     - name: Install packages
       yum:
-        allow_downgrade: yes
+        allow_downgrade: true
         name: "{{ packages }}"
         state: present
-        update_cache: no
+        update_cache: false
 
     - include_vars:
         dir: packages
@@ -78,16 +78,16 @@
 
     - name: Install architecture specific packages
       yum:
-        allow_downgrade: yes
+        allow_downgrade: true
         name: "{{ packages }}"
         state: present
-        update_cache: no
+        update_cache: false
       when: result.ansible_included_var_files | length != 0
 
   when: ansible_distribution_file_variety == "RedHat"
 
 - block:
-  # NOTE: Never set force_resolution to yes, always inspect the error(s). Usually a package is obsoleting another, and one can be removed from our lists.
+  # NOTE: Never set force_resolution to true, always inspect the error(s). Usually a package is obsoleting another, and one can be removed from our lists.
 
     - include_vars:
         dir: packages
@@ -97,13 +97,13 @@
 
     - name: Install packages
       zypper:
-        allow_vendor_change: yes
-        disable_recommends: yes
-        force_resolution: no
+        allow_vendor_change: true
+        disable_recommends: true
+        force_resolution: false
         name: "{{ packages }}"
-        oldpackage: yes
+        oldpackage: true
         state: present
-        update_cache: no
+        update_cache: false
 
     - include_vars:
         dir: packages
@@ -114,13 +114,13 @@
 
     - name: Install architecture specific packages
       zypper:
-        allow_vendor_change: yes
-        disable_recommends: yes
-        force_resolution: no
+        allow_vendor_change: true
+        disable_recommends: true
+        force_resolution: false
         name: "{{ packages }}"
-        oldpackage: yes
+        oldpackage: true
         state: present
-        update_cache: no
+        update_cache: false
       when: result.ansible_included_var_files | length != 0
 
   when: ansible_distribution_file_variety == "SUSE"

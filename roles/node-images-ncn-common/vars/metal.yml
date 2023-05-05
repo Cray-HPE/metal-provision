@@ -23,36 +23,36 @@
 #
 ---
 services:
-  - enabled: no
+  - enabled: false
     name: ahslog
     state: stopped
-  - enabled: no
+  - enabled: false
     name: amsd
     state: stopped
-  - enabled: no
+  - enabled: false
     name: cpqFca
     state: stopped
-  - enabled: no
+  - enabled: false
     name: cpqIde
     state: stopped
-  - enabled: no
+  - enabled: false
     name: cpqScsi
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: kdump.service
     state: started
-  - enabled: yes
+  - enabled: true
     name: kdump-early.service
     state: started
-  - enabled: no
+  - enabled: false
     name: metal-iptables.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: metalfs.service
     state: stopped
-  - enabled: no
+  - enabled: false
     name: smad
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: sysstat.service
     state: started

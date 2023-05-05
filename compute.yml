@@ -22,8 +22,9 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- hosts: localhost
-  become: yes # Enable environments that do not login as root to escalate privilege.
+- name: Node Image Compute
+  hosts: localhost
+  become: true # Enable environments that do not login as root to escalate privilege.
   roles:
     - node-images-compute
     - node-images-cos-cn

@@ -87,7 +87,7 @@
     path: /etc/ssh/sshd_config
     regexp: '.*PasswordAuthentication.*'
     state: absent
-    create: yes
+    create: true
 
 - name: sshd allow password
   lineinfile:

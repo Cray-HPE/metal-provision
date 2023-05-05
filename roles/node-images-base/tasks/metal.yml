@@ -34,12 +34,12 @@
 
 - name: Copy dracut configuration
   synchronize:
-    delete: no
+    delete: false
     src: metal/dracut.conf.d/
     dest: /etc/dracut.conf.d/
 
 - name: Copy mdadm configuration
   synchronize:
-    delete: no
+    delete: false
     src: metal/mdadm.conf
     dest: /etc/

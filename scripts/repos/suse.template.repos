@@ -81,6 +81,9 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 # cloud-init
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/Cloud:Tools/SLE_${releasever_major}_SP${releasever_minor}/?auth=basic                                                openSUSE-CloudTools-SLE                                 -g -p 89
 
+# free range routing
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/network/${releasever_major}.${releasever_minor}/?auth=basic                                                          openSUSE-network-SLE                                    -g -p 89
+
 # vagrant
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/Virtualization:vagrant/${releasever}/?auth=basic                                                                     openSUSE-Virtualizationvagrant                          -g -p 89
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/devel:languages:ruby:extensions/${releasever}/?auth=basic                                                            openSUSE-devellanguagesrubyextensions                   -g -p 89

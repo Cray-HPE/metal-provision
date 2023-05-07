@@ -22,11 +22,8 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- include_tasks:
-    file: packages.yml
-  tags:
-    - packages
-
-# TODO: Port the enable/disable systemctl calls from install.sh into here.
-#- include_tasks:
-#    file: services.yml
+- hosts: localhost
+  become: yes # Enable environments that do not login as root to escalate privilege.
+  roles:
+    - node-images-compute
+    - node-images-cos-cn

@@ -25,15 +25,22 @@
 services:
   - enabled: yes
     name: cfs-state-reporter.service
+    state: stopped
   - enabled: yes
     name: chronyd.service
+    state: stopped
   - enabled: yes
     name: cmdline-perm.service
+    state: stopped
   - enabled: yes
     name: cray-heartbeat.service
+    state: stopped
   - enabled: yes
     name: csm-node-identity.service
+    state: stopped
   - enabled: yes
     name: spire-agent.service
+    state: stopped
   - enabled: yes
     name: sshd.service
+    state: started

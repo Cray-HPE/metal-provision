@@ -25,25 +25,34 @@
 services:
   - enabled: no
     name: ahslog
+    state: stopped
   - enabled: no
     name: amsd
-  - enabled: yes
-    name: cloud-init-oneshot.service
+    state: stopped
   - enabled: no
     name: cpqFca
+    state: stopped
   - enabled: no
     name: cpqIde
+    state: stopped
   - enabled: no
     name: cpqScsi
+    state: stopped
   - enabled: yes
     name: kdump.service
+    state: started
   - enabled: yes
     name: kdump-early.service
+    state: started
   - enabled: no
     name: metal-iptables.service
+    state: stopped
   - enabled: yes
     name: metalfs.service
+    state: stopped
   - enabled: no
     name: smad
+    state: stopped
   - enabled: yes
     name: sysstat.service
+    state: started

@@ -24,8 +24,8 @@
 ---
 services:
   - name: cray-heartbeat
-    enabled: no
+    enabled: false
     state: stopped
   - name: spire-agent
-    enabled: no
+    enabled: false
     state: stopped

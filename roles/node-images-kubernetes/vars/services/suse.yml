@@ -41,6 +41,6 @@ services:
   - enabled: yes
     name: kubelet.service
     state: stopped
-  - enabled: true
+  - enabled: false
     name: spire-agent.service
     state: stopped

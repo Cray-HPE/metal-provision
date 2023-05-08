@@ -23,7 +23,7 @@
 #
 ---
 services:
-  - enabled: true
+  - enabled: false
     name: cfs-state-reporter.service
     state: stopped
   - enabled: true

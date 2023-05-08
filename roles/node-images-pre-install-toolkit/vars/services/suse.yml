@@ -23,6 +23,3 @@
 #
 ---
 services:
-  - enabled: false
-    name: systemd-remount-fs.service
-    state: stopped

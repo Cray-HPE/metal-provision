@@ -95,6 +95,11 @@ function cleanup_package_manager {
             echo >&2 'Unhandled OS; nothing to do'
             ;;
     esac
+
+    echo 'Removing executable bits from mst'
+    if [ -f /etc/systemd/system/mst.service ] && [ -x /etc/systemd/system/mst.service ]; then
+        chmod 644 /etc/systemd/system/mst.service
+    fi
 }
 
 # Function for removing udev and networkmanager files from the build environment.

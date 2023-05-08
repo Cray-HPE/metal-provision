@@ -139,6 +139,13 @@ function cleanup_history {
     echo '- Clear the history from the install'
     rm -f /root/.wget-hsts
     export HISTSIZE=0
+
+    echo '- Print currently failed services'
+    systemctl list-units --failed
+    echo '- Clear all failed services for a fresh start'
+    systemctl reset-failed
+    echo '- Reprint currently failed services.'
+    systemctl list-units --failed
     echo 'Done'
 }
 

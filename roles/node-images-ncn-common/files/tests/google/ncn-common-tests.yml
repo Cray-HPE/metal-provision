@@ -37,6 +37,3 @@ service:
   metal-iptables.service:
     enabled: false
     running: false
-  metalfs.service:
-    enabled: false
-    running: false

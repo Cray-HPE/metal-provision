@@ -55,9 +55,6 @@ service:
   metal-iptables.service:
     enabled: false
     running: false
-  metalfs.service:
-    enabled: true
-    running: false
   smad.service:
     enabled: false
     running: false

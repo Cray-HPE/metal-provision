@@ -22,10 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- include_tasks:
-    file: packages.yml
-  tags:
-    - packages
-
-- include_tasks:
-    file: services.yml
+services:
+  - enabled: false
+    name: systemd-remount-fs.service
+    state: stopped

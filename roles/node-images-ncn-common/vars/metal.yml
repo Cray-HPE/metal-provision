@@ -24,19 +24,34 @@
 ---
 services:
   - enabled: false
-    name: ahslog
+    name: ahslog.service
     state: stopped
   - enabled: false
-    name: amsd
+    name: amsd.service
     state: stopped
   - enabled: false
-    name: cpqFca
+    name: amsd_rev.service
     state: stopped
   - enabled: false
-    name: cpqIde
+    name: cpqFca.service
     state: stopped
   - enabled: false
-    name: cpqScsi
+    name: cpqFca_rev.service
+    state: stopped
+  - enabled: false
+    name: cpqIde.service
+    state: stopped
+  - enabled: false
+    name: cpqIde_rev.service
+    state: stopped
+  - enabled: false
+    name: cpqScsi.service
+    state: stopped
+  - enabled: false
+    name: cpqScsi_rev.service
+    state: stopped
+  - enabled: false
+    name: cpqiScsi.service
     state: stopped
   - enabled: true
     name: kdump.service
@@ -47,11 +62,17 @@ services:
   - enabled: false
     name: metal-iptables.service
     state: stopped
-  - enabled: true
-    name: metalfs.service
+  - enabled: false
+    name: mr_cpqScsi.service
     state: stopped
   - enabled: false
-    name: smad
+    name: mr_cpqScsi_rev.service
+    state: stopped
+  - enabled: false
+    name: smad.service
+    state: stopped
+  - enabled: false
+    name: smad_rev.service
     state: stopped
   - enabled: true
     name: sysstat.service

@@ -23,24 +23,24 @@
 #
 ---
 services:
-  - enabled: yes
+  - enabled: true
     name: cfs-state-reporter.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: chronyd.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: cmdline-perm.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: cray-heartbeat.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: csm-node-identity.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: spire-agent.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: sshd.service
     state: started

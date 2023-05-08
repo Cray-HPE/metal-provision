@@ -22,8 +22,9 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- hosts: packer
-  become: yes # Enable builds that do not login as root to escalate privilege.
+- name: Node Images PIT
+  hosts: packer
+  become: true # Enable builds that do not login as root to escalate privilege.
   roles:
     # This should, but doesn't, invoke node-images-base, node-images-ncn-common, and node-images-cos-ncn
     # The reason those roles aren't invoked, is because this image builds atop the ncn-common layer. The ncn-common

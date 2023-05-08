@@ -26,6 +26,6 @@ services:
   - enabled: true
     name: cfs-state-reporter.service
     state: stopped
-  - enabled: false
+  - enabled: true
     name: cray-heartbeat.service
     state: stopped

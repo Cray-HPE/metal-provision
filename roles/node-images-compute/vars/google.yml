@@ -24,23 +24,23 @@
 ---
 services:
   - name: google-guest-agent.service
-    enabled: yes
+    enabled: true
     state: started
   - name: google-oslogin-cache.service
-    enabled: yes
+    enabled: true
     state: stopped
   - name: google-oslogin-cache.timer
-    enabled: yes
+    enabled: true
     state: started
   - name: google-shutdown-scripts.service
-    enabled: yes
+    enabled: true
     state: stopped
   - name: google-startup-scripts.service
-    enabled: yes
+    enabled: true
     state: stopped
   - name: kdump.service
-    enabled: yes
+    enabled: true
     state: stopped
   - name: kdump-early.service
-    enabled: yes
+    enabled: true
     state: stopped

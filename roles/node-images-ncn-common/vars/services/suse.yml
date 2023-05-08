@@ -23,78 +23,78 @@
 #
 ---
 services:
-  - enabled: yes
+  - enabled: true
     name: ca-certificates.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: chronyd.service
     state: stopped
-  - enabled: no
+  - enabled: false
     name: cloud-config.service
     state: stopped
-  - enabled: no
+  - enabled: false
     name: cloud-init.service
     state: stopped
-  - enabled: no
+  - enabled: false
     name: cloud-init-local.service
     state: stopped
   - enabled: false
     name: cloud-init-oneshot.service
     state: stopped
-  - enabled: no
+  - enabled: false
     name: cloud-final.service
     state: stopped
-  - enabled: no
+  - enabled: false
     name: csm-node-identity.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: getty@tty1.service
     state: started
-  - enabled: yes
+  - enabled: true
     name: goss-servers
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: issue-generator.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: multi-user.target
     state: started
-  - enabled: no
+  - enabled: false
     name: postfix.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: purge-kernels.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: rasdaemon.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: rc-local.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: rollback.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: serial-getty@ttyS0.service
     state: stopped
   - enabled: false
     name: spire-agent.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: sshd.service
     state: started
-  - enabled: yes
+  - enabled: true
     name: wicked.service
     state: started
-  - enabled: yes
+  - enabled: true
     name: wickedd-auto4.service
     state: started
-  - enabled: yes
+  - enabled: true
     name: wickedd-dhcp4.service
     state: started
-  - enabled: yes
+  - enabled: true
     name: wickedd-dhcp6.service
     state: started
-  - enabled: yes
+  - enabled: true
     name: wickedd-nanny.service
     state: started

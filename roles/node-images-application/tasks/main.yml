@@ -22,7 +22,8 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- include_tasks:
+- name: Include package tasks
+  ansible.builtin.include_tasks:
     file: packages.yml
     apply:
       tags: packages
@@ -31,27 +32,30 @@
     - packages
 
 - name: Copy cloud.cfg configuration
-  copy:
+  ansible.builtin.copy:
     src: files/cloud.cfg
     dest: /etc/cloud/cloud.cfg
+    mode: "644"
 
 # Perms shold be set a different way
 - name: Install cmdline-perm.service
-  copy:
+  ansible.builtin.copy:
     src: cmdline-perm.service
     dest: /usr/lib/systemd/system/cmdline-perm.service
+    mode: "644"
 
 - name: Remove ROOTRAID mount
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/fstab
     state: absent
     regexp: '^LABEL=ROOTRAID.*'
 
-- include_tasks:
+- name: Include service tasks
+  ansible.builtin.include_tasks:
     file: services.yml
 
 - name: Google tasks
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: google.yml
     apply:
       tags: google
@@ -60,7 +64,7 @@
     - never
 
 - name: Metal tasks
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: metal.yml
     apply:
       tags: metal
@@ -69,7 +73,7 @@
     - never
 
 - name: Vagrant tasks
-  include_tasks:
+  ansible.builtin.include_tasks:
     file: vagrant.yml
     apply:
       tags: vagrant

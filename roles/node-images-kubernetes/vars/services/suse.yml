@@ -23,22 +23,22 @@
 #
 ---
 services:
-  - enabled: yes
+  - enabled: true
     name: cloud-config.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: cloud-init.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: cloud-init-local.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: cloud-final.service
     state: stopped
   - enabled: true
     name: csm-node-identity.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: kubelet.service
     state: stopped
   - enabled: false

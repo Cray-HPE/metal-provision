@@ -22,13 +22,14 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- include_vars:
-    file: google.yml
+- name: Include google vars
+  ansible.builtin.include_vars:
+    ansible.builtin.file: google.yml
 
 - name: Setup Daemons
-  systemd:
+  ansible.builtin.systemd:
     name: "{{ item.name }}"
     enabled: "{{ item.enabled }}"
     masked: "{{ item.masked | default(false) }}"
-    daemon_reload: yes
+    daemon_reload: true
   loop: "{{ services }}"

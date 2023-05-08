@@ -27,24 +27,24 @@ required_suse_extensions:
   - sle-module-server-applications
   - sle-module-public-cloud
 services:
-  - enabled: yes
+  - enabled: true
     name: google-guest-agent.service
     state: started
-  - enabled: yes
+  - enabled: true
     name: google-oslogin-cache.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: google-oslogin-cache.timer
     state: started
-  - enabled: yes
+  - enabled: true
     name: google-shutdown-scripts.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: google-startup-scripts.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: kdump.service
     state: stopped
-  - enabled: yes
+  - enabled: true
     name: kdump-early.service
     state: stopped

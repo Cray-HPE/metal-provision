@@ -32,7 +32,7 @@
 
 - name: Blacklist kernel modules
   lineinfile:
-    create: yes
+    create: true
     path: /etc/modprobe.d/disabled-modules.conf
     regexp: 'install {{ item }} /bin/true'
     line: 'install {{ item }} /bin/true'
@@ -41,7 +41,7 @@
 
 - name: Blacklist kernel modules for kdump
   lineinfile:
-    backrefs: yes
+    backrefs: true
     path: /etc/sysconfig/kdump
     regexp: '^(KDUMP_COMMANDLINE_APPEND)="(.*)"'
     line: "\\g<1>=\"module_blacklist={{ kernel.blacklists.kdump | join(',') }} \\g<2>\""

@@ -22,11 +22,12 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- include_vars:
+- name: Include metal vars
+  ansible.builtin.include_vars:
     file: metal.yml
 
 - name: Configure dhcp settings
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/sysconfig/network/dhcp
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"

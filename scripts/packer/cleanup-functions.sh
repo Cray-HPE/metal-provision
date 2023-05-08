@@ -95,6 +95,11 @@ function cleanup_package_manager {
             echo >&2 'Unhandled OS; nothing to do'
             ;;
     esac
+
+    echo 'Removing executable bits from mst'
+    if [ -f /etc/systemd/system/mst.service ] && [ -x /etc/systemd/system/mst.service ]; then
+        chmod 644 /etc/systemd/system/mst.service
+    fi
 }
 
 # Function for removing udev and networkmanager files from the build environment.
@@ -139,6 +144,13 @@ function cleanup_history {
     echo '- Clear the history from the install'
     rm -f /root/.wget-hsts
     export HISTSIZE=0
+
+    echo '- Print currently failed services'
+    systemctl list-units --failed
+    echo '- Clear all failed services for a fresh start'
+    systemctl reset-failed
+    echo '- Reprint currently failed services.'
+    systemctl list-units --failed
     echo 'Done'
 }
 

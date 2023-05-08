@@ -91,6 +91,7 @@
 
 - name: Copy sysctl configuration
   synchronize:
+    delete: false
     src: sysctl.d/
     dest: /etc/sysctl.d/
 

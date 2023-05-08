@@ -57,6 +57,9 @@ services:
     name: issue-generator.service
     state: stopped
   - enabled: true
+    name: metalfs.service
+    state: stopped
+  - enabled: true
     name: multi-user.target
     state: started
   - enabled: false

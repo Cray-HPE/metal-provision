@@ -25,5 +25,5 @@
 packages:
   - cray-auth-utils=0.4.1-2.5_20230113043005__g4aa0940
   - cray-power-button=1.5.2-2.5_20230113081448__g0fcacce
-  - cray-heartbeat=1.9.1-2.5_1.10__gcf13165.shasta
+  - cray-heartbeat=1.9.1-2.5_1.11__gcf13165.shasta
 patterns:

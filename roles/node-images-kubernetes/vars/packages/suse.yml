@@ -28,7 +28,7 @@ packages:
   - kubeadm=1.21.12-0
   - kubelet=1.21.12-0
   # CSM
-  - cray-cmstools-crayctldeploy=1.11.10-1
+  - cray-cmstools-crayctldeploy=1.11.11-1
   - platform-utils=1.5.2-1
   # Metal
   - dracut-metal-dmk8s=2.1.0-1

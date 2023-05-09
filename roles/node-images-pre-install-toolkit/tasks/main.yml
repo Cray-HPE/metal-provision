@@ -27,15 +27,6 @@
   tags:
     - packages
 
-# kdump reads the fstab to find root, which it uses for writing dumps to.
-# This needs to be a writable partition, such as the overlayFS.
-# ROOTRAID is the overlayFS for most other things, but for the PIT that's the "cow".
-- name: Update fstab for kdump
-  ansible.builtin.replace:
-    path: /etc/fstab
-    regexp: 'ROOTRAID'
-    replace: 'cow'
-
 # TODO: Enable once services exist in vars/services/suse.yml
 #- include_tasks:
 #    file: services.yml

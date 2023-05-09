@@ -26,6 +26,6 @@
   hosts: packer
   become: true # Enable builds that do not login as root to escalate privilege.
   roles:
-    - node-images-base
-    - node-images-ncn-common
-    - node-images-cos-ncn
+    - node_images_base
+    - node_images_ncn_common
+    - node_images_cos_ncn

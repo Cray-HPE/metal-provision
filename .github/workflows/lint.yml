@@ -7,6 +7,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # needed for progressive mode to work
       - name: Ansible Lint
         uses: ansible-community/ansible-lint-action@v6.15.0
-

@@ -29,5 +29,5 @@ packages:
   - cloud-init
   - helm
   - libvirt
-  - libvirt-clien
+  - libvirt-client
   - nfs-utils

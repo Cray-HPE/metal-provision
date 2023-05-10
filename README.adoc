@@ -34,7 +34,7 @@ This handling exists as a legacy function:
 
 * `roles/<role>/vars/services/<distro>.yml`
 * `roles/<role>/vars/<medium>.yml`
-** e.g. `metal.yml` contains metal specific things, inclusive of a `services` dictionary.
+** e.g. `metal.yml` contains metal specific variables, including a `services` dictionary while the file lives outside of the `services/` folder.
 ** This does not support multiple distros, putting the role in a corner.
 
 ==== Medium Specific Tasks and Variables
@@ -68,14 +68,14 @@ roles/<role>/vars/packages/<distro>[-<arch>].yml
 . Add a new YAML file for the distro.
 The `&lt;distro&gt;` name needs to match the Ansible fact
 `ansible_distribution_file_variety | lower`.
-. Update the `tasks/packages.yml` file for the new distro and package manager, simply copy-paste one of the other distro's `block`s and refactor it for the appropriate package manager module.
+. Update the `tasks/packages.yml` file for the new distro and package manager, copy-paste one of the other distro's `block`s and refactor it for the appropriate package manager module.
 
 Note:: The `&lt;arch&gt;` is optional.
 Defining a YAML by `&lt;distro&gt;` without an `&lt;arch&gt;` value implies that the packages listed are intended for all architectures.
 
 === Adding architecture specific package lists
 
-The package installation tasks already search for architectures depending on the environment, to add a new architecture one can simply drop a new YAML file for the appropriate `&lt;distro&gt;` (the value returned by
+The package installation tasks already search for architectures depending on the environment, to add a new architecture one can drop a new YAML file for the appropriate `&lt;distro&gt;` (the value returned by
 `ansible_distribution_file_variety | lower`) and `-&lt;arch&gt;` (the value returned by `ansible_architecture`).
 
 Note:: There must always be a `&lt;distro&gt;.yml` file before there can be any `&lt;distro&gt;-&lt;arch&gt;.yml` files.

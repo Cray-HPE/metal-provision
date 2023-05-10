@@ -21,7 +21,8 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
+---#
+ NOTE: This list is incomplete, at this time there is no base image for Debian to use as a test.
 services:
   - enabled: true
     name: libvirtd.service

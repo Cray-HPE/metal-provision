@@ -95,6 +95,17 @@
       tags:
       - always
 
+    - name: Check packages
+      zypper:
+        allow_vendor_change: true
+        disable_recommends: true
+        force_resolution: false
+        name: "{{ packages }}"
+        oldpackage: true
+        state: present
+        update_cache: false
+        extra_args: '--dry-run'
+
     - name: Install packages
       zypper:
         allow_vendor_change: true

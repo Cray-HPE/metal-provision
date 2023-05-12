@@ -22,7 +22,8 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- hosts: packer
+- name: Node Images Application
+  hosts: packer
   become: yes
   environment:
     HTTPS_PROXY: "{{ HTTPS_PROXY }}"

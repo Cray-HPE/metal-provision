@@ -32,8 +32,8 @@ dhcp:
 
 services:
   - name: kdump.service
-    enabled: yes
+    enabled: true
     state: started
   - name: kdump-early.service
-    enabled: no
+    enabled: false
     state: started

@@ -32,5 +32,3 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   loop: "{{ dhcp }}"
-  ignore_errors: true
-

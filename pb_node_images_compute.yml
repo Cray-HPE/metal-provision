@@ -22,7 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Node Images Application
+- name: Node Images Compute
   hosts: packer
   become: yes
   environment:

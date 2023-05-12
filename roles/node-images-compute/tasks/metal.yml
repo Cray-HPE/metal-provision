@@ -39,4 +39,3 @@
     masked: "{{ item.masked | default(false) }}"
     state: "{{ item.state }}"
   loop: "{{ services }}"
-  ignore_errors: true

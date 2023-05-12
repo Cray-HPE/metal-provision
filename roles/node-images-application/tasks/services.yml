@@ -73,6 +73,5 @@
         masked: "{{ item.masked | default(false) }}"
         state: "{{ item.state }}"
       loop: "{{ services }}"
-      ignore_errors: true
 
   when: ansible_distribution_file_variety == "SUSE"

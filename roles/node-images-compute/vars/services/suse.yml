@@ -24,9 +24,6 @@
 ---
 services:
   - enabled: true
-    name: cfs-state-reporter.service
-    state: stopped
-  - enabled: true
     name: chronyd.service
     state: stopped
   - enabled: true

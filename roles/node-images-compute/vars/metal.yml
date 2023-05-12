@@ -30,10 +30,4 @@ dhcp:
   - regexp: '^DHCLIENT_SET_HOSTNAME='
     line: 'DHCLIENT_SET_HOSTNAME="yes"'
 
-services:
-  - name: kdump.service
-    enabled: true
-    state: started
-  - name: kdump-early.service
-    enabled: false
-    state: started
+services: []

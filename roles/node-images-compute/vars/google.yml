@@ -38,9 +38,3 @@ services:
   - name: google-startup-scripts.service
     enabled: true
     state: stopped
-  - name: kdump.service
-    enabled: true
-    state: stopped
-  - name: kdump-early.service
-    enabled: true
-    state: stopped

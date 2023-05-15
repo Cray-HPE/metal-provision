@@ -24,7 +24,7 @@
 ---
 - name: Node Images Compute
   hosts: packer
-  become: yes
+  become: true
   environment:
     HTTPS_PROXY: "{{ HTTPS_PROXY }}"
   roles:

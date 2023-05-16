@@ -1,0 +1,2 @@
+roles/node_images_base/tasks/main.yml command-instead-of-module
+roles/node_images_base/tasks/main.yml no-changed-when

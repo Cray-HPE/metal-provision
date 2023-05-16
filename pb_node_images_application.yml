@@ -28,6 +28,6 @@
   environment:
     HTTPS_PROXY: "{{ HTTPS_PROXY }}"
   roles:
-    - node-images-base
-    - node-images-application
-    - node-images-cos-cn
+    - node_images_base
+    - node_images_application
+    - node_images_cos_cn

@@ -38,6 +38,8 @@ packages:
   - libopenblas_pthreads0=0.3.20-150400.2.3
   - munge=0.5.15-150400.18.3.6
   - typelib-1_0-Gtk-3_0=3.24.34-150400.3.3.1
+  # CMS Team
+  - cfs-state-reporter=1.9.2-1
   # COS General Packages
   # - cray-auth-utils                     :
   # - cray-chrony-dracut                  : NTP setup in dracut

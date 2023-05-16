@@ -79,6 +79,7 @@ packages:
   - git-core=2.35.3-150300.10.27.1
   - gnuplot=5.4.3-150400.1.6
   - hdparm=9.62-150400.1.7
+  - lshw=B.02.19.2+git.20230320-150200.3.15.4
   # Can't install helm-bash-completion due to a conflict with loftsman
   # helm and helm-bash-completion are thus installed only in node-images-hypervisor until that conflict is resolved.
   #  - helm-bash-completion=3.11.2-150000.1.19.1

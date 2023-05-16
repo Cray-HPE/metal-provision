@@ -29,6 +29,7 @@ packages:
   - ceph-common<17.2.6
   - conman=0.3.0-150400.9.10
   - cpupower=5.14-150400.3.3.1
+  - cvt=1.4.19-20230502082908_9b144f009c61
   - dracut-metal-mdsquash=2.4.2-1
   - emacs=27.2-150400.3.6.1
   - gperftools=2.5-4.12

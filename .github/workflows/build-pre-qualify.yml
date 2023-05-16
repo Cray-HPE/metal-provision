@@ -1,0 +1,121 @@
+name: Pre-qualify
+on:
+  push:
+  workflow_call:
+  workflow_dispatch:
+
+env:
+  DOCKER_REGISTRY: "https://artifactory.algol60.net/csm-docker/stable"
+  ARTIFACTORY_USER: "${{ secrets.ARTIFACTORY_ALGOL60_READONLY_USERNAME }}"
+  ARTIFACTORY_TOKEN: "${{ secrets.ARTIFACTORY_ALGOL60_READONLY_TOKEN }}"
+  SUFFIX: "${{ github.run_id }}-${{ github.run_number}}"
+
+jobs:
+  rpm-check-x86_64:
+    strategy:
+      fail-fast: true
+    runs-on: [ ubuntu-latest ]
+    env:
+      ARCH: x86_64
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Docker login
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ env.ARTIFACTORY_USER }}
+          password: ${{ env.ARTIFACTORY_TOKEN }}
+
+      - name: Setup docker cache
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} --refresh --no-cache --suffix ${SUFFIX}
+          scripts/update-package-versions.sh -a ${ARCH} --compute --refresh --no-cache --suffix ${SUFFIX}
+
+      - name: Validate node-image-base packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-base/vars/packages/suse.yml --validate --suffix ${SUFFIX}
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-base/vars/packages/suse-${ARCH}.yml --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-application packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-application/vars/packages/suse.yml --compute --validate --suffix ${SUFFIX}
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-application/vars/packages/suse-${ARCH}.yml --compute --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-compute packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-compute/vars/packages/suse.yml --compute --validate --suffix ${SUFFIX}
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-compute/vars/packages/suse-${ARCH}.yml --compute --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-compute COS packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-cos-cn/vars/packages/suse.yml --compute --validate --suffix ${SUFFIX}
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-cos-cn/vars/packages/suse-${ARCH}.yml --compute --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-cos-ncn packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p /roles/node-images-cos-ncn/vars/packages/suse.yml --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-ncn-common packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-ncn-common/vars/packages/suse.yml --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-hypervisor packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-hypervisor/vars/packages/suse.yml --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-pre-install-toolkit packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-pre-install-toolkit/vars/packages/suse.yml --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-kubernetes packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-kubernetes/vars/packages/suse.yml --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-storage-ceph packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-storage-ceph/vars/packages/suse.yml --validate --suffix ${SUFFIX}
+
+  rpm-check-aarch64:
+    strategy:
+      fail-fast: true
+    runs-on: [ ubuntu-latest ]
+    env:
+      ARCH: aarch64
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Docker login
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ env.ARTIFACTORY_USER }}
+          password: ${{ env.ARTIFACTORY_TOKEN }}
+
+      - name: Install pre-reqs for ARM64
+        run: docker run --privileged --rm tonistiigi/binfmt --install arm64
+        
+      - name: Setup docker cache
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} --refresh --no-cache --suffix ${SUFFIX}
+          scripts/update-package-versions.sh -a ${ARCH} --compute --refresh --no-cache --suffix ${SUFFIX}
+
+      - name: Validate node-image-base packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-base/vars/packages/suse.yml --validate --suffix ${SUFFIX}
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-base/vars/packages/suse-${ARCH}.yml --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-application packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-application/vars/packages/suse.yml --compute --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-compute packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-compute/vars/packages/suse.yml --compute --validate --suffix ${SUFFIX}
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-compute/vars/packages/suse-aarch64.yml --compute --validate --suffix ${SUFFIX}
+
+      - name: Validate node-image-compute COS packages
+        run: |
+          scripts/update-package-versions.sh -a ${ARCH} -p roles/node-images-cos-cn/vars/packages/suse.yml --compute --validate --suffix ${SUFFIX}

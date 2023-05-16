@@ -22,7 +22,7 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-set -e
+set -eo pipefail
 
 realpath() {
   [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
@@ -194,8 +194,9 @@ if [[ "$REFRESH" == "true" ]]; then
   fi
 fi
 
-if [[ -z "$PACKAGES_FILE" ]]; then
+if [[ -z "$PACKAGES_FILE" || ! -f "$PACKAGES_FILE" ]]; then
     echo >&2 "error: missing -p packages-file option"
+    echo >&2 "or $PACKAGES_FILE is not a file"
     usage
     exit 3
 fi

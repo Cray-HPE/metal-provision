@@ -88,7 +88,7 @@ pipeline {
 
                         stage('Validate node-image-cos-ncn packages') {
                             steps {
-                                sh "./scripts/update-package-versions.sh -a x86_64 -p /roles/node_images_cos_ncn/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_cos_ncn/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 

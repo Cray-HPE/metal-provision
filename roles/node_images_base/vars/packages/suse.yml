@@ -47,7 +47,7 @@ packages:
   # Google Compute
   - google-guest-agent=20230510.00-150400.40.1
   - google-guest-configs=20230217.01-150400.21.2
-  - google-guest-oslogin=20230502.00-150400.32.1
+  - google-guest-oslogin=20230502.00-150400.33.1
   # csm
   - craycli=0.81.1-1
   - csm-node-identity=1.0.20-1

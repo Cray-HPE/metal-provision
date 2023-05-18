@@ -60,7 +60,7 @@ packages:
   - bsdtar=3.5.1-150400.3.12.1
   - ca-certificates-mozilla=2.60-150200.27.1
   - ca-certificates=2+git20210309.21162a6-2.1
-  - curl=7.79.1-150400.5.18.1
+  - curl=8.0.1-150400.5.23.1
   - dkms=2.6.1-bp154.1.30
   - dmidecode=3.4-150400.16.8.1
   - dump=0.4b47-150400.1.10

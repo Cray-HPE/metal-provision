@@ -24,6 +24,8 @@
 ---
 packages:
   - java-11-openjdk-devel=11.0.18.0-150000.3.93.1
+  # CMS Team
+  - bos-reporter=2.3.0-1
   # CDST GUI Packages
   - libGLU1=9.0.0-8.45
   - libatk-1_0-0=2.36.0-150400.2.9

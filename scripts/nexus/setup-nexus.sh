@@ -173,14 +173,19 @@ function nexus-proxy() {
     list-cray-repos-files
     list-compute-repos-files
 
+    basearch="$(uname -m)"
+    sle_version="$(awk -F= '/VERSION_ID/{gsub(/["]/,""); print $NF}' /etc/os-release)"
+    sle_major="${sle_version%.*}"
+    sle_minor="${sle_version#*.}"
+
     for repo_file in "${WORKING_DIR}"/../repos/*.repos; do
         if [[ $repo_file =~ template ]]; then
             continue
         fi
-        mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
-        for repo in "${repos[@]}"; do
-            name="$(echo ${repo} | awk -F, '{print $NF}')"
-            url="$(echo ${repo} | sed 's/'"${ARTIFACTORY_USER}"':'"${ARTIFACTORY_TOKEN}"'@//' | awk -F, '{print $1}')"
+	remove-comments-and-empty-lines "$repo_file" | \
+	while read -r url name flags; do
+            url="$(echo ${url} | sed 's/'"${ARTIFACTORY_USER}"':'"${ARTIFACTORY_TOKEN}"'@//' | awk -F, '{print $1}')"
+	        url="$(echo $url | sed -e 's/${releasever_major}/'"${sle_major}"'/' -e 's/${releasever_minor}/'"${sle_minor}"'/' -e 's/${basearch}/'"${basearch}"'/' -e 's/${releasever}/'"${sle_version}"'/')"
             echo $name $url
             curl \
             -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
@@ -224,7 +229,10 @@ function nexus-proxy() {
   }
 }
 EOF
-        zypper ar "${NEXUS_URL}/repository/${name}" "${name}"
+        zypper ar $flags "${NEXUS_URL}/repository/${name}" "${name}"
+
+        # FIXME: The GPG check won't work because nexus does not have the GPG keys necessary. Disable GPG check for all.
+        zypper mr --no-gpgcheck "${name}"
         done
     done
 }
@@ -242,11 +250,11 @@ function setup-zypper-nexus() {
         if [[ $repo_file =~ template ]]; then
             continue
         fi
-        mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
-        for repo in "${repos[@]}"; do
-            name="$(echo ${repo} | awk -F, '{print $NF}')"
+    	remove-comments-and-empty-lines "$repo_file" | \
+	    while read -r url name flags; do
             url="$(echo ${repo} | sed 's/.*@//' | awk -F, '{print $1}')"
-        zypper ar --no-gpgcheck "${NEXUS_URL}/repository/${name}" "${name}"
+        zypper ar $flags "${NEXUS_URL}/repository/${name}" "${name}"
+        zypper mr --no-gpgcheck "${name}"
         done
     done
 }

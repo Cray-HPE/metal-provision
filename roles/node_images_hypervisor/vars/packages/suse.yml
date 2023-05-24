@@ -35,7 +35,7 @@ packages:
   - libstdc++-devel=7-3.9.1
   - ruby2.5-devel=2.5.9-150000.4.26.1
   - ruby3.1-devel=3.1.4-lp154.36.1
-  - libguestfs=1.44.2-150400.3.3.1
+  - libguestfs0=1.44.2-150400.3.3.1
   - libvirt-client=8.0.0-150400.7.3.1
   - libvirt-devel=8.0.0-150400.7.3.1
   - libvirt=8.0.0-150400.7.3.1

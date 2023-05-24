@@ -225,9 +225,9 @@ function update-package-versions() {
         #shellcheck disable=SC2155
         local current_version
         if [[ $packages_path =~ .*ya?ml ]]; then
-            current_version=$(yq '.packages' < $packages_path | remove-comments-and-empty-lines | grep -oP "^${package}[=<>]\K.*$")
+            current_version=$(yq '.packages' < $packages_path | remove-comments-and-empty-lines | grep -oP "^${package//+/\\+}[=<>]\K.*$")
         else
-            current_version=$(remove-comments-and-empty-lines $packages_path | grep -oP "^${package}[=<>]\K.*$")
+            current_version=$(remove-comments-and-empty-lines $packages_path | grep -oP "^${package//+/\\+}[=<>]\K.*$")
         fi
         #shellcheck disable=SC2155
         local latest_version=$(echo "${package_info}" | grep -oPz "Name + : ${package}\nVersion + : \K.*" | tr '\0' '\n')

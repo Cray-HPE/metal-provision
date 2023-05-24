@@ -23,6 +23,3 @@
 #
 ---
 default_hostname: hypev
-vagrant:
-  plugins:
-    - vagrant-env

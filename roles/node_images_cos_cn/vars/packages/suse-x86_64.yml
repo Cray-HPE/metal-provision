@@ -23,5 +23,5 @@
 #
 ---
 packages:
-  - cray-heartbeat=1.9.1-2.5_2.15__gcf13165.shasta
+  - cray-heartbeat=1.9.1-2.5_2.16__gcf13165.shasta
 patterns:

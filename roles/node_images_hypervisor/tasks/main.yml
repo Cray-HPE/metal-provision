@@ -46,18 +46,6 @@
     line: '#!/usr/bin/python3.6'
     path: /usr/bin/cloud-init
 
-- name: Read vagrant plugins
-  ansible.builtin.command: "vagrant plugin list"
-  changed_when: false
-  register: vagrant_plugins
-
-- name: Install vagrant plugins
-  ansible.builtin.command: vagrant plugin install "{{ item }}"
-  changed_when: '"Installed the plugin" in install_output.stdout'
-  register: install_output
-  when: 'item not in vagrant_plugins.stdout'
-  loop: "{{ vagrant.plugins }}"
-
 - name: Setup services
   ansible.builtin.include_tasks:
     file: services.yml

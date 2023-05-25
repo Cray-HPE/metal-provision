@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,15 +22,12 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-packages:
-  # cloud-init often updates and goes missing in repodata, use `<23.2` to grab 23.1 no matter the release.
-  - cloud-init-config-suse<23.2
-  - cloud-init-doc<23.2
-  - cloud-init<23.2
-  - cri-tools=1.25.0-0
-  - ipvsadm=1.29-4.3.1
-  - kubeadm=1.22.13-0
-  - kubelet=1.22.13-0
-  - kubectl=1.22.13-0
-  - supportutils-plugin-cloud-init=1.1-150400.1.5
-patterns:
+- name: Node Images Kubernetes
+  hosts: packer
+  become: true # Enable builds that do not login as root to escalate privilege.
+  roles:
+    # This should, but doesn't, invoke node_images_base, node_images_ncn_common, and node_images_cos_ncn
+    # The reason those roles aren't invoked, is because this image builds atop the ncn-common layer. The ncn-common
+    # layer will be deprecated, if that happens during the lifetime of this layer then the aforementioned roles will need
+    # to be added.
+    - node_images_ncn_kubernetes

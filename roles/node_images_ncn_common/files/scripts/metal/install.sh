@@ -66,7 +66,7 @@ hardware() {
 bmc_reset() {
     cat >&2 << EOM
 NOTICE: The BMC is being RESET in order to cease and desist any further DHCPREQUESTs from the BMC.
-The remote management module controllers (a.k.a. RMMC and BMCs) have been known to continue 
+The remote management module controllers (a.k.a. RMMC and BMCs) have been known to continue
 DHCPREQUESTs despite changing their IP source to STATIC.
 
 CONSOLES will cease working while the BMC is reset (8-20seconds).
@@ -98,7 +98,8 @@ EOM
 csm() {
     (
         set -x
-        install_csm_rpms
+        systemctl stop goss-servers
+        systemctl enable --now goss-servers
     ) 2>/var/log/cloud-init-metal-csm.error
 }
 
@@ -119,8 +120,8 @@ csm() {
     # 4.
     printf 'Metal Install: [ % -20s ]\n' "running: BMC Reset" >&2
     [ -n "$METAL_TIME" ] && time bmc_reset || bmc_reset
-    
-    # 5. 
+
+    # 5.
     printf 'Metal Install: [ % -20s ]\n' 'running: CSM layer' >&2
     [ -n "$METAL_TIME" ] && time csm || csm
 

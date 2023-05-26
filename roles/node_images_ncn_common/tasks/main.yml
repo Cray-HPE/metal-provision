@@ -82,6 +82,18 @@
     src: cloud.cfg
     dest: /etc/cloud/cloud.cfg
 
+- name: Copy cloud.cfg.d configuration
+  ansible.posix.synchronize:
+    delete: true
+    src: cloud/cloud.cfg.d/
+    dest: /etc/cloud/cloud.cfg.d/
+
+- name: Copy cloud templates configuration
+  ansible.posix.synchronize:
+    delete: true
+    src: cloud/templates/
+    dest: /etc/cloud/templates/
+
 - name: Copy logrotate configuration
   ansible.posix.synchronize:
     src: logrotate.d/

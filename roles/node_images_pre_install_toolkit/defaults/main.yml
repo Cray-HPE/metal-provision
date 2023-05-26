@@ -1,0 +1,5 @@
+---
+apache2_modules:
+  - rewrite
+  - proxy
+  - proxy_http

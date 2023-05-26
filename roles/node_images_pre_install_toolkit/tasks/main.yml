@@ -28,6 +28,18 @@
   tags:
     - packages
 
+- name: Configure apache2 modules
+  ansible.builtin.lineinfile:
+    path: /etc/apache2/loadmodule.conf
+    regexp: "{{ item.regexp }}"
+    line: "LoadModule {{ item }}_module /usr/lib64/apache2-prefork/mod_{{ item }}.so"
+
+- name: Copy nexus vhost
+  ansible.builtin.copy:
+    mode: '0644'
+    src: apache2/nexus.conf
+    dest: /etc/apache2/vhosts.d/nexus.conf
+
 # TODO: Enable once services exist in vars/services/suse.yml
 # - name: Setup services
 #   ansible.builtin.include_tasks:

@@ -31,7 +31,7 @@
 - name: Configure apache2 modules
   ansible.builtin.lineinfile:
     path: /etc/apache2/loadmodule.conf
-    regexp: "{{ item.regexp }}"
+    regexp: "^LoadModule {{ item }}"
     line: "LoadModule {{ item }}_module /usr/lib64/apache2-prefork/mod_{{ item }}.so"
   loop: "{{ apache2_modules }}"
 

@@ -33,6 +33,7 @@
     path: /etc/apache2/loadmodule.conf
     regexp: "{{ item.regexp }}"
     line: "LoadModule {{ item }}_module /usr/lib64/apache2-prefork/mod_{{ item }}.so"
+  loop: "{{ apache2_modules }}"
 
 - name: Copy nexus vhost
   ansible.builtin.copy:

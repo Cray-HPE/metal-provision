@@ -330,9 +330,13 @@ function setup-apache2-https-proxy() {
         return 1
     fi
     "${PITDATA}/prep/site-init/utils/secrets-decrypt.sh" gen_platform_ca_1 \
-    | jq -r '.data."ca_bundle.crt" | @base64d' > /etc/apache2/ssl.crt/ca.crt
+        "${PITDATA}/prep/site-init/certs/sealed_secrets.key" \
+        "${PITDATA}/prep/site-init/customizations.yaml" \
+        | jq -r '.data."ca_bundle.crt" | @base64d' > /etc/apache2/ssl.crt/ca.crt
     "${PITDATA}/prep/site-init/utils/secrets-decrypt.sh" gen_platform_ca_1 \
-    | jq -r '.data."root_ca.key" | @base64d' > /etc/apache2/ssl.key/ca.key
+        "${PITDATA}/prep/site-init/certs/sealed_secrets.key" \
+        "${PITDATA}/prep/site-init/customizations.yaml" \
+        | jq -r '.data."root_ca.key" | @base64d' > /etc/apache2/ssl.key/ca.key
     if [ ! -f /etc/apache2/vhosts.d/nexus-ssl.conf ]; then
         cp -p "$(dirname $0)/nexus-ssl.conf" /etc/apache2/vhosts.d/nexus-ssl.conf
         systemctl restart apache2

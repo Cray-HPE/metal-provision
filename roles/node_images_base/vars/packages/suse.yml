@@ -50,8 +50,8 @@ packages:
   - google-guest-oslogin=20230502.00-150400.33.1
   # csm
   - craycli=0.81.2-1
-  - csm-node-identity=1.0.20-1
   - csm-auth-utils=1.0.0-1
+  - csm-node-identity=1.0.20-1
   - spire-agent=1.5.5-1.7
   # user tools
   - at=3.2.2-150400.4.3.10

@@ -26,4 +26,5 @@ packages:
   # cloud-init often updates and goes missing in repodata, use `<23.2` to grab 23.1 no matter the release.
   - cloud-init-config-suse<23.2
   - cloud-init<23.2
+  - csm-auth-utils=1.0.0-1
 patterns:

@@ -23,6 +23,5 @@
 #
 ---
 packages:
-  - cray-auth-utils=0.4.1-2.5_20230113043005__g4aa0940
   - cray-chrony-dracut=1.5.0-2.5_20230112202042__g70be251
 patterns:

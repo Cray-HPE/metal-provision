@@ -45,7 +45,7 @@ packages:
   # kdump analysis
   - crash=7.3.0-150400.3.5.8
   # Google Compute
-  - google-guest-agent=20230510.00-150400.40.1
+  - google-guest-agent=20230510.00-150400.40.2
   - google-guest-configs=20230217.01-150400.21.2
   - google-guest-oslogin=20230502.00-150400.33.1
   # csm

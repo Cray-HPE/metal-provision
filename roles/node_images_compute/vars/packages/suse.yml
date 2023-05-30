@@ -24,6 +24,8 @@
 ---
 packages:
   - java-11-openjdk-devel=11.0.18.0-150000.3.93.1
+  # CSM Team
+  - csm-auth-utils=1.0.0-1
   # CMS Team
   - bos-reporter=2.3.0-1
   # CDST GUI Packages
@@ -41,7 +43,6 @@ packages:
   - munge=0.5.15-150400.18.3.6
   - typelib-1_0-Gtk-3_0=3.24.34-150400.3.3.1
   # COS General Packages
-  # - cray-auth-utils                     :
   # - cray-chrony-dracut                  : NTP setup in dracut
   # - cray-hugepage-setup                 : Customizing hugepage setup
   # - cray-network-dracut                 : Custom ifup.sh scripts for generic distribution

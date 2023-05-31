@@ -277,7 +277,7 @@ function nexus-get-credential() {
 }
 
 function setup-nexus-server() {
-    set -x
+
     local name
     local repo_name
 

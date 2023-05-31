@@ -48,6 +48,7 @@ NEXUS_USERNAME      (required) Nexus username (default: $DEFAULT_NEXUS_USERNAME)
 NEXUS_PASSWORD      (required) Nexus password (default: $DEFAULT_NEXUS_PASSWORD)
 PITDATA             (for server mode only) path to where the prep/site-init directory structure is
 CSM_PATH            (for server mode only) path to the CSM release tarball
+CSM_RELEASE         (for server mode only) name of the CSM release
 
 Options:
 
@@ -290,13 +291,17 @@ function setup-nexus-server() {
             name="$(basename "$directory")"
             if [ "$name" = "noos" ]; then
                 # Make noos repo a simple name.
-                repo_name='csm-rpms'
+                repo_name="csm-${CSM_RELEASE}"
             else
                 # Name distro specific repos with their distro name in lower case.
-                repo_name="csm-rpms-${name,,}"
+                repo_name="csm-${CSM_RELEASE}-${name,,}"
             fi
             if ! nexus-create-repo "$repo_name"; then
                 echo >&2 "Failed to create repo: $repo_name. Aborting."
+                return 1
+            fi
+            if ! nexus-create-repo-group "$repo_name"; then
+                echo >&2 "Failed to create repo group: for $repo_name. Aborting."
                 return 1
             fi
             if ! nexus-upload "${directory}" "${repo_name}"; then
@@ -325,9 +330,13 @@ function setup-apache2-https-proxy() {
         return 1
     fi
     "${PITDATA}/prep/site-init/utils/secrets-decrypt.sh" gen_platform_ca_1 \
-    | jq -r '.data."ca_bundle.crt" | @base64d' > /etc/apache2/ssl.crt/ca.crt
+        "${PITDATA}/prep/site-init/certs/sealed_secrets.key" \
+        "${PITDATA}/prep/site-init/customizations.yaml" \
+        | jq -r '.data."ca_bundle.crt" | @base64d' > /etc/apache2/ssl.crt/ca.crt
     "${PITDATA}/prep/site-init/utils/secrets-decrypt.sh" gen_platform_ca_1 \
-    | jq -r '.data."root_ca.key" | @base64d' > /etc/apache2/ssl.key/ca.key
+        "${PITDATA}/prep/site-init/certs/sealed_secrets.key" \
+        "${PITDATA}/prep/site-init/customizations.yaml" \
+        | jq -r '.data."root_ca.key" | @base64d' > /etc/apache2/ssl.key/ca.key
     if [ ! -f /etc/apache2/vhosts.d/nexus-ssl.conf ]; then
         cp -p "$(dirname $0)/nexus-ssl.conf" /etc/apache2/vhosts.d/nexus-ssl.conf
         systemctl restart apache2
@@ -346,7 +355,7 @@ function nexus-delete-repo() {
 }
 
 function nexus-create-repo() {
-    local name="${1:-''}"
+    local repo_name="${1:-''}"
 
     # Create repo.
     curl \
@@ -356,22 +365,22 @@ function nexus-create-repo() {
     --request POST \
     --data-binary \
    @- << EOF
-   {
-     "name": "$repo_name",
-     "online": true,
-     "storage": {
-       "blobStoreName": "default",
-       "strictContentTypeValidation": true,
-       "writePolicy": "ALLOW"
-     },
-     "cleanup": null,
-     "yum": {
-       "repodataDepth": 0,
-       "deployPolicy": "STRICT"
-     },
-     "format": "yum",
-     "type": "hosted"
-   }
+{
+  "name": "$repo_name",
+  "online": true,
+  "storage": {
+    "blobStoreName": "default",
+    "strictContentTypeValidation": true,
+    "writePolicy": "ALLOW"
+  },
+  "cleanup": null,
+  "yum": {
+    "repodataDepth": 0,
+    "deployPolicy": "STRICT"
+  },
+  "format": "yum",
+  "type": "hosted"
+}
 EOF
     exists="$(curl \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
@@ -381,6 +390,43 @@ EOF
     | jq '.[] | select(.name=="'"${repo_name}"'")')"
     if [ -z "$exists" ]; then
         echo >&2 "Error! The repository ${name} failed to create! Please double-check the running nexus instance's health."
+        return 1
+    fi
+}
+
+function nexus-create-repo-group() {
+    local name="${1:-''}"
+    local repo_group_name="${name/$CSM_RELEASE-/}"
+    # Create repo group.
+    curl \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/service/rest/v1/repositories/yum/group" \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --data-binary \
+   @- << EOF
+{
+  "name": "$repo_group_name",
+  "online": true,
+  "storage": {
+    "blobStoreName": "default",
+    "strictContentTypeValidation": true
+  },
+  "group": {
+    "memberNames": [
+      "$name"
+    ]
+  }
+}
+EOF
+    exists="$(curl \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/service/rest/v1/repositories" \
+    -s \
+    --header "Content-type: application/json" \
+    | jq '.[] | select(.name=="'"${repo_name}"'")')"
+    if [ -z "$exists" ]; then
+        echo >&2 "Error! The repository group ${repo_group_name} failed to create! Please double-check the running nexus instance's health."
         return 1
     fi
 }

@@ -22,14 +22,12 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
+set -euo pipefail
 
 WORKING_DIR="$(dirname $0)"
 
-# TODO: Not done scripting this.
-set -euo pipefail
-
-# Default CSM Nexus URL
-DEFAULT_NEXUS_URL='http://packages.nmn:8081'
+# Default CSM Nexus URL - does not use HTTPS on purpose!
+DEFAULT_NEXUS_URL='http://packages.nmn'
 
 # Defaults defined by Sonatype:
 # https://help.sonatype.com/iqserver/managing/user-management#:~:text=Enter%20the%20current%20password%20(%22admin123,then%20confirm%20the%20new%20password.
@@ -45,10 +43,12 @@ Environment Variables:
 
 ARTIFACTORY_USER    (for proxy mode only) username for artifactory.algol60.net
 ARTIFACTORY_TOKEN   (for proxy mode only) token for ARTIFACTORY_USER
-NEXUS_URL           (default: http://packages.nmn:8081) custom URL for reaching nexus.
-NEXUS_USERNAME      (required) Nexus username (default: admin)
-NEXUS_PASSWORD      (required) Nexus password (default: admin123)
-CSM_PATH            (for server mode only) path to the CSM release tarball.
+NEXUS_URL           (default: $DEFAULT_NEXUS_URL) custom URL for reaching nexus
+NEXUS_USERNAME      (required) Nexus username (default: $DEFAULT_NEXUS_USERNAME)
+NEXUS_PASSWORD      (required) Nexus password (default: $DEFAULT_NEXUS_PASSWORD)
+PITDATA             (for server mode only) path to where the prep/site-init directory structure is
+CSM_PATH            (for server mode only) path to the CSM release tarball
+CSM_RELEASE         (for server mode only) name of the CSM release
 
 Options:
 
@@ -61,16 +61,18 @@ Options:
                 - Visit http://localhost:8081/#admin/system/http
                 - login with sonatype/nexus default credentials
 -c          Set up the running node as a client; adds repositories /srv/cray/metal-provision/scripts/repos/ to Zypper but using the Nexus URL
-
--s          Set up the running node as a server; uploads a given CSM_RELEASE to the running Nexus instance at http://packages.nmn:8081
--C          Path to an EXTRACTED CSM tarball, will default to the CSM_PATH environment variable unless this is set.
+-d          Delete a repository by name
+-s          Set up the running node as a server; uploads a given CSM_RELEASE to the running Nexus instance at the given NEXUS_URL
+-r          Path to a directory containing RPMs to upload. The name of this directory will dictate the name of the repository to upload create or upload to.
 EOF
 }
 proxy_server=0
 server=0
 client=0
+delete=0
+repo_path=''
 CSM_PATH=${CSM_PATH:-''}
-while getopts ":pscC" o; do
+while getopts ":pscrd:" o; do
     case "${o}" in
         p)
             proxy_server=1
@@ -81,8 +83,12 @@ while getopts ":pscC" o; do
         c)
             client=1
             ;;
-        C)
-            CSM_PATH="${OPTARG}"
+        r)
+            repo_path="${OPTARG}"
+            ;;
+        d)
+            delete=1
+            repo_name="${OPTARG}"
             ;;
         *)
             usage
@@ -105,14 +111,6 @@ if [ "$proxy_server" -ne 0 ]; then
 fi
 [ "$error" -ne 0 ] && exit 2
 
-if [ -z "${NEXUS_USERNAME:-''}" ]; then
-    echo >&2 'Missing NEXUS_USERNAME, assuming default ..'
-    NEXUS_USERNAME="$DEFAULT_NEXUS_USERNAME"
-elif [ -z "${NEXUS_PASSWORD:-''}" ]; then
-    echo >&2 'Missing NEXUS_PASSWORD, assuming default ..'
-    NEXUS_PASSWORD="$DEFAULT_NEXUS_PASSWORD"
-fi
-
 if [ -z ${NEXUS_URL:-''} ]; then
     echo >&2 'Missing NEXUS_URL, presuming default: DEFAULT_NEXUS_URL'
     NEXUS_URL="$DEFAULT_NEXUS_URL"
@@ -120,7 +118,7 @@ fi
 
 function nexus-reset() {
 
-    . ${WORKING_DIR}/../rpm-functions.sh
+    . "${WORKING_DIR}/../rpm-functions.sh"
     list-google-repos-files
     list-hpe-repos-files
     list-suse-repos-files
@@ -145,7 +143,7 @@ function nexus-reset() {
 
 function zypper-reset() {
 
-    . ${WORKING_DIR}/../rpm-functions.sh
+    . "${WORKING_DIR}/../rpm-functions.sh"
     list-google-repos-files
     list-hpe-repos-files
     list-suse-repos-files
@@ -166,7 +164,7 @@ function zypper-reset() {
 
 function nexus-proxy() {
 
-    . ${WORKING_DIR}/../rpm-functions.sh
+    . "${WORKING_DIR}/../rpm-functions.sh"
     list-google-repos-files
     list-hpe-repos-files
     list-suse-repos-files
@@ -259,15 +257,216 @@ function setup-zypper-nexus() {
     done
 }
 
-if [ "$server" -ne 0 ]; then
+function nexus-get-credential() {
+
+    if ! command -v kubectl 1>&2 >/dev/null; then
+      echo "Requires kubectl"
+      return 1
+    fi
+    if ! command -v base64 1>&2 >/dev/null ; then
+      echo "Requires base64"
+      return 1
+    fi
+
+    [[ $# -gt 0 ]] || set -- -n nexus nexus-admin-credential
+
+    kubectl get secret "${@}" >/dev/null || return $?
+
+    NEXUS_USERNAME="$(kubectl get secret "${@}" --template '{{.data.username}}' | base64 -d)"
+    NEXUS_PASSWORD="$(kubectl get secret "${@}" --template '{{.data.password}}' | base64 -d)"
+}
+
+function setup-nexus-server() {
+
+    local name
+    local repo_name
+
+    if [ -n "$repo_path" ]; then
+        repo_name="$(basename "$repo_path")"
+        if ! nexus-create-repo "$(basename $repo_path)"; then
+            echo >&2 "Failed to create repo: $repo_name"
+        fi
+    elif [ -n "${CSM_PATH:-''}" ]; then
+        for directory in ${CSM_PATH}/rpm/cray/csm/*; do
+            name="$(basename "$directory")"
+            if [ "$name" = "noos" ]; then
+                # Make noos repo a simple name.
+                repo_name="csm-${CSM_RELEASE}"
+            else
+                # Name distro specific repos with their distro name in lower case.
+                repo_name="csm-${CSM_RELEASE}-${name,,}"
+            fi
+            if ! nexus-create-repo "$repo_name"; then
+                echo >&2 "Failed to create repo: $repo_name. Aborting."
+                return 1
+            fi
+            if ! nexus-create-repo-group "$repo_name"; then
+                echo >&2 "Failed to create repo group: for $repo_name. Aborting."
+                return 1
+            fi
+            if ! nexus-upload "${directory}" "${repo_name}"; then
+                echo >&2 "Failed to upload $directory to $repo_name! Aborting."
+                return 1
+            fi
+            echo "Successfully created repository: $NEXUS_URL/repository/$repo_name"
+        done
+    else
+        echo >&2 'Nothing to upload. CSM_PATH is unset, and nothing was given with -r. Aborting.'
+        return 1
+    fi
+
+}
+
+function setup-apache2-https-proxy() {
+    if [ ! -f /etc/pit-release ]; then
+        echo 'No apache2 proxy necessary, this is not a pit node.'
+        return 0
+    fi
+    if [ -z "${PITDATA}" ]; then
+        echo >&2 'PITDATA was blank, please set PITDATA to where the prep directory is'
+        return 1
+    elif [ ! -d "${PITDATA}/prep/site-init/" ]; then
+        echo >&2 "site-init was not found at ${PITDATA}/prep/site-init ! Can't setup HTTPS proxy for https://packages.nmn"
+        return 1
+    fi
+    "${PITDATA}/prep/site-init/utils/secrets-decrypt.sh" gen_platform_ca_1 \
+        "${PITDATA}/prep/site-init/certs/sealed_secrets.key" \
+        "${PITDATA}/prep/site-init/customizations.yaml" \
+        | jq -r '.data."ca_bundle.crt" | @base64d' > /etc/apache2/ssl.crt/ca.crt
+    "${PITDATA}/prep/site-init/utils/secrets-decrypt.sh" gen_platform_ca_1 \
+        "${PITDATA}/prep/site-init/certs/sealed_secrets.key" \
+        "${PITDATA}/prep/site-init/customizations.yaml" \
+        | jq -r '.data."root_ca.key" | @base64d' > /etc/apache2/ssl.key/ca.key
+    if [ ! -f /etc/apache2/vhosts.d/nexus-ssl.conf ]; then
+        cp -p "$(dirname $0)/nexus-ssl.conf" /etc/apache2/vhosts.d/nexus-ssl.conf
+        systemctl restart apache2
+    fi
+}
+
+function nexus-delete-repo() {
+    local name="${1:-''}"
+    echo >&2 "Deleting $name ..."
+    curl \
+    -v \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    -X DELETE \
+    "${NEXUS_URL}/service/rest/v1/repositories/${name}"
+    echo 'Done.'
+}
+
+function nexus-create-repo() {
+    local repo_name="${1:-''}"
+
+    # Create repo.
+    curl \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/service/rest/v1/repositories/yum/hosted" \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --data-binary \
+   @- << EOF
+{
+  "name": "$repo_name",
+  "online": true,
+  "storage": {
+    "blobStoreName": "default",
+    "strictContentTypeValidation": true,
+    "writePolicy": "ALLOW"
+  },
+  "cleanup": null,
+  "yum": {
+    "repodataDepth": 0,
+    "deployPolicy": "STRICT"
+  },
+  "format": "yum",
+  "type": "hosted"
+}
+EOF
+    exists="$(curl \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/service/rest/v1/repositories" \
+    -s \
+    --header "Content-type: application/json" \
+    | jq '.[] | select(.name=="'"${repo_name}"'")')"
+    if [ -z "$exists" ]; then
+        echo >&2 "Error! The repository ${name} failed to create! Please double-check the running nexus instance's health."
+        return 1
+    fi
+}
+
+function nexus-create-repo-group() {
+    local name="${1:-''}"
+    local repo_group_name="${name/$CSM_RELEASE-/}"
+    # Create repo group.
+    curl \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/service/rest/v1/repositories/yum/group" \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --data-binary \
+   @- << EOF
+{
+  "name": "$repo_group_name",
+  "online": true,
+  "storage": {
+    "blobStoreName": "default",
+    "strictContentTypeValidation": true
+  },
+  "group": {
+    "memberNames": [
+      "$name"
+    ]
+  }
+}
+EOF
+    exists="$(curl \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/service/rest/v1/repositories" \
+    -s \
+    --header "Content-type: application/json" \
+    | jq '.[] | select(.name=="'"${repo_name}"'")')"
+    if [ -z "$exists" ]; then
+        echo >&2 "Error! The repository group ${repo_group_name} failed to create! Please double-check the running nexus instance's health."
+        return 1
+    fi
+}
+
+function nexus-upload() {
+    local dir="${1:-''}"
+    local repo_name="${2:-''}"
+    # Upload
+    mapfile -t rpms < <(find "$dir/" -type f -name \*.rpm)
+    for i in "${rpms[@]}"; do
+       curl \
+       -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+       --upload-file \
+       "$i" \
+       --max-time 600 \
+       "${NEXUS_URL}/repository/$repo_name/";
+    done
+}
+
+# If no overrides are set, fetch the credentials.
+if [ -z "${NEXUS_USERNAME:-''}" ] && [ -z "${NEXUS_PASSWORD:-''}" ]; then
+    if not nexus-get-credentials; then
+        echo >&2 'Unable to resolve NEXUS_USERNAME and NEXUS_PASSWORD from Kubernetes secret, assuming default ..'
+        NEXUS_USERNAME="$DEFAULT_NEXUS_USERNAME"
+        NEXUS_PASSWORD="$DEFAULT_NEXUS_PASSWORD"
+    fi
+fi
+
+if [ "$delete" -ne 0 ]; then
+    nexus-delete-repo "${repo_name}"
+    exit
+elif [ "$server" -ne 0 ]; then
     echo "Uploading RPMs from $CSM_PATH/rpms ... "
-    echo 'Just kidding, not yet implemented.'
+    setup-apache2-https-proxy
+    setup-nexus-server
 elif [ "$proxy_server" -ne 0 ]; then
     echo "Setting up $NEXUS_URL as a proxy ... "
     nexus-reset 2>/dev/null
     nexus-proxy
-fi
-if [ "$client" -ne 0 ]; then
+elif [ "$client" -ne 0 ]; then
     echo "Adding nexus proxy repos to Zypper ... "
 
     echo "Purging existing definitions ... "

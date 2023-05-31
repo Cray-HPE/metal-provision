@@ -22,18 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-packages:
-  - acl=2.2.52-4.3.1
-  - apache2=2.4.51-150400.6.11.1
-  - dnsmasq=2.86-150400.14.3
-  - wol=0.7.1-2.5
-  # CSM
-  - canu=1.7.1-2
-  - cray-site-init=1.31.2-1
-  - ilorest=3.5.1-1
-  - metal-basecamp=1.2.5-1
-  - metal-ipxe=2.4.1-1
-  - pit-init=1.3.1-1
-  - pit-nexus=1.2.1-1
-  - pit-observability=1.0.6-1
-patterns:
+apache2_modules:
+  - proxy
+  - proxy_http
+  - rewrite

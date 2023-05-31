@@ -49,18 +49,6 @@
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
 
-- name: Copy cloud.cfg.d configuration
-  ansible.posix.synchronize:
-    delete: true
-    src: metal/cloud/cloud.cfg.d/
-    dest: /etc/cloud/cloud.cfg.d/
-
-- name: Copy cloud templates configuration
-  ansible.posix.synchronize:
-    delete: true
-    src: metal/cloud/templates/
-    dest: /etc/cloud/templates/
-
 - name: Copy sshd_config
   ansible.builtin.copy:
     mode: preserve

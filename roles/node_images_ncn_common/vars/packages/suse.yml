@@ -87,4 +87,6 @@ packages:
   - manifestgen=1.3.9-1
   # CVT
   - cvt=1.4.22-20230519111329_785fd5fe00f2
+  # cm cli
+  - cm-cli=1.0.5-1
 patterns:

@@ -31,11 +31,9 @@ packages:
   # - cray-cos-release                    : Installed cle and cos release files.
   - cray-cos-release=1.3.1-2.5_20230113051708__g2c3f0bb
   # COS SHASTA-3RD Packages
-  # - acpid                               :
   # - cray-libhugetlbfs                   :
   # - cray-libhugetlbfs-devel             :
   # - cray-rasdaemon                      :
-  - acpid=2.0.31-1.1_2.5_20230113012845__g40880b3
   - cray-libhugetlbfs=2.20_2.1.28-2.5_1.9__g814a27a.shasta
   - cray-libhugetlbfs-devel=2.20_2.1.28-2.5_1.9__g814a27a.shasta
   - cray-rasdaemon=0.6.8-3_2.5_20230112191741__g9c01752

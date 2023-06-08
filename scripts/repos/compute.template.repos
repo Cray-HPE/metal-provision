@@ -1,2 +1,2 @@
 # COS
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/cos-rpm-stable-local/release/cos-2.5/sle${releasever_major}_sp${releasever_minor}_cn?auth=basic               cray-cos-2.5-SHASTA-OS-cos-cn               --no-gpgcheck -p 79
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/cos-rpm-stable-local/release/cos-2.5/sle${releasever_major}_sp${releasever_minor}_cn?auth=basic               cray-cos-2.5-SHASTA-OS-cos-cn               --no-gpgcheck -p 89

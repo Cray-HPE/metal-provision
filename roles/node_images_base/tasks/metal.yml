@@ -44,3 +44,8 @@
     delete: false
     src: metal/mdadm.conf
     dest: /etc/
+
+- name: Remove 90-google.conf rsyslog.d
+  ansible.builtin.file:
+    path: /etc/rsyslog.d/90-google.conf
+    state: absent

@@ -25,8 +25,9 @@
 packages:
   - java-11-openjdk-devel=11.0.18.0-150000.3.93.1
   # CSM Team
-  - csm-auth-utils=1.0.0-1
   - acpid=2.0.31-2.0
+  - csm-auth-utils=1.0.0-1
+  - csm-node-heartbeat=2.0-3
   # CMS Team
   - bos-reporter=2.3.0-1
   # CDST GUI Packages
@@ -44,16 +45,13 @@ packages:
   - munge=0.5.15-150400.18.3.6
   - typelib-1_0-Gtk-3_0=3.24.34-150400.3.3.1
   # COS General Packages
-  # - cray-chrony-dracut                  : NTP setup in dracut
   # - cray-hugepage-setup                 : Customizing hugepage setup
   # - cray-network-dracut                 : Custom ifup.sh scripts for generic distribution
   # - cray-node-identity                  : Provides nid and xname through systemd
-  # - cray-power-button                   :
   # - cray-system-files                   :
   # - cray-systemd-presets                :
   - cray-hugepage-setup=0.7.1-2.5_20230113063638__g3e2f155
   - cray-network-dracut=1.4.0-2.5_20230113063048__gc9eac23
-  - cray-power-button=1.5.2-2.5_20230113092552__g0fcacce
   - cray-system-files=1.14.6-2.5_20230130112320__g7ae5ecd
   - cray-systemd-presets=1.7.3-2.5_20230113091846__g4a496ef
   # COS SHASTA-OS packages

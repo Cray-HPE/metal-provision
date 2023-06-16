@@ -27,6 +27,9 @@ services:
     name: ca-certificates.service
     state: stopped
   - enabled: true
+    name: cfs-state-reporter.service
+    state: stopped
+  - enabled: true
     name: chronyd.service
     state: stopped
   - enabled: false

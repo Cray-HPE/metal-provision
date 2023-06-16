@@ -79,19 +79,6 @@ pipeline {
                             }
                         }
 
-                        stage('Validate node-image-compute COS packages') {
-                            steps {
-                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_cos_cn/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
-                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_cos_cn/vars/packages/suse-x86_64.yml --compute --validate --suffix ${env.SUFFIX}"
-                            }
-                        }
-
-                        stage('Validate node-image-cos-ncn packages') {
-                            steps {
-                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_cos_ncn/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
-                            }
-                        }
-
                         stage('Validate node-image-ncn-common packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_ncn_common/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
@@ -156,12 +143,6 @@ pipeline {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_compute/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_compute/vars/packages/suse-aarch64.yml --compute --validate --suffix ${env.SUFFIX}"
-                            }
-                        }
-
-                        stage('Validate node-image-compute COS packages') {
-                            steps {
-                                sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_cos_cn/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
                             }
                         }
                     }

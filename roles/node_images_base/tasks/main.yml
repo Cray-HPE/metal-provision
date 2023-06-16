@@ -96,6 +96,11 @@
     src: mdadm.conf
     dest: /etc/mdadm.conf
 
+- name: Configure rsyslog
+  ansible.posix.synchronize:
+    src: rsyslog.d/
+    dest: /etc/rsyslog.d/
+
 - name: Install scripts
   ansible.posix.synchronize:
     src: scripts

@@ -27,7 +27,7 @@ set -euo pipefail
 WORKING_DIR="$(dirname $0)"
 
 # Default CSM Nexus URL - does not use HTTPS on purpose!
-DEFAULT_NEXUS_URL='http://packages.nmn'
+DEFAULT_NEXUS_URL='http://packages'
 
 # Defaults defined by Sonatype:
 # https://help.sonatype.com/iqserver/managing/user-management#:~:text=Enter%20the%20current%20password%20(%22admin123,then%20confirm%20the%20new%20password.
@@ -52,15 +52,15 @@ CSM_RELEASE         (for server mode only) name of the CSM release
 
 Options:
 
--p          Set up the running node as a proxy server; proxy everything defined in /srv/cray/metal-provision/scripts/repos/
-            NOTE: This requires HTTPS_PROXY to be set within the running NEXUS instance http://packages.nmn:8081/#admin/system/http
+-p          Set up the running node as a proxy server; proxy everything defined in ${WORKING_DIR}/repos/
+            NOTE: This requires HTTPS_PROXY to be set within the running NEXUS instance $DEFAULT_NEXUS_URL/#admin/system/http
 
             PIT access:
 
                 - ssh -L 8081:localhost:8081 internal.system.hpc.amslabs.hpecorp.net
                 - Visit http://localhost:8081/#admin/system/http
                 - login with sonatype/nexus default credentials
--c          Set up the running node as a client; adds repositories /srv/cray/metal-provision/scripts/repos/ to Zypper but using the Nexus URL
+-c          Set up the running node as a client; adds repositories ${WORKING_DIR}/repos/ to Zypper but using the Nexus URL
 -d          Delete a repository by name
 -s          Set up the running node as a server; uploads a given CSM_RELEASE to the running Nexus instance at the given NEXUS_URL
 -r          Path to a directory containing RPMs to upload. The name of this directory will dictate the name of the repository to upload create or upload to.
@@ -447,8 +447,8 @@ function nexus-upload() {
 }
 
 # If no overrides are set, fetch the credentials.
-if [ -z "${NEXUS_USERNAME:-''}" ] && [ -z "${NEXUS_PASSWORD:-''}" ]; then
-    if not nexus-get-credentials; then
+if [ -z "${NEXUS_USERNAME:-}" ] && [ -z "${NEXUS_PASSWORD:-}" ]; then
+    if ! nexus-get-credentials; then
         echo >&2 'Unable to resolve NEXUS_USERNAME and NEXUS_PASSWORD from Kubernetes secret, assuming default ..'
         NEXUS_USERNAME="$DEFAULT_NEXUS_USERNAME"
         NEXUS_PASSWORD="$DEFAULT_NEXUS_PASSWORD"
@@ -464,7 +464,7 @@ elif [ "$server" -ne 0 ]; then
     setup-nexus-server
 elif [ "$proxy_server" -ne 0 ]; then
     echo "Setting up $NEXUS_URL as a proxy ... "
-    nexus-reset 2>/dev/null
+    nexus-reset
     nexus-proxy
 elif [ "$client" -ne 0 ]; then
     echo "Adding nexus proxy repos to Zypper ... "

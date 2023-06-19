@@ -291,21 +291,20 @@ function setup-nexus-server() {
             echo >&2 "Failed to create repo: $repo_name"
         fi
     elif [ -n "${CSM_PATH:-''}" ]; then
+        if [ -z "$CSM_RELEASE:-" ]; then
+            echo >&2 'CSM_RELEASE value was unset!'
+            return 1
+        fi
         for directory in ${CSM_PATH}/rpm/cray/csm/*; do
             name="$(basename "$directory")"
-            if [ "$name" = "noos" ]; then
-                # Make noos repo a simple name.
-                repo_name="csm-${CSM_RELEASE}"
-            else
-                # Name distro specific repos with their distro name in lower case.
-                repo_name="csm-${CSM_RELEASE}-${name,,}"
-            fi
+            # Name distro specific repos with their distro name in lower case.
+            repo_name="csm-$CSM_RELEASE-${name,,}"
             if ! nexus-create-repo "$repo_name"; then
                 echo >&2 "Failed to create repo: $repo_name. Aborting."
                 return 1
             fi
-            if ! nexus-create-repo-group "$repo_name"; then
-                echo >&2 "Failed to create repo group: for $repo_name. Aborting."
+            if ! nexus-create-repo-group "csm-${name,,}" "$repo_name"; then
+                echo >&2 "Failed to create repo group: csm-${name,,}"
                 return 1
             fi
             if ! nexus-upload "${directory}" "${repo_name}"; then
@@ -348,7 +347,7 @@ function setup-apache2-https-proxy() {
 }
 
 function nexus-delete-repo() {
-    local name="${1:-''}"
+    local name="${1:-}"
     echo >&2 "Deleting $name ..."
     curl \
     -v \
@@ -359,12 +358,29 @@ function nexus-delete-repo() {
 }
 
 function nexus-create-repo() {
-    local repo_name="${1:-''}"
+    local exists
+    local method
+    local uri='service/rest/v1/repositories/yum/hosted/'
+    local repo_name="${1:-}"
 
-    # Create repo.
+    exists="$(curl \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/service/rest/v1/repositories" \
+    -s \
+    --header "Content-type: application/json" \
+    | jq '.[] | select(.name=="'"${repo_name}"'")')"
+    if [ -z "$exists" ]; then
+        echo -n "Creating repo '$repo_name' ... "
+        method=POST
+    else
+        echo -n "Updating existing repo '$repo_name' ... "
+        uri="$uri/$repo_name"
+        method=PUT
+    fi
+
     curl \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
-    "${NEXUS_URL}/service/rest/v1/repositories/yum/hosted" \
+    "${NEXUS_URL}/$uri" \
     --header "Content-Type: application/json" \
     --request POST \
     --data-binary \
@@ -393,35 +409,53 @@ EOF
     --header "Content-type: application/json" \
     | jq '.[] | select(.name=="'"${repo_name}"'")')"
     if [ -z "$exists" ]; then
-        echo >&2 "Error! The repository ${name} failed to create! Please double-check the running nexus instance's health."
+        echo >&2 "Error! The repository ${repo_name} failed to create! Please double-check the running nexus instance's health."
         return 1
     fi
+    echo 'Done'
 }
 
 function nexus-create-repo-group() {
-    local name="${1:-''}"
-    local repo_group_name="${name/$CSM_RELEASE-/}"
-    # Create repo group.
+    local exists
+    local method
+    local uri='service/rest/v1/repositories/yum/group'
+    local repo_group_name="${1:-}"
+    shift
+    local repo_names="$*"
+    exists="$(curl \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/service/rest/v1/repositories" \
+    -s \
+    --header "Content-type: application/json" \
+    | jq '.[] | select(.name=="'"${repo_name}"'")')"
+    if [ -z "$exists" ]; then
+        echo -n "Creating repo group '$repo_name' with: $repo_names ... "
+        method=POST
+    else
+        echo -n "Updating existing repo group '$repo_name' with: $repo_names ... "
+        uri="$uri/$repo_group_name"
+        method=PUT
+    fi
     curl \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
-    "${NEXUS_URL}/service/rest/v1/repositories/yum/group" \
+    "${NEXUS_URL}/$uri" \
     --header "Content-Type: application/json" \
-    --request POST \
+    --request $method \
     --data-binary \
    @- << EOF
-{
-  "name": "$repo_group_name",
-  "online": true,
-  "storage": {
-    "blobStoreName": "default",
-    "strictContentTypeValidation": true
-  },
-  "group": {
-    "memberNames": [
-      "$name"
-    ]
-  }
-}
+   {
+     "name": "$repo_group_name",
+     "online": true,
+     "storage": {
+       "blobStoreName": "default",
+       "strictContentTypeValidation": true
+     },
+     "group": {
+       "memberNames": [
+         "$(echo $repo_names | sed 's/ /,/')"
+       ]
+     }
+   }
 EOF
     exists="$(curl \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
@@ -430,15 +464,16 @@ EOF
     --header "Content-type: application/json" \
     | jq '.[] | select(.name=="'"${repo_name}"'")')"
     if [ -z "$exists" ]; then
-        echo >&2 "Error! The repository group ${repo_group_name} failed to create! Please double-check the running nexus instance's health."
+        echo >&2 "Error! The repository ${repo_group_name} failed to create! Please double-check the running nexus instance's health."
         return 1
     fi
+    echo 'Done'
 }
 
 function nexus-upload() {
-    local dir="${1:-''}"
-    local repo_name="${2:-''}"
-    # Upload
+    local dir="${1:-}"
+    local repo_name="${2:-}"
+    echo -n "Uploading $dir to $repo_name ... "
     mapfile -t rpms < <(find "$dir/" -type f -name \*.rpm)
     for i in "${rpms[@]}"; do
        curl \
@@ -448,6 +483,7 @@ function nexus-upload() {
        --max-time 600 \
        "${NEXUS_URL}/repository/$repo_name/";
     done
+    echo 'Done'
 }
 
 # If no overrides are set, fetch the credentials.

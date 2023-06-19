@@ -53,7 +53,11 @@ CSM_RELEASE         (for server mode only) name of the CSM release
 Options:
 
 -p          Set up the running node as a proxy server; proxy everything defined in ${WORKING_DIR}/repos/
-            NOTE: This requires HTTPS_PROXY to be set within the running NEXUS instance $DEFAULT_NEXUS_URL/#admin/system/http
+            NOTE: This requires HTTPS_PROXY to be set within the running NEXUS instance:
+
+            1. Visit $DEFAULT_NEXUS_URL/#admin/system/http
+            2. Enable HTTP and HTTPS Proxy, set the URL, and set the ports to 80 and 443 (respectively)
+            3. Save changes
 
             PIT access:
 

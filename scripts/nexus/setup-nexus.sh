@@ -291,7 +291,7 @@ function setup-nexus-server() {
             echo >&2 "Failed to create repo: $repo_name"
         fi
     elif [ -n "${CSM_PATH:-''}" ]; then
-        if [ -z "$CSM_RELEASE:-" ]; then
+        if [ -z "${CSM_RELEASE:-}" ]; then
             echo >&2 'CSM_RELEASE value was unset!'
             return 1
         fi

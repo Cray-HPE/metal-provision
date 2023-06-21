@@ -28,4 +28,3 @@
   roles:
     - node_images_base
     - node_images_ncn_common
-    - node_images_cos_ncn

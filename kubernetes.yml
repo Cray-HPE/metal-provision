@@ -26,7 +26,7 @@
   hosts: localhost
   become: true # Enable environments that do not login as root to escalate privilege.
   roles:
-    # This should, but doesn't, invoke node_images_base, node_images_ncn_common, and node_images_cos_ncn
+    # This should, but doesn't, invoke node_images_base, node_images_ncn_common.
     # The reason those roles aren't invoked, is because this image builds atop the ncn-common layer. The ncn-common
     # layer will be deprecated, if that happens during the lifetime of this layer then the aforementioned roles will need
     # to be added.

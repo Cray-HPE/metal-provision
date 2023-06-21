@@ -30,7 +30,7 @@ services:
     name: cmdline-perm.service
     state: stopped
   - enabled: true
-    name: cray-heartbeat.service
+    name: csm-node-heartbeat.service
     state: stopped
   - enabled: true
     name: csm-node-identity.service

@@ -43,7 +43,6 @@ packages:
   # - cray-system-setup-scripts           :
   # - cray-udev-network-cn                : Provides udev rules for network interfaces
   # - cray-ckdump-helper                  : Wraps kdump, providing an interface for NMD
-  # - cray-heartbeat                      :
   - cray-system-setup-scripts=1.4.3-2.5_20230113142817__ge0ef7dd
   - cray-udev-network-cn=1.7.13-2.5_20230222143903__g4571a11
   - cray-ckdump-helper=2.12.1-2.5_20230112235926__g9e95309

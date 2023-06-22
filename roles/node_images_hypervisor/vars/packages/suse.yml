@@ -42,7 +42,9 @@ packages:
   - libxslt-tools=1.1.34-150400.3.3.1
   - mkisofs=3.02~a09-4.6.1
   - nfs-kernel-server=2.1.1-150100.10.32.1
+  - pulumi-3.73.0-2
   - qemu-kvm=6.2.0-150400.37.14.2
+  - qemu-ui-spice-core=6.2.0-150400.37.14.2
   - supportutils-plugin-cloud-init=1.1-150400.1.5
   - terraform=0.13.4-6.3.1
 patterns:

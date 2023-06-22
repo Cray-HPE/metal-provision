@@ -488,7 +488,7 @@ function nexus-upload() {
 
 # If no overrides are set, fetch the credentials.
 if [ -z "${NEXUS_USERNAME:-}" ] && [ -z "${NEXUS_PASSWORD:-}" ]; then
-    if ! nexus-get-credentials; then
+    if ! nexus-get-credential; then
         echo >&2 'Unable to resolve NEXUS_USERNAME and NEXUS_PASSWORD from Kubernetes secret, assuming default ..'
         NEXUS_USERNAME="$DEFAULT_NEXUS_USERNAME"
         NEXUS_PASSWORD="$DEFAULT_NEXUS_PASSWORD"

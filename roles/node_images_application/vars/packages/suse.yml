@@ -27,4 +27,10 @@ packages:
   - cloud-init-config-suse<23.2
   - cloud-init<23.2
   - csm-auth-utils=1.0.0-1
+  - csm-node-heartbeat=2.0-3
+  # CMS Team
+  - bos-reporter=2.5.0-1
+  - cfs-debugger=1.4.0-1
+  - cfs-state-reporter=1.9.3
+  - cfs-trust=1.6.5
 patterns:

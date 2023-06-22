@@ -25,7 +25,7 @@
 packages:
   - java-11-openjdk-devel=11.0.18.0-150000.3.93.1
   # CSM Team
-  - acpid=2.0.31-2.0
+  - acpid=2.0.31-2.1
   - csm-auth-utils=1.0.0-1
   - csm-node-heartbeat=2.0-3
   # CMS Team

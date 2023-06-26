@@ -67,7 +67,7 @@ Options:
 -c          Set up the running node as a client; adds repositories ${WORKING_DIR}/repos/ to Zypper but using the Nexus URL
 -d          Delete a repository by name
 -s          Set up the running node as a server; uploads a given CSM_RELEASE to the running Nexus instance at the given NEXUS_URL
--r          Path to a directory containing RPMs to upload. The name of this directory will dictate the name of the repository to upload create or upload to.
+-r          Path to a directory containing RPMs to upload. The name of this directory will dictate the name of the repository to upload create or upload to (must have a subdir called "repos" with repos subdirectories defined within it).
 EOF
 }
 proxy_server=0
@@ -76,7 +76,7 @@ client=0
 delete=0
 repo_path=''
 CSM_PATH=${CSM_PATH:-''}
-while getopts ":pscrd:" o; do
+while getopts ":pscr:d:" o; do
     case "${o}" in
         p)
             proxy_server=1
@@ -287,16 +287,23 @@ function setup-nexus-server() {
     local repo_name
 
     if [ -n "$repo_path" ]; then
-        repo_name="$(basename "$repo_path")"
-        if ! nexus-create-repo "$(basename $repo_path)"; then
-            echo >&2 "Failed to create repo: $repo_name"
-        fi
+        name="$(basename "$repo_path")"
+        for directory in "$repo_path/repos/"*; do
+            repo_name="${name}-$(basename "$directory")"
+            if ! nexus-create-repo "$repo_name"; then
+                echo >&2 "Failed to create repo: $directory"
+            fi
+            if ! nexus-upload "${directory}" "$repo_name"; then
+                echo >&2 "Failed to upload $directory to $repo_name! Aborting."
+                return 1
+            fi
+        done
     elif [ -n "${CSM_PATH:-''}" ]; then
         if [ -z "${CSM_RELEASE:-}" ]; then
             echo >&2 'CSM_RELEASE value was unset!'
             return 1
         fi
-        for directory in ${CSM_PATH}/rpm/cray/csm/*; do
+        for directory in "${CSM_PATH}/rpm/cray/csm/"*; do
             name="$(basename "$directory")"
             # Name distro specific repos with their distro name in lower case.
             repo_name="csm-$CSM_RELEASE-${name,,}"

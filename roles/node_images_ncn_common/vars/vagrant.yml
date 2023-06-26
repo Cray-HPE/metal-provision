@@ -24,7 +24,7 @@
 ---
 services:
   - enabled: false
-    name: cray-heartbeat.service
+    name: csm-node-heartbeat.service
     state: stopped
   - enabled: false
     name: spire-agent.service

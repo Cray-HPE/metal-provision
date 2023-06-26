@@ -30,4 +30,3 @@
   roles:
     - node_images_base
     - node_images_compute
-    - node_images_cos_cn

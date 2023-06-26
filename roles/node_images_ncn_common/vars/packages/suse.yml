@@ -86,7 +86,7 @@ packages:
   - loftsman=1.2.0-2
   - manifestgen=1.3.9-1
   # CM cli
-  - cm-cli=1.0.5-1
+  - cm-cli=1.5.0-1
   # CVT
-  - cvt=1.4.22-20230519111329_785fd5fe00f2
+  - cvt=1.5.1-20230623121517_c8c3bc0b7d74
 patterns:

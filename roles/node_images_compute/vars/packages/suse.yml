@@ -29,8 +29,8 @@ packages:
   # CMS Team
   - bos-reporter=2.5.1-1
   - cfs-debugger=1.4.0-1
-  - cfs-state-reporter=1.9.3
-  - cfs-trust=1.6.5
+  - cfs-state-reporter=1.9.3-1
+  - cfs-trust=1.6.5-1
   # CDST GUI Packages
   - libGLU1=9.0.0-8.45
   - libatk-1_0-0=2.36.0-150400.2.9

@@ -435,12 +435,12 @@ function nexus-create-repo-group() {
     "${NEXUS_URL}/service/rest/v1/repositories" \
     -s \
     --header "Content-type: application/json" \
-    | jq '.[] | select(.name=="'"${repo_name}"'")')"
+    | jq '.[] | select(.name=="'"${repo_group_name}"'")')"
     if [ -z "$exists" ]; then
-        echo -n "Creating repo group '$repo_name' with: $repo_names ... "
+        echo -n "Creating repo group '$repo_group_name' with: $repo_names ... "
         method=POST
     else
-        echo -n "Updating existing repo group '$repo_name' with: $repo_names ... "
+        echo -n "Updating existing repo group '$repo_group_name' with: $repo_names ... "
         uri="$uri/$repo_group_name"
         method=PUT
     fi

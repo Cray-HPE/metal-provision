@@ -29,11 +29,11 @@ packages:
   - wol=0.7.1-2.5
   # CSM
   - canu=1.7.1-2
-  - cray-site-init=1.31.3-1
+  - cray-site-init=1.32.0-1
   - ilorest=4.2.0.0-20
   - metal-basecamp=1.2.6-1
   - metal-ipxe=2.4.4-1
-  - pit-init=1.3.1-1
+  - pit-init=1.4.0-1
   - pit-nexus=1.2.2-1
   - pit-observability=1.0.8-1
 patterns:

@@ -22,7 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Node Image Kubernetes
+- name: Node Image Management
   hosts: localhost
   become: true # Enable environments that do not login as root to escalate privilege.
   roles:
@@ -30,4 +30,4 @@
     # The reason those roles aren't invoked, is because this image builds atop the ncn-common layer. The ncn-common
     # layer will be deprecated, if that happens during the lifetime of this layer then the aforementioned roles will need
     # to be added.
-    - node_images_kubernetes
+    - node_images_management

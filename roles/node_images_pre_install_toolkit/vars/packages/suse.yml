@@ -28,7 +28,7 @@ packages:
   - dnsmasq=2.86-150400.14.3
   - wol=0.7.1-2.5
   # CSM
-  - canu=1.7.1-2
+  - canu=1.7.4-1
   - cray-site-init=1.32.0-1
   - ilorest=4.2.0.0-20
   - metal-basecamp=1.2.6-1

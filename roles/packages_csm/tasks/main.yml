@@ -22,25 +22,11 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-packages:
-  # rationale: Necessary for standardized network interface device names.
-  - biosdevname=0.7.3-5.3.1
-  # rationale: A dependency of SLES's GRUB package.
-  - grub2-branding-SLE=15-150400.38.3.1
-  # rationale: Provides a boot loader for booting into Linux.
-  - grub2=2.06-150400.11.30.1
-  # rationale: A dependency needed for the x86_64 EFI GRUB boot loader.
-  - grub2-i386-pc=2.06-150400.11.30.1
-  # rationale: Necessary for creating and managing an x86_64 EFI GRUB boot loader.
-  - grub2-x86_64-efi=2.06-150400.11.30.1
-  # Drivers
-  # rationale: Necessary for Mellanox device tools.
-  - kernel-mft-mlnx-kmp-default=4.21.0_k5.14.21_150400.22-1.sles15sp4
-  # rationale: Necessary for advanced QLogic support (CASMTRIAGE-5033)
-  - qlgc-fastlinq-kmp-default=8.72.4.1_k5.14.21_150400.22-1.sles15sp4
-  # rationale: Necessary for collecting hardware information.
-  - lshw=B.02.19.2+git.20230320-150200.3.15.4
-  # rationale: Necessary for inspecting, configuring, and upgrading Mellanox devices.
-  # mft: DO NOT INSTALL MFT FROM THE SPP REPO, NEVER APPEND "slesXspY"
-  - mft=4.21.0-99
-patterns:
+- name: Install packages
+  ansible.builtin.include_tasks:
+    file: packages.yml
+    apply:
+      tags: packages
+  tags:
+    - never
+    - packages

@@ -22,50 +22,22 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-# NOTE: This list is incomplete, at this time there is no base image for Debian to use as a test.
-# TODO: Add pins
-packages:
-  # NTP
-  - cron
-  # Partitioning / bootloader /dracut
-  - biosdevname
-  # TODO: no checkmedia
-  - cryptsetup
-  - device-mapper
-  - dosfstools
-  - fdisk
-  - gdisk
-  - grub2-efi-x64
-  - grub2-efi-x64-modules
-  - iproute2
-  - lvm2
-  - mdadm
-  - mtools
-  - nvme-cli
-  - parted
-  - pciutils
-  - squashfs-tools
-  - tpm2-abrmd
-  - tpm2-tools
-  - xfsprogs
-  - xorriso
-  # kdump
-  - crash
-  # Google Compute
-  - google-guest-agent
-  - google-guest-configs
-  - google-guest-oslogin
-  # user tools
-  - bash-completion
-  - emacs
-  - ethtool
-  - htop
-  - jq
-  - ledmon
-  - lshw
-  - lsscsi
-  - rsync
-  - tmux
-  - unzip
-  - vim
-  - zip
+services:
+  - enabled: true
+    name: cloud-config.service
+    state: stopped
+  - enabled: true
+    name: cloud-init.service
+    state: stopped
+  - enabled: true
+    name: cloud-init-local.service
+    state: stopped
+  - enabled: true
+    name: cloud-final.service
+    state: stopped
+  - enabled: true
+    name: csm-node-identity.service
+    state: stopped
+  - enabled: false
+    name: spire-agent.service
+    state: stopped

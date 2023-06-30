@@ -29,6 +29,10 @@ WORKING_DIR="$(dirname $0)"
 # Default CSM Nexus URL - does not use HTTPS on purpose!
 DEFAULT_NEXUS_URL='http://packages'
 
+# Default Nexus registry - this is where csm docker images will be pushed to
+# this does not have http or https purposefully. This is used with skopeo-sync function
+DEFAULT_NEXUS_REGISTRY="registry:5000"
+
 # Defaults defined by Sonatype:
 # https://help.sonatype.com/iqserver/managing/user-management#:~:text=Enter%20the%20current%20password%20(%22admin123,then%20confirm%20the%20new%20password.
 DEFAULT_NEXUS_USERNAME='admin'
@@ -44,6 +48,7 @@ Environment Variables:
 ARTIFACTORY_USER    (for proxy mode only) username for artifactory.algol60.net
 ARTIFACTORY_TOKEN   (for proxy mode only) token for ARTIFACTORY_USER
 NEXUS_URL           (default: $DEFAULT_NEXUS_URL) custom URL for reaching nexus
+NEXUS_REGISTRY      (default: $DEFAULT_NEXUS_REGISTRY) Nexus registry that images should be pushed to
 NEXUS_USERNAME      (required) Nexus username (default: $DEFAULT_NEXUS_USERNAME)
 NEXUS_PASSWORD      (required) Nexus password (default: $DEFAULT_NEXUS_PASSWORD)
 PITDATA             (for server mode only) path to where the prep/site-init directory structure is
@@ -118,6 +123,11 @@ fi
 if [ -z ${NEXUS_URL:-''} ]; then
     echo >&2 'Missing NEXUS_URL, presuming default: DEFAULT_NEXUS_URL'
     NEXUS_URL="$DEFAULT_NEXUS_URL"
+fi
+
+if [ -z ${NEXUS_REGISTRY:-''} ]; then
+    echo >&2 'Missing NEXUS_REGISTRY, presuming default: DEFAULT_NEXUS_REGISTRY'
+    NEXUS_REGISTRY="$DEFAULT_NEXUS_REGISTRY"
 fi
 
 function nexus-reset() {
@@ -298,7 +308,7 @@ function setup-nexus-server() {
                 return 1
             fi
         done
-    elif [ -n "${CSM_PATH:-''}" ]; then
+    elif [ -n "${CSM_PATH}" ]; then
         if [ -z "${CSM_RELEASE:-}" ]; then
             echo >&2 'CSM_RELEASE value was unset!'
             return 1
@@ -321,6 +331,12 @@ function setup-nexus-server() {
             fi
             echo "Successfully created repository: $NEXUS_URL/repository/$repo_name"
         done
+        if ! nexus-upload-docker-images; then
+            echo >&2 "Failed to upload docker images in ${CSM_PATH}/docker. Aborting"
+            return 1
+        else
+            echo "Successfully uploaded docker images in ${CSM_PATH}/docker."
+        fi
     else
         echo >&2 'Nothing to upload. CSM_PATH is unset, and nothing was given with -r. Aborting.'
         return 1
@@ -492,6 +508,23 @@ function nexus-upload() {
        "${NEXUS_URL}/repository/$repo_name/";
     done
     echo 'Done'
+}
+
+function nexus-upload-docker-images() {
+    # source install.sh to use skopeo-sync function
+    source "$CSM_PATH/lib/install.sh"
+
+    # overwrite default NEXUS_REGISTRY value in install.sh
+    export NEXUS_REGISTRY
+    echo -n "Uploading CSM docker images to nexus ... "
+    echo "This can take up to 20 minutes."
+    {
+    load-install-deps
+    # Upload images
+    skopeo-sync "${CSM_PATH}/docker"
+    clean-install-deps
+    } >/var/log/setup-nexus-docker.log 2>&1
+    echo 'Done - Logs available at /var/log/setup-nexus-docker.log'
 }
 
 # If no overrides are set, fetch the credentials.

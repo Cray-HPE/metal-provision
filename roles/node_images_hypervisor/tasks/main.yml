@@ -37,15 +37,6 @@
     src: motd
     dest: /etc/motd
 
-# NOTE: Since we update our Python to a newer version than Python3.6 with update-alternatives we break cloud-init.
-#       cloud-init does build for python3.10 on GitHub, but the SUSE RPMs rely on 3.6. Therefore we have to force it to
-#       use 3.6.
-- name: Configure cloud-init for python3.6
-  ansible.builtin.lineinfile:
-    regex: '^#!/usr/bin/python3.*'
-    line: '#!/usr/bin/python3.6'
-    path: /usr/bin/cloud-init
-
 - name: Setup services
   ansible.builtin.include_tasks:
     file: services.yml

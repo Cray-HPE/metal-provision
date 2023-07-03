@@ -27,9 +27,7 @@ packages:
   # - cray-cos-release                    : Installed cle and cos release files.
   - cray-cos-release=1.3.1-2.5_20230113051829__g2c3f0bb
   # COS SHASTA-3RD Packages
-  # - acpid                               :
   # - cray-rasdaemon                      :
-  - acpid=2.0.31-1.1_2.5_20230113012842__g40880b3
   - cray-rasdaemon=0.6.8-3_2.5_20230113033939__g9c01752
   # COS General Packages
   # These COS RPM package names vary by timestamp between architectures

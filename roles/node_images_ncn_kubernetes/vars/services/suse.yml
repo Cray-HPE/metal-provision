@@ -24,5 +24,23 @@
 ---
 services:
   - enabled: true
-    name: libvirtd.service
+    name: cloud-config.service
+    state: stopped
+  - enabled: true
+    name: cloud-init.service
+    state: stopped
+  - enabled: true
+    name: cloud-init-local.service
+    state: stopped
+  - enabled: true
+    name: cloud-final.service
+    state: stopped
+  - enabled: true
+    name: csm-node-identity.service
+    state: stopped
+  - enabled: true
+    name: kubelet.service
+    state: stopped
+  - enabled: false
+    name: spire-agent.service
     state: stopped

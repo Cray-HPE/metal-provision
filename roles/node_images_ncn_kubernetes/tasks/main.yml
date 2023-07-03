@@ -22,7 +22,23 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
-  - enabled: true
-    name: libvirtd.service
-    state: stopped
+<<<<<<<< HEAD:pb_node_images_management.yml
+- name: Node Images Management
+  hosts: packer
+  become: true # Enable builds that do not login as root to escalate privilege.
+  roles:
+    - node_images_base
+    - packages_csm
+    - packages_user
+    - node_images_management
+========
+- name: Install packages
+  ansible.builtin.include_tasks:
+    file: packages.yml
+  tags:
+    - packages
+
+- name: Setup services
+  ansible.builtin.include_tasks:
+    file: services.yml
+>>>>>>>> main:roles/node_images_ncn_kubernetes/tasks/main.yml

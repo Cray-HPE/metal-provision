@@ -23,6 +23,4 @@
 #
 ---
 packages:
-  # cloud-init often updates and goes missing in repodata, use `<23.2` to grab 23.1 no matter the release.
-  - cloud-init-doc<23.2
 patterns:

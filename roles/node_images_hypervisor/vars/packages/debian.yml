@@ -25,11 +25,6 @@
 # NOTE: This list is incomplete, at this time there is no base image for Debian to use as a test.
 # TODO: Add pins
 packages:
-  # - mkisofs?
-  # - terraform?
-  - cloud-init
-  - helm
   - libguestfs0
   - libvirt-clients
   - libvirt0
-  - nfs-common

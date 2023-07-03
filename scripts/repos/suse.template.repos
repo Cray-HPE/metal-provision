@@ -78,15 +78,8 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/standard?auth=basic                                 openSUSE-Backports-standard                             -g -p 89
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/filesystems:ceph:quincy:upstream/openSUSE_Leap_${releasever}?auth=basic                                              filesystems-ceph                                        -g -p 89
 
-# cloud-init
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/Cloud:Tools/SLE_${releasever_major}_SP${releasever_minor}/?auth=basic                                                openSUSE-CloudTools-SLE                                 -g -p 89
-
 # free range routing
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/network/${releasever_major}.${releasever_minor}/?auth=basic                                                          openSUSE-network-SLE                                    -g -p 89
-
-# vagrant
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/Virtualization:vagrant/${releasever}/?auth=basic                                                                     openSUSE-Virtualizationvagrant                          -g -p 89
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/devel:languages:ruby:extensions/${releasever}/?auth=basic                                                            openSUSE-devellanguagesrubyextensions                   -g -p 89
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/network/${releasever_major}.${releasever_minor}/?auth=basic                                                          openSUSE-network-SLE                                    -g -p 90
 
 # SUSE PTF Packages
 #https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF/${releasever_major}-SP${releasever_minor}/SLE-Module-Basesystem?auth=basic                                         SUSE-SLE-Module-Basesystem-PTF                          -g -p 90

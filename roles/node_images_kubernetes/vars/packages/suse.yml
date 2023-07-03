@@ -23,14 +23,11 @@
 #
 ---
 packages:
-  # cloud-init often updates and goes missing in repodata, use `<23.2` to grab 23.1 no matter the release.
-  - cloud-init-config-suse<23.2
-  - cloud-init-doc<23.2
-  - cloud-init<23.2
+  - cloud-init-config-suse=23.1-150100.8.63.5
+  - cloud-init=23.1-150100.8.63.5
   - cri-tools=1.25.0-0
   - ipvsadm=1.29-4.3.1
   - kubeadm=1.22.13-0
-  - kubelet=1.22.13-0
   - kubectl=1.22.13-0
-  - supportutils-plugin-cloud-init=1.1-150400.1.5
+  - kubelet=1.22.13-0
 patterns:

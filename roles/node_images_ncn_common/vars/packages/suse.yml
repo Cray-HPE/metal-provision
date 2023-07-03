@@ -34,7 +34,7 @@ packages:
   - gperftools=2.5-4.12
   - gptfdisk=1.0.8-150400.1.7
   - haproxy=2.0.14-bp152.1.1
-  - hplip=3.21.10-150400.3.5.1
+  - hplip=3.21.10-150400.3.8.1
   - ipmitool=1.8.19.gb7c0d66-0
   - ipset=7.15-150400.12.3.2
   - java-1_8_0-ibm-plugin=1.8.0_sr8.5-150000.3.74.1
@@ -46,7 +46,6 @@ packages:
   - ltrace=0.7.91-4.3
   - mariadb-tools=10.6.13-150400.3.23.1
   - mariadb=10.6.13-150400.3.23.1
-  - mdadm=4.1-150300.24.24.2
   - minicom=2.7.1-1.19
   - mlocate=0.26-150400.16.3.1
   - netcat-openbsd=1.203-150400.1.5
@@ -61,7 +60,6 @@ packages:
   - s3fs=1.91-150000.3.9.1
   - smartmontools=7.2-150300.8.8.1
   - socat=1.7.3.2-4.10
-  - squashfs=4.4-1.1
   - squid=5.7-150400.3.6.1
   - sysstat=12.0.2-3.33.1
   - systemtap=4.6-150400.1.7
@@ -79,7 +77,7 @@ packages:
   - cloud-init=21.4-1
   - cray-kubectl-hns-plugin=1.0.1-1
   - cray-kubectl-kubelogin-plugin=1.25.2-1
-  - goss-servers=1.16.41-1
+  - goss-servers=1.16.42-1
   - hpe-csm-goss-package=0.3.21-hpe3
   - hpe-csm-scripts=0.5.5-1
   - loftsman=1.2.0-3

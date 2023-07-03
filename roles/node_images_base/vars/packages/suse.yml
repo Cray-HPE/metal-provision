@@ -31,23 +31,23 @@ packages:
   # rationale: Necessary for viewing and managing routing tables.
   - iproute2=5.14-150400.1.8
   # rationale: Dependency for daemon necessities.
-  - libsystemd0=249.16-150400.8.25.7
+  - libsystemd0=249.16-150400.8.28.3
   # rationale: Dependency for daemon necessities.
-  - libudev1=249.16-150400.8.25.7
+  - libudev1=249.16-150400.8.28.3
   # rationale: Dependency for daemon necessities.
-  - systemd-coredump=249.16-150400.8.25.7
+  - systemd-coredump=249.16-150400.8.28.3
   # rationale: Dependency for daemon necessities.
-  - systemd-lang=249.16-150400.8.25.7
+  - systemd-lang=249.16-150400.8.28.3
   # rationale: Necessary for daemons.
-  - systemd-sysvinit=249.16-150400.8.25.7
+  - systemd-sysvinit=249.16-150400.8.28.3
   # rationale: Necessary for daemons.
-  - systemd=249.16-150400.8.25.7
+  - systemd=249.16-150400.8.28.3
   # rationale: Necessary for TPM2.
   - tpm2.0-abrmd=2.4.0-150400.1.6
   # rationale: Necessary for TPM2.
   - tpm2.0-tools=5.2-150400.4.6
   # rationale: Necessary for hardware interfaces.
-  - udev=249.16-150400.8.25.7
+  - udev=249.16-150400.8.28.3
   #
   ## Filesystems and block device helpers
   #
@@ -62,11 +62,11 @@ packages:
   # rationale: Necessary for Intel servers for properly controling storage activity LEDs when MD RAID is in use.
   - ledmon=0.94-150400.5.5
   # rationale: Necessary for multiple device (MD) software RAID.
-  - mdadm=4.1-150300.24.24.2
+  - mdadm=4.1-150300.24.27.1
   # rationale: Necessary for constructing boot loader images.
   - mtools=4.0.35-150400.1.11
   # rationale: Necessary for NVME control in a failed initramFS (required by dracut).
-  - nvme-cli=2.0+30.g86f82c58cb97-150400.3.15.1
+  - nvme-cli=2.0+40.gd857ed9befd6-150400.3.18.1
   # rationale: Necessary for manipulating squash file systems.
   - squashfs=4.4-1.1
   # rationale: Necessary for extended file system (XFS) support.
@@ -99,9 +99,9 @@ packages:
   # rationale: Desired for easy viewing of files.
   - less=590-150400.3.3.1
   # rationale: Desired for easy navigation of NVME devices in bourne again shell (BASH).
-  - nvme-cli-bash-completion=2.0+30.g86f82c58cb97-150400.3.15.1
+  - nvme-cli-bash-completion=2.0+40.gd857ed9befd6-150400.3.18.1
   # rationale: Desired for easy navigation of NVME devices in Zshell.
-  - nvme-cli-zsh-completion=2.0+30.g86f82c58cb97-150400.3.15.1
+  - nvme-cli-zsh-completion=2.0+40.gd857ed9befd6-150400.3.18.1
   # Analysis / Triage data Collection
   # rationale: Desired for viewing and dumping Ethernet controller and port information.
   - ethtool=5.14-150400.1.6

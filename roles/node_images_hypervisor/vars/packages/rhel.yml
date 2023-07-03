@@ -25,10 +25,5 @@
 # NOTE: This list is incomplete, at this time there is no base image for RHEL to use as a test.
 # TODO: Add pins
 packages:
-  # - mkisofs?
-  # - terraform?
-  - cloud-init
-  - helm
   - libvirt
   - libvirt-client
-  - nfs-utils

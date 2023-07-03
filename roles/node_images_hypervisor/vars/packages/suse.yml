@@ -38,9 +38,9 @@ packages:
   # rationale: Necessary for Mercury software proof-of-concepts.
   - libxslt-tools=1.1.34-150400.3.3.1
   # rationale: Drivers for VMs.
-  - qemu-kvm=6.2.0-150400.37.14.2
+  - qemu-kvm=6.2.0-150400.37.17.1
   # rationale: Necessary for providing consoles to VMs.
-  - qemu-ui-spice-core=6.2.0-150400.37.14.2
+  - qemu-ui-spice-core=6.2.0-150400.37.17.1
 patterns:
   # rationale: SUSE KVM dependencies.
   - patterns-server-kvm_server=20180302-11.1

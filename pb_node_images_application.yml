@@ -29,4 +29,6 @@
     HTTPS_PROXY: "{{ HTTPS_PROXY }}"
   roles:
     - node_images_base
+    - packages_csm
+    - packages_user
     - node_images_application

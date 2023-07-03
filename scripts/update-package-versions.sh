@@ -211,7 +211,6 @@ else
   DOCKER_TTY_ARG="-it"
 fi
 
-set -x
 docker run --platform $DOCKER_ARCH -e ARCH=$ARCH $DOCKER_TTY_ARG --rm -v "$(realpath "$SOURCE_DIR"):/app" -v "$(realpath "$PACKAGES_FILE"):/packages" --init $DOCKER_CACHE_IMAGE bash -c "
   set -e
   source /app/scripts/rpm-functions.sh

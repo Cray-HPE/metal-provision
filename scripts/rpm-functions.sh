@@ -266,7 +266,6 @@ function update-package-version() {
     local package="$2"
     local current_version="$3"
     local new_version="$4"
-
     sed -e "s/$package=$current_version/$package=$new_version/" -i "$packages_path"
 }
 

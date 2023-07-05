@@ -30,4 +30,5 @@ packages:
   - ilorest=4.2.0.0-20
   - metal-ipxe=2.4.4-1
   - metal-nexus=1.2.3-1
+  - metal-observability=1.0.9-1
 patterns:

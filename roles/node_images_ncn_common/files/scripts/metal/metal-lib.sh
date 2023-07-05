@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2021-2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2021-2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -491,6 +491,8 @@ function install_csm_rpms() {
 
     echo "install_csm_rpms will search the following repos: $repos"
 
+    hostname=${hostname:-$(hostname)}
+
     # search through the csm-sle repos looking for our packages
     for repo in $repos; do
         # Retrieve the packages from nexus
@@ -504,9 +506,11 @@ function install_csm_rpms() {
             | jq -r  '.items[] | .assets[] | .downloadUrl' | grep platform-utils | sort -V | tail -1)
         test -n "$iuf_cli_url" || iuf_cli_url=$(paginate "https://packages.local/service/rest/v1/components?repository=$repo" \
             | jq -r  '.items[] | .assets[] | .downloadUrl' | grep iuf-cli | sort -V | tail -1)
-        test -n "$cray_cmstools_url" || cray_cmstools_url=$(paginate "https://packages.local/service/rest/v1/components?repository=$repo" \
-            | jq -r  '.items[] | .assets[] | .downloadUrl' | grep cray-cmstools-crayctldeploy | sort -V | tail -1)
-
+        # cmstools should be installed on Kubernetes NCNs, not storage NCNs
+        if [[ $hostname =~ ^ncn-[mw] ]]; then
+            test -n "$cray_cmstools_url" || cray_cmstools_url=$(paginate "https://packages.local/service/rest/v1/components?repository=$repo" \
+                | jq -r  '.items[] | .assets[] | .downloadUrl' | grep cray-cmstools-crayctldeploy | sort -V | tail -1)
+        fi
     done
 
     test -z "$canu_url" && echo WARNING: unable to install canu
@@ -514,7 +518,12 @@ function install_csm_rpms() {
     test -z "$csm_testing_url" && echo WARNING: unable to install csm-testing
     test -z "$platform_utils_url" && echo WARNING: unable to install platform-utils
     test -z "$iuf_cli_url" && echo WARNING: unable to install iuf-cli
-    test -z "$cray_cmstools_url" && echo WARNING: unable to install cray-cmstools-crayctldeploy
+    # cmstools should be installed on Kubernetes NCNs, not storage NCNs
+    if [[ $hostname =~ ^ncn-[mw] ]]; then
+        test -z "$cray_cmstools_url" && echo WARNING: unable to install cray-cmstools-crayctldeploy
+    else
+        cray_cmstools_url=""
+    fi
 
     zypper install -y $canu_url $goss_servers_url $csm_testing_url $platform_utils_url $iuf_cli_url $cray_cmstools_url && systemctl enable goss-servers && systemctl restart goss-servers
 }

@@ -24,7 +24,7 @@
 ---
 packages:
   # Python
-  - craycli=0.82.6-1
+  - craycli=0.82.7-1
   - csm-auth-utils=1.0.0-1
   - csm-node-heartbeat=2.0-3
   - csm-node-identity=1.0.20-1

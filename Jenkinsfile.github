@@ -68,7 +68,6 @@ pipeline {
                         stage('Validate node-image-application packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_application/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
-                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_application/vars/packages/suse-x86_64.yml --compute --validate --suffix ${env.SUFFIX}"
                             }
                         }
 

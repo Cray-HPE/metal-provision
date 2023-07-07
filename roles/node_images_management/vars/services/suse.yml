@@ -38,7 +38,7 @@ services:
   - enabled: false
     name: csm-node-identity.service
     state: stopped
-  - enabled: false
+  - enabled: true
     name: csm-node-heartbeat.service
     state: stopped
   - enabled: false

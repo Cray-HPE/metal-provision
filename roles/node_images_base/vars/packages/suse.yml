@@ -63,6 +63,8 @@ packages:
   - ledmon=0.94-150400.5.5
   # rationale: Necessary for multiple device (MD) software RAID.
   - mdadm=4.1-150300.24.27.1
+  # rationale: Necessary for ISO emulation
+  - mkisofs=3.02~a09-4.6.1
   # rationale: Necessary for constructing boot loader images.
   - mtools=4.0.35-150400.1.11
   # rationale: Necessary for NVME control in a failed initramFS (required by dracut).

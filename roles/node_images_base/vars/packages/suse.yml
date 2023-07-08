@@ -28,6 +28,8 @@ packages:
   #
   # rationale: Necessary for network time protocol (NTP).
   - chrony=4.1-150400.19.4
+  # rationale: Pinned to prevent the floor from getting pulled out.
+  - dracut=055+suse.342.g2e6dce8e-150400.3.22.1
   # rationale: Necessary for viewing and managing routing tables.
   - iproute2=5.14-150400.1.8
   # rationale: Dependency for daemon necessities.

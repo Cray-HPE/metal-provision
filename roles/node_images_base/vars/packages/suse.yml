@@ -135,6 +135,8 @@ packages:
   - tcpdump=4.99.1-150400.1.8
   # rationale: Necessary for triaging and debugging packet routes.
   - traceroute=2.0.21-1.29
+  # rationale: Provides `lsblk` and other useful block device tools.
+  - util-linux-systemd=2.37.2-150400.8.17.1
   # rationale: Necessary for viewing, dumping, and inspecting USB devices.
   - usbutils=014-3.3.1
   # rationale: Necessary for resolving where an application is actually running from.

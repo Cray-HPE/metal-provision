@@ -139,6 +139,10 @@ packages:
   - util-linux-systemd=2.37.2-150400.8.17.1
   # rationale: Necessary for viewing, dumping, and inspecting USB devices.
   - usbutils=014-3.3.1
+  # rationale: Necessary for vim.
+  - vim-data=9.0.1572-150000.5.46.1
+  # rationale: Necessary for basic editing.
+  - vim=9.0.1572-150000.5.46.1
   # rationale: Necessary for resolving where an application is actually running from.
   - which=2.21-2.20
 patterns:

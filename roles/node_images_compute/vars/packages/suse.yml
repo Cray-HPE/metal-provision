@@ -27,7 +27,7 @@ packages:
   # CSM Team
   - acpid=2.0.31-2.1
   - csm-auth-utils=1.0.0-1
-  - csm-node-heartbeat=2.0-3
+  - csm-node-heartbeat=2.1-3
   # CMS Team
   - bos-reporter=2.5.3-1
   - cfs-debugger=1.4.0-1
@@ -38,13 +38,13 @@ packages:
   - libatk-1_0-0=2.36.0-150400.2.9
   - libcairo-gobject2=1.16.0-150400.9.6
   - libcairo2=1.16.0-150400.9.6
-  - libgcrypt20=1.9.4-150400.6.8.1
+  - libgcrypt20=1.9.4-150500.10.19
   - libgdk_pixbuf-2_0-0=2.42.9-150400.5.6.1
   - libgio-2_0-0=2.70.5-150400.3.8.1
-  - libglvnd=1.3.3-150400.3.4
+  - libglvnd=1.5.0-150500.1.2
   - libgtk-3-0=3.24.34-150400.3.3.1
   - libgtksourceview-3_0-1=3.24.11-150400.10.11
-  - libopenblas_pthreads0=0.3.20-150400.2.3
+  - libopenblas_pthreads0=0.3.21-150500.2.6
   - munge=0.5.15-150400.18.3.6
   - typelib-1_0-Gtk-3_0=3.24.34-150400.3.3.1
   # COS General Packages
@@ -66,7 +66,7 @@ packages:
   - check-devel=0.15.2-150400.1.6
   - glu-devel=9.0.0-8.45
   - libLLVM7=7.0.1-150100.3.22.2
-  - libdrm-devel=2.4.107-150400.1.8
+  - libdrm-devel=2.4.114-150500.3.2
   - libglut3=3.2.1-1.24
   - libnuma-devel=2.0.14.20.g4ee5e0c-150400.1.24
   - libvdpau1=1.1.1-150000.3.2.1
@@ -76,9 +76,9 @@ packages:
   - x11-tools=0.1-2.18
   # PE Base SLES Packages for cray-lmod
   - lua53=5.3.6-3.6.1
-  - lua53-luafilesystem=1.7.0-3.2.3
+  - lua53-luafilesystem=1.8.0-150500.1.1
   - lua53-luaposix=34.1.1-3.2.3
   # PE Base SLES Packages for cray-R
-  - libicu60_2=60.2-150000.3.12.1
-  - libicu60_2-ledata=60.2-150000.3.12.1
+  - libicu69=69.1-7.3.2
+  - libicu69-ledata=69.1-7.3.2
 patterns:

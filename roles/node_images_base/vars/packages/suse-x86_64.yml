@@ -28,16 +28,17 @@ packages:
   # rationale: A dependency of SLES's GRUB package.
   - grub2-branding-SLE=15-150400.38.3.1
   # rationale: Provides a boot loader for booting into Linux.
-  - grub2=2.06-150400.11.33.1
+  - grub2=2.06-150500.27.4
   # rationale: A dependency needed for the x86_64 EFI GRUB boot loader.
-  - grub2-i386-pc=2.06-150400.11.33.1
+  - grub2-i386-pc=2.06-150500.27.4
   # rationale: Necessary for creating and managing an x86_64 EFI GRUB boot loader.
-  - grub2-x86_64-efi=2.06-150400.11.33.1
+  - grub2-x86_64-efi=2.06-150500.27.4
   # Drivers
   # rationale: Necessary for Mellanox device tools.
-  - kernel-mft-mlnx-kmp-default=4.21.0_k5.14.21_150400.22-1.sles15sp4
+  #TEMP
+  #- kernel-mft-mlnx-kmp-default=4.21.0_k5.14.21_150400.22-1.sles15sp4
   # rationale: Necessary for advanced QLogic support (CASMTRIAGE-5033)
-  - qlgc-fastlinq-kmp-default=8.72.4.1_k5.14.21_150400.22-1.sles15sp4
+  - qlgc-fastlinq-kmp-default=8.72.4.1_k5.14.21_150500.53-8.sles15sp5
   # rationale: Necessary for collecting hardware information.
   - lshw=B.02.19.2+git.20230320-150200.3.15.4
   # rationale: Necessary for inspecting, configuring, and upgrading Mellanox devices.

@@ -68,7 +68,7 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 #https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-WE/${releasever_major}-SP${releasever_minor}/${basearch}/update?auth=basic                           SUSE-SLE-Product-WE-Updates                             -g -p 89
 #https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-WE/${releasever_major}-SP${releasever_minor}/${basearch}/update_debug?auth=basic                     SUSE-SLE-Product-WE-Debuginfo-Updates                   -g -p 89
 
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-${releasever_major}-SP${releasever_minor}_${basearch}/standard?auth=basic                                  SUSE-Backports-SLE                                      -g -p 89
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15-SP4_${basearch}/standard?auth=basic                                  SUSE-Backports-SLE                                      -g -p 89
 
 # haproxy and keepalived (not available from SP3 nor SP4 repositories):
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Backports/SLE-15-SP2_${basearch}/standard?auth=basic                                                                     SUSE-Backports-SLE-15-SP2                               -g -p 89
@@ -76,7 +76,8 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 # cephadm, ceph-common, and libfmt
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/step?auth=basic                                     openSUSE-Backports-step                                 -g -p 89
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/standard?auth=basic                                 openSUSE-Backports-standard                             -g -p 89
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/filesystems:ceph:quincy:upstream/openSUSE_Leap_${releasever}?auth=basic                                              filesystems-ceph                                        -g -p 89
+#TEMP
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/filesystems:ceph:quincy:upstream/openSUSE_Leap_15.4?auth=basic                                              filesystems-ceph                                        -g -p 89
 
 # free range routing
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/network/${releasever_major}.${releasever_minor}/?auth=basic                                                          openSUSE-network-SLE                                    -g -p 90

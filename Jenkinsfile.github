@@ -58,6 +58,18 @@ pipeline {
                             }
                         }
 
+                        stage('Validate packages_csm packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/packages_csm/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate packages_user packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/packages_user/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
                         stage('Validate node-image-base packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_base/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
@@ -129,6 +141,18 @@ pipeline {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_base/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_base/vars/packages/suse-aarch64.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate packages_csm packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a aarch64 -p roles/packages_csm/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate packages_user packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a aarch64 -p roles/packages_user/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 

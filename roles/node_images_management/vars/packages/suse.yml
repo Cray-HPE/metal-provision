@@ -27,9 +27,9 @@ packages:
   - cloud-init-config-suse=23.1-150100.8.63.5
   - cloud-init=23.1-150100.8.63.5
   - cray-site-init=1.32.0-1
-  - libvirt-client=8.0.0-150400.7.6.1
-  - libvirt-devel=8.0.0-150400.7.6.1
-  - libvirt=8.0.0-150400.7.6.1
+  - libvirt-client=9.0.0-150500.6.3.1
+  - libvirt-devel=9.0.0-150500.6.3.1
+  - libvirt=9.0.0-150500.6.3.1
   - ilorest=4.2.0.0-20
   - metal-init=1.4.2-1
   - metal-ipxe=2.4.4-1

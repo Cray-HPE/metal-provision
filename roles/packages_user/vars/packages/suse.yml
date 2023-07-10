@@ -80,8 +80,6 @@ packages:
   - tmux=3.1c-bp152.2.3.1
   - unixODBC=2.3.9-150400.14.5
   - unzip=6.00-150000.4.11.1
-  - vim-data=9.0.1572-150000.5.46.1
-  - vim=9.0.1572-150000.5.46.1
   - yq-bash-completion=4.18.1-bp154.1.17
   - yq-zsh-completion=4.18.1-bp154.1.17
   - zip=3.0-2.22

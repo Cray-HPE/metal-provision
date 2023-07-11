@@ -28,6 +28,12 @@
   tags:
     - packages
 
+- name: Copy cloud.cfg configuration
+  ansible.builtin.copy:
+    mode: preserve
+    src: cloud.cfg
+    dest: /etc/cloud/cloud.cfg
+
 - name: Copy cloud.cfg.d configuration
   ansible.posix.synchronize:
     delete: false

@@ -22,4 +22,13 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-default_hostname: hypev
+kernel:
+  blacklists:
+    standard:
+      - libiscsi
+      - rpcrdma
+    kdump:
+      - mlx5_core
+      - mlx5_ib
+      - sunrpc
+      - xhci_hcd

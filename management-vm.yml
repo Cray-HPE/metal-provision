@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,12 +22,8 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Node Image Kubernetes
+- name: Node Image Management
   hosts: localhost
   become: true # Enable environments that do not login as root to escalate privilege.
   roles:
-    # This should, but doesn't, invoke node_images_base, node_images_ncn_common.
-    # The reason those roles aren't invoked, is because this image builds atop the ncn-common layer. The ncn-common
-    # layer will be deprecated, if that happens during the lifetime of this layer then the aforementioned roles will need
-    # to be added.
-    - node_images_kubernetes
+    - node_images_management_vm

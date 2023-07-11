@@ -22,13 +22,13 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
-  - enabled: false
-    name: csm-node-heartbeat.service
-    state: stopped
-  - enabled: false
-    name: csm-node-identity.service
-    state: stopped
-  - enabled: false
-    name: spire-agent.service
-    state: stopped
+packages:
+  - ceph-common<17.2.6
+  - cloud-init-config-suse=23.1-150100.8.63.5
+  - cloud-init=23.1-150100.8.63.5
+  - cri-tools=1.25.0-0
+  - ipvsadm=1.29-4.3.1
+  - kubeadm=1.22.13-0
+  - kubectl=1.22.13-0
+  - kubelet=1.22.13-0
+patterns:

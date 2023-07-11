@@ -22,25 +22,30 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
-  - enabled: true
-    name: cloud-config.service
-    state: stopped
-  - enabled: true
-    name: cloud-final.service
-    state: stopped
-  - enabled: true
-    name: cloud-init.service
-    state: stopped
-  - enabled: true
-    name: cloud-init-local.service
-    state: stopped
-  - enabled: true
-    name: csm-node-identity.service
-    state: stopped
-  - enabled: true
-    name: kubelet.service
-    state: stopped
-  - enabled: false
-    name: spire-agent.service
-    state: stopped
+- name: Install packages
+  ansible.builtin.include_tasks:
+    file: packages.yml
+  tags:
+    - packages
+
+- name: Copy cloud.cfg configuration
+  ansible.builtin.copy:
+    mode: preserve
+    src: cloud.cfg
+    dest: /etc/cloud/cloud.cfg
+
+- name: Copy cloud.cfg.d configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: cloud.cfg.d/
+    dest: /etc/cloud/cloud.cfg.d/
+
+- name: Copy sysctl configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: sysctl.d/
+    dest: /etc/sysctl.d/
+
+- name: Setup services
+  ansible.builtin.include_tasks:
+    file: services.yml

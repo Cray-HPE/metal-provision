@@ -47,6 +47,9 @@ services:
   - enabled: false
     name: cloud-final.service
     state: stopped
+  - enabled: true
+    name: csm-node-heartbeat.service
+    state: stopped
   - enabled: false
     name: csm-node-identity.service
     state: stopped

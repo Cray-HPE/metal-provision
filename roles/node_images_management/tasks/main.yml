@@ -28,6 +28,12 @@
   tags:
     - packages
 
+- name: Copy cloud.cfg.d configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: cloud.cfg.d/
+    dest: /etc/cloud/cloud.cfg.d/
+
 - name: Setup services
   ansible.builtin.include_tasks:
     file: services.yml

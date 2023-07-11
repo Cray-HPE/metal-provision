@@ -22,12 +22,30 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Node Image Management
-  hosts: localhost
-  become: true # Enable environments that do not login as root to escalate privilege.
-  roles:
-    # This should, but doesn't, invoke node_images_base, node_images_ncn_common.
-    # The reason those roles aren't invoked, is because this image builds atop the ncn-common layer. The ncn-common
-    # layer will be deprecated, if that happens during the lifetime of this layer then the aforementioned roles will need
-    # to be added.
-    - node_images_management
+- name: Install packages
+  ansible.builtin.include_tasks:
+    file: packages.yml
+  tags:
+    - packages
+
+- name: Copy cloud.cfg configuration
+  ansible.builtin.copy:
+    mode: preserve
+    src: cloud.cfg
+    dest: /etc/cloud/cloud.cfg
+
+- name: Copy cloud.cfg.d configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: cloud.cfg.d/
+    dest: /etc/cloud/cloud.cfg.d/
+
+- name: Copy sysctl configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: sysctl.d/
+    dest: /etc/sysctl.d/
+
+- name: Setup services
+  ansible.builtin.include_tasks:
+    file: services.yml

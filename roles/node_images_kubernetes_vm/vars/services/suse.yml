@@ -35,11 +35,14 @@ services:
   - enabled: true
     name: cloud-init-local.service
     state: stopped
-  - enabled: true
+  - enabled: false
+    name: kubelet.service
+    state: stopped
+  - enabled: false
     name: csm-node-identity.service
     state: stopped
-  - enabled: true
-    name: kubelet.service
+  - enabled: false
+    name: csm-node-heartbeat.service
     state: stopped
   - enabled: false
     name: spire-agent.service

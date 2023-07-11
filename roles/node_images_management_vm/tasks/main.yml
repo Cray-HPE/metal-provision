@@ -40,6 +40,12 @@
     src: cloud.cfg.d/
     dest: /etc/cloud/cloud.cfg.d/
 
+- name: Copy sysctl configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: sysctl.d/
+    dest: /etc/sysctl.d/
+
 - name: Setup services
   ansible.builtin.include_tasks:
     file: services.yml

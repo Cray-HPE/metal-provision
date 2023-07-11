@@ -23,6 +23,7 @@
 #
 ---
 packages:
+  - ceph-common<17.2.6
   - cloud-init-config-suse=23.1-150100.8.63.5
   - cloud-init=23.1-150100.8.63.5
   - cri-tools=1.25.0-0

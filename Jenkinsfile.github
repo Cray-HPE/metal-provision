@@ -90,6 +90,18 @@ pipeline {
                             }
                         }
 
+                        stage('Validate node-image-kubernetes-vm packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_kubernetes_vm/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate node-image-management-vm packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_management_vm/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
                         stage('Validate node-image-pre-install-toolkit packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_pre_install_toolkit/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
@@ -124,7 +136,7 @@ pipeline {
                                 }
                             }
                         }
-    
+
                         stage('Validate node-image-base packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_base/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"

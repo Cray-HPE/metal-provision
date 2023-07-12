@@ -96,9 +96,9 @@ pipeline {
                             }
                         }
 
-                        stage('Validate node-image-kubernetes packages') {
+                        stage('Validate node-image-ncn-kubernetes packages') {
                             steps {
-                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_kubernetes/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_ncn_kubernetes/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 

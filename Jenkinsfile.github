@@ -96,9 +96,21 @@ pipeline {
                             }
                         }
 
+                        stage('Validate node-image-ncn-kubernetes packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_ncn_kubernetes/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
                         stage('Validate node-image-hypervisor packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_hypervisor/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate node-image-management packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_management/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 

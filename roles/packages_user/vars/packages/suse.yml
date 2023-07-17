@@ -59,7 +59,6 @@ packages:
   - libdw1=0.185-150400.5.3.1
   - libelf-devel=0.185-150400.5.3.1
   - libelf1=0.185-150400.5.3.1
-  - libfreebl3-hmac=3.79.4-150400.3.29.1
   - libfreebl3=3.90-150400.3.32.1
   - liblldp_clif1=1.1+44.0f781b4162d3-3.3.1
   - libopenssl1_1=1.1.1l-150400.7.45.1

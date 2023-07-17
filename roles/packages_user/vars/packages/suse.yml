@@ -60,13 +60,13 @@ packages:
   - libelf-devel=0.185-150400.5.3.1
   - libelf1=0.185-150400.5.3.1
   - libfreebl3-hmac=3.79.4-150400.3.29.1
-  - libfreebl3=3.79.4-150400.3.29.1
+  - libfreebl3=3.90-150400.3.32.1
   - liblldp_clif1=1.1+44.0f781b4162d3-3.3.1
-  - libopenssl1_1=1.1.1l-150400.7.42.1
+  - libopenssl1_1=1.1.1l-150400.7.45.1
   - libpwquality1=1.4.4-150400.15.4
   - libstoragemgmt=1.8.5-3.3.1
   - libunwind-devel=1.5.0-4.5.1
-  - openssl-1_1=1.1.1l-150400.7.42.1
+  - openssl-1_1=1.1.1l-150400.7.45.1
   - perf=5.14.21-150400.44.13.1
   - perl-File-BaseDir=0.09-bp154.1.25
   - perl-File-Which=1.22-1.22

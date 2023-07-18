@@ -127,6 +127,10 @@ function create-iso {
         -boot_image any efi_path=--interval:appended_partition_2:all:: \
         -boot_image any platform_id=0xef \
         -boot_image any emul_type=no_emulation
+
+    # Remove the duplicate label observed between the ISO and the ISO partition (MTL-2191, MTL-2192, SUSE #00697765)
+    echo -n 'ISO' | iconv -f utf8 -t UCS-2BE | dd bs=1 seek=$((0x9028)) conv=notrunc of="${iso}"
+
     # NOTE: Can't sign the ISO with the HPE key because it is too large. --create-signature could be used but this makes a unique key.
     tagmedia --md5 --check --pad 150 ${iso}
 }

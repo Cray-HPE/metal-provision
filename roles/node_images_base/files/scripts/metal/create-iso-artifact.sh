@@ -100,13 +100,14 @@ function install-grub2 {
 
 function create-iso {
     local iso="${ISO_OUTPUT}/${ISO_NAME}.iso"
+    local joliet=on
     mkdir -pv "${ISO_OUTPUT}" || return 1
     xorriso \
         -publisher 'Cray-HPE' \
         -application_id ${app_id} \
         -preparer_id 'METAL - https://github.com/Cray-HPE/node-images' \
         -copyright_file /tmp/LICENSE \
-        -joliet on \
+        -joliet "${joliet}" \
         -padding 0 \
         -volid "${ISO_FSLABEL}" \
         -outdev ${iso} \
@@ -127,6 +128,14 @@ function create-iso {
         -boot_image any efi_path=--interval:appended_partition_2:all:: \
         -boot_image any platform_id=0xef \
         -boot_image any emul_type=no_emulation
+
+    # Remove the duplicate label observed between the ISO and the ISO partition (MTL-2191, MTL-2192, SUSE #00697765)
+    if [ "${joliet}" = 'on' ]; then
+        echo -n 'ISO' | iconv -f utf8 -t UCS-2BE | dd bs=1 seek=$((0x9028)) conv=notrunc of="${iso}"
+    else
+        echo -n "ISO" | dd bs=1 seek=$((0x8028)) of="${iso}"
+    fi
+
     # NOTE: Can't sign the ISO with the HPE key because it is too large. --create-signature could be used but this makes a unique key.
     tagmedia --md5 --check --pad 150 ${iso}
 }

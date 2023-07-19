@@ -27,4 +27,5 @@ packages:
   - golang-github-prometheus-node_exporter=1.5.0-150100.3.23.2
   - libfmt8=8.0.1-150400.1.8
   - ses-release=7-64.1
+  - smart-mon=1.0-1
 patterns:

@@ -77,7 +77,7 @@ packages:
   - cloud-init=21.4-1
   - cray-kubectl-hns-plugin=1.0.1-1
   - cray-kubectl-kubelogin-plugin=1.25.2-1
-  - goss-servers=1.16.45-1
+  - goss-servers=1.16.47-1
   - hpe-csm-goss-package=0.3.21-hpe3
   - hpe-csm-scripts=0.6.0-1
   - loftsman=1.2.0-3

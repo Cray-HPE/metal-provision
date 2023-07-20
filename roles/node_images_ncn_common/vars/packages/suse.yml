@@ -72,9 +72,9 @@ packages:
   - cfs-trust=1.6.5-1
   # cloud-init: Must use 21.4-1, specifically our forked build in csm-rpms
   #             MTL-2092 is upgrading to cloud-init-23.
-  - cloud-init-config-suse=21.4-1
-  - cloud-init-doc=21.4-1
-  - cloud-init=21.4-1
+  - cloud-init-config-suse=23.2.1-1
+  - cloud-init-doc=23.2.1-1
+  - cloud-init=23.2.1-1
   - cray-kubectl-hns-plugin=1.0.1-1
   - cray-kubectl-kubelogin-plugin=1.25.2-1
   - goss-servers=1.16.46-1

@@ -41,7 +41,7 @@ packages:
   - java-1_8_0-ibm=1.8.0_sr8.5-150000.3.74.1
   - jq=1.6-3.3.1
   - keepalived=2.0.19-bp152.1.9
-  - kubectl=1.22.13-0
+  - kubectl=1.22.17-0
   - lsof=4.91-1.11
   - ltrace=0.7.91-4.3
   - mariadb-tools=10.6.13-150400.3.23.1

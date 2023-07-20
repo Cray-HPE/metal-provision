@@ -29,7 +29,7 @@ packages:
   - cloud-init=23.1-150100.8.63.5
   - cray-site-init=1.32.0-1
   - ilorest=4.2.0.0-20
-  - kubectl=1.22.13-0
+  - kubectl=1.22.17-0
   - libvirt-client=8.0.0-150400.7.6.1
   - libvirt-devel=8.0.0-150400.7.6.1
   - libvirt=8.0.0-150400.7.6.1

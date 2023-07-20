@@ -28,7 +28,7 @@ packages:
   - cloud-init=23.1-150100.8.63.5
   - cri-tools=1.25.0-0
   - ipvsadm=1.29-4.3.1
-  - kubeadm=1.22.13-0
-  - kubectl=1.22.13-0
-  - kubelet=1.22.13-0
+  - kubeadm=1.22.17-0
+  - kubectl=1.22.17-0
+  - kubelet=1.22.17-0
 patterns:

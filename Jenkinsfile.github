@@ -58,63 +58,75 @@ pipeline {
                             }
                         }
 
-                        stage('Validate node-image-base packages') {
+                        stage('Validate node_images_base packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_base/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_base/vars/packages/suse-x86_64.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-application packages') {
+                        stage('Validate packages_csm packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/packages_csm/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate packages_user packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p roles/packages_user/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate node_images_application packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_application/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-compute packages') {
+                        stage('Validate node_images_compute packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_compute/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_compute/vars/packages/suse-x86_64.yml --compute --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-ncn-common packages') {
+                        stage('Validate node_images_ncn_common packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_ncn_common/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-hypervisor packages') {
+                        stage('Validate node_images_hypervisor packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_hypervisor/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-kubernetes-vm packages') {
+                        stage('Validate node_images_kubernetes_vm packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_kubernetes_vm/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-management-vm packages') {
+                        stage('Validate node_images_management_vm packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_management_vm/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-pre-install-toolkit packages') {
+                        stage('Validate node_images_pre_install_toolkit packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_pre_install_toolkit/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-ncn-kubernetes packages') {
+                        stage('Validate node_images_ncn_kubernetes packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_ncn_kubernetes/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-storage-ceph packages') {
+                        stage('Validate node_images_storage_ceph packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p roles/node_images_storage_ceph/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                             }
@@ -137,20 +149,32 @@ pipeline {
                             }
                         }
 
-                        stage('Validate node-image-base packages') {
+                        stage('Validate node_images_base packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_base/vars/packages/suse.yml --validate --suffix ${env.SUFFIX}"
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_base/vars/packages/suse-aarch64.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-application packages') {
+                        stage('Validate packages_csm packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a aarch64 -p roles/packages_csm/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate packages_user packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a aarch64 -p roles/packages_user/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate node_images_application packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_application/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
-                        stage('Validate node-image-compute packages') {
+                        stage('Validate node_images_compute packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_compute/vars/packages/suse.yml --compute --validate --suffix ${env.SUFFIX}"
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p roles/node_images_compute/vars/packages/suse-aarch64.yml --compute --validate --suffix ${env.SUFFIX}"

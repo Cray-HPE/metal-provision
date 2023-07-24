@@ -41,3 +41,6 @@ services:
   - enabled: false
     name: spire-agent.service
     state: stopped
+  - enabled: true
+    name: smart.service
+    state: stopped

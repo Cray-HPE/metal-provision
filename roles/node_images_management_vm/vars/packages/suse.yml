@@ -37,6 +37,6 @@ packages:
   - metal-ipxe=2.4.4-1
   - metal-nexus=1.2.3-1
   - metal-observability=1.0.9-1
-  - pulumi=3.74.0-1
+  - qemu-guest-agent=6.2.0-150400.37.17.1
   - terraform=0.13.4-6.3.1
 patterns:

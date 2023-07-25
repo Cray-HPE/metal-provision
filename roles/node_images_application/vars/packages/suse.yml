@@ -31,5 +31,5 @@ packages:
   - bos-reporter=2.5.4-1
   - cfs-debugger=1.4.0-1
   - cfs-state-reporter=1.9.3-1
-  - cfs-trust=1.6.6-1
+  - cfs-trust=1.6.7-1
 patterns:

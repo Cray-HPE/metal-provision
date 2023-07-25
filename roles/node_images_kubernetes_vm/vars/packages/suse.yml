@@ -31,4 +31,5 @@ packages:
   - kubeadm=1.22.13-0
   - kubectl=1.22.13-0
   - kubelet=1.22.13-0
+  - qemu-guest-agent=6.2.0-150400.37.17.1
 patterns:

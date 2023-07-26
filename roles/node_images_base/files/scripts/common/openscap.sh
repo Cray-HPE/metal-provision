@@ -29,8 +29,8 @@ TEMP_DIR=$(mktemp -d)
 
 # Obtain the relevant OVAL files, download to a temporary directory.
 cd $TEMP_DIR
-curl --retry-connrefused --retry 25 -f -O -J https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}.xml
-curl --retry-connrefused --retry 25 -f -O -J https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}-patch.xml
+curl --retry-connrefused --retry 25 -f -O -J https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-pub-mirror/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}.xml
+curl --retry-connrefused --retry 25 -f -O -J https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-pub-mirror/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}-patch.xml
 
 # Create oval test results in /tmp so the Pipeline can find them in an expected location.
 echo 'Running OVAL test ...'

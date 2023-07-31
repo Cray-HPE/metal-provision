@@ -60,6 +60,12 @@
     src: sysctl.d/
     dest: /etc/sysctl.d/
 
+- name: Copy libvirt and cloud-init seed files
+  ansible.posix.synchronize:
+    delete: false
+    src: management-vm/
+    dest: /srv/cray/management-vm/
+
 - name: Setup services
   ansible.builtin.include_tasks:
     file: services.yml

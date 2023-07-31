@@ -46,13 +46,13 @@ function install_ansible {
     mkdir -pv /etc/ansible /opt/cray/ansible
     case "${OS}" in
         debian)
-            python3.10 -m venv --upgrade-deps /opt/cray/ansible
+            python3.11 -m venv --upgrade-deps /opt/cray/ansible
             ;;
         rhel)
             python3.11 -m venv --upgrade-deps /opt/cray/ansible
             ;;
         suse)
-            python3.10 -m venv --upgrade-deps /opt/cray/ansible
+            python3.11 -m venv --upgrade-deps /opt/cray/ansible
             ;;
     esac
 

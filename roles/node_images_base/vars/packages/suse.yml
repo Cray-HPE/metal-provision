@@ -58,17 +58,17 @@ packages:
   # rationale: Necessary for file allocation table file systems (FAT/FAT32/vfat).
   - dosfstools=4.1-3.6.1
   # rationale: Necessary for Linux volume managment (LVM)
-  - lvm2=2.03.05-150400.185.1
+  - lvm2=2.03.16-150500.5.4
   # rationale: Necessary for Intel servers for properly controling storage activity LEDs when MD RAID is in use.
-  - ledmon=0.94-150400.5.5
+  - ledmon=0.96-150500.3.2
   # rationale: Necessary for multiple device (MD) software RAID.
-  - mdadm=4.1-150300.24.27.1
+  - mdadm=4.2-150500.6.3.1
   # rationale: Necessary for ISO emulation
   - mkisofs=3.02~a09-4.6.1
   # rationale: Necessary for constructing boot loader images.
   - mtools=4.0.35-150400.1.11
   # rationale: Necessary for NVME control in a failed initramFS (required by dracut).
-  - nvme-cli=2.0+40.gd857ed9befd6-150400.3.18.1
+  - nvme-cli=2.4+17.gf4cfca93998a-150500.4.3.1
   # rationale: Necessary for manipulating squash file systems.
   - squashfs=4.4-1.1
   # rationale: Necessary for extended file system (XFS) support.
@@ -88,9 +88,9 @@ packages:
   ## Kernel Helpers
   #
   # rationale: Necessary for analyzing a kernel crash dump.
-  - crash=7.3.0-150400.3.5.8
+  - crash=7.3.1-150500.3.4
   # rationale: Necessary for the dynamic kernel module support.
-  - dkms=2.6.1-bp154.1.30
+  - dkms=2.8.8-bp155.1.6
   #
   ## Admin experience / sanity
   #
@@ -101,16 +101,16 @@ packages:
   # rationale: Desired for easy viewing of files.
   - less=590-150400.3.3.1
   # rationale: Desired for easy navigation of NVME devices in bourne again shell (BASH).
-  - nvme-cli-bash-completion=2.0+40.gd857ed9befd6-150400.3.18.1
+  - nvme-cli-bash-completion=2.4+17.gf4cfca93998a-150500.4.3.1
   # rationale: Desired for easy navigation of NVME devices in Zshell.
-  - nvme-cli-zsh-completion=2.0+40.gd857ed9befd6-150400.3.18.1
+  - nvme-cli-zsh-completion=2.4+17.gf4cfca93998a-150500.4.3.1
   # Analysis / Triage data Collection
   # rationale: Desired for viewing and dumping Ethernet controller and port information.
   - ethtool=5.14-150400.1.6
   # rationale: Desired for easy usage of ip commands.
   - iproute2-bash-completion=5.14-150400.1.8
   # rationale: Desired for basic IPv4 and IPv6 probing (provides ping).
-  - iputils=20211215-150400.3.3.2
+  - iputils=20221126-150500.1.1
   # rationale: Desired for viewing and dumping small computer system interface (SCSI) devices.
   - lsscsi=0.28-1.24
   # rationale: Necessary for viewing manuals.
@@ -120,7 +120,7 @@ packages:
   # rationale: Necessary for running CVE scans.
   - openscap=1.3.6-150400.11.3.1
   # rationale: Necessary for link layer discovery protocol (LLDP) during early startup.
-  - open-lldp=1.1+44.0f781b4162d3-3.3.1
+  - open-lldp=1.1+58.8ca361bab766-150500.1.3
   # rationale: Dependency of openssh, pinned to prevent Zypper conflicts with pre-existing openssh-clients.
   - openssh-clients=8.4p1-150300.3.22.1
   # rationale: Dependency of openssh, pinned to prevent Zypper conflicts with pre-existing openssh-common.
@@ -136,19 +136,19 @@ packages:
   # rationale: Necessary for inspecting stack traces for applications.
   - strace=5.14-150400.1.7
   # rationale: Necessary for changing users.
-  - sudo=1.9.9-150400.4.26.1
+  - sudo=1.9.12p1-150500.5.1
   # rationale: Necessary for monitoring and triaging IP connections.
   - tcpdump=4.99.1-150400.1.8
   # rationale: Necessary for triaging and debugging packet routes.
   - traceroute=2.0.21-1.29
   # rationale: Provides `lsblk` and other useful block device tools.
-  - util-linux-systemd=2.37.2-150400.8.17.1
+  - util-linux-systemd=2.37.4-150500.7.2
   # rationale: Necessary for viewing, dumping, and inspecting USB devices.
   - usbutils=014-3.3.1
   # rationale: Necessary for vim.
-  - vim-data=9.0.1572-150000.5.46.1
+  - vim-data=9.0.1443-150500.18.1
   # rationale: Necessary for basic editing.
-  - vim=9.0.1572-150000.5.46.1
+  - vim=9.0.1443-150500.18.1
   # rationale: Necessary for resolving where an application is actually running from.
   - which=2.21-2.20
 patterns:

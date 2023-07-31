@@ -49,6 +49,31 @@ function cleanup_root_user {
     rm -fv /etc/ssh/ssh_host*
 }
 
+# Function for printing rpm/zypper repo association
+function zypper_repo_rpm {
+    echo '- Zypper repository / RPM association'
+
+    declare -a REPOS_ALIAS
+    declare -a PACKAGES
+    PACKAGES=("$(rpm -qa --queryformat '%{NAME}=%{VERSION}-%{RELEASE} ' || true)")
+    REPOS_ALIAS=("$(zypper --no-refresh info "${PACKAGES[*]%%=*}" | awk -F: '/^Repository/{print $2}' | sort | uniq | grep -vi 'expired\|\@System' || true)")
+
+    # List zypper repository and the RPM's installed from it
+    if [[ -n "${REPOS_ALIAS[*]}" ]]; then
+        for repo in "${REPOS_ALIAS[@]}"; do
+            printf '\n%s\n' $(zypper --no-refresh lr -u ${repo} | awk '/^URI/{print $3}' || true)
+            zypper se -s -i -r ${repo} | awk -F'|' 'NF>0{print $2,$4,$5}' || true
+            printf '=%.0s' {1..100}
+        done
+    fi
+
+    # List RPM's that are not associated with a zypper repository (orphaned)
+    printf '\n%s\n' "Orphaned packages. '@System'"
+    zypper -q pa -i --orphaned | grep -v 'expired' | awk -F'|' 'NF>0{print $3,$4,$5}' || true
+    printf '=%.0s' {1..100}
+    printf '\n'
+}
+
 # Function for handling the cleanup/purge of any package manager
 function cleanup_package_manager {
     echo 'Cleaning up OS package manager ...'
@@ -69,6 +94,7 @@ function cleanup_package_manager {
             get-current-package-list /tmp/installed.packages explicit
             get-current-package-list /tmp/installed.deps.packages deps
             zypper lr -e /tmp/installed.repos
+            zypper_repo_rpm | tee /tmp/zypper_repo_rpm.log
 
             echo '- Removing Zypper Repos'
             cleanup-package-repos
@@ -95,11 +121,6 @@ function cleanup_package_manager {
             echo >&2 'Unhandled OS; nothing to do'
             ;;
     esac
-
-    echo 'Removing executable bits from mst'
-    if [ -f /etc/systemd/system/mst.service ] && [ -x /etc/systemd/system/mst.service ]; then
-        chmod 644 /etc/systemd/system/mst.service
-    fi
 }
 
 # Function for removing udev and networkmanager files from the build environment.

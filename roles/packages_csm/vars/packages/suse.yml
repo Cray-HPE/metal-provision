@@ -39,15 +39,15 @@ packages:
   - python3-gobject=3.42.2-150400.3.3.2
   - python3-ipaddr=2.1.11-2.24
   - python3-kubernetes=8.0.1-150100.3.7.1
-  - python3-lxml=4.7.1-150200.3.10.1
+  - python3-lxml=4.9.1-150500.1.2
   - python3-netaddr=0.7.19-1.17
   - python3-pexpect=4.8.0-150400.13.6
   - python3-pyroute2=0.5.10-3.3.1
   - python3-requests-oauthlib=0.8.0-3.4.1
-  - python3-requests=2.24.0-6.10.2
+  - python3-requests=2.24.0-150300.3.3.1
   - python3-rpm=4.14.3-150300.55.1
   - python3-six=1.14.0-12.1
   - python3-urllib3=1.25.10-9.14.1
   - python3-websocket-client=0.57.0-6.4.1
-  - spire-agent=1.5.5-1.7
+  - spire-agent=1.5.5-1.8
 patterns:

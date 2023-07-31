@@ -24,35 +24,35 @@
 ---
 packages:
   - amsd=3.3.0-1773.7.sles15
-  - apparmor-profiles=3.0.4-150400.5.3.1
+  - apparmor-profiles=3.0.4-150500.9.3
   - aws-cli=1.27.89-150200.30.11.1
   - ceph-common<17.2.6
-  - conman=0.3.0-150400.9.10
-  - cpupower=5.14-150400.3.3.1
+  - conman=0.3.1-150500.1.2
+  - cpupower=5.14-150500.9.3.1
   - dracut-metal-mdsquash=2.4.2-1
   - emacs=27.2-150400.3.6.1
   - gperftools=2.5-4.12
   - gptfdisk=1.0.8-150400.1.7
   - haproxy=2.0.14-bp152.1.1
-  - hplip=3.21.10-150400.3.8.1
-  - ipmitool=1.8.19.gb7c0d66-0
+  - hplip=3.21.10-150400.3.5.1
+  - ipmitool=1.8.18.238.gb7adc1d-150400.1.14
   - ipset=7.15-150400.12.3.2
-  - java-1_8_0-ibm-plugin=1.8.0_sr8.5-150000.3.74.1
-  - java-1_8_0-ibm=1.8.0_sr8.5-150000.3.74.1
+  - java-1_8_0-ibm-plugin=1.8.0_sr8.6-150000.3.77.1
+  - java-1_8_0-ibm=1.8.0_sr8.6-150000.3.77.1
   - jq=1.6-3.3.1
   - keepalived=2.0.19-bp152.1.9
   - kubectl=1.22.13-0
   - lsof=4.91-1.11
-  - ltrace=0.7.91-4.3
-  - mariadb-tools=10.6.13-150400.3.23.1
-  - mariadb=10.6.13-150400.3.23.1
+  - ltrace=0.7.91-150500.18.1
+  - mariadb-tools=10.6.14-150400.3.26.1
+  - mariadb=10.6.14-150400.3.26.1
   - minicom=2.7.1-1.19
   - mlocate=0.26-150400.16.3.1
   - netcat-openbsd=1.203-150400.1.5
   - nmap=7.92-150400.1.8
-  - pdsh=2.34-150300.43.1
-  - podman-cni-config=4.4.4-150400.4.16.1
-  - podman=4.4.4-150400.4.16.1
+  - pdsh=2.34-150500.44.1
+  - podman-cni-config=4.4.4-150500.1.4
+  - podman=4.4.4-150500.1.4
   - rarpd=20211215-150400.3.3.2
   - rasdaemon=0.6.7.18.git+7ccf12f-150400.2.7
   - rollback-helper=1.0+git20181218.5394d6e-4.3.1
@@ -60,7 +60,7 @@ packages:
   - s3fs=1.91-150000.3.9.1
   - smartmontools=7.2-150300.8.8.1
   - socat=1.7.3.2-4.10
-  - squid=5.7-150400.3.6.1
+  - squid=5.7-150400.3.9.1
   - sysstat=12.0.2-3.33.1
   - systemtap=4.6-150400.1.7
   - wget=1.20.3-150000.3.15.1
@@ -69,7 +69,7 @@ packages:
   # CMS Team
   - cfs-debugger=1.4.0-1
   - cfs-state-reporter=1.9.3-1
-  - cfs-trust=1.6.6-1
+  - cfs-trust=1.6.7-1
   # cloud-init: Must use 21.4-1, specifically our forked build in csm-rpms
   #             MTL-2092 is upgrading to cloud-init-23.
   - cloud-init-config-suse=21.4-1

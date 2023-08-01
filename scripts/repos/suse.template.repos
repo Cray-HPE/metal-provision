@@ -76,7 +76,6 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 # cephadm, ceph-common, and libfmt
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/step?auth=basic                                     openSUSE-Backports-step                                 -g -p 89
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/standard?auth=basic                                 openSUSE-Backports-standard                             -g -p 89
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/filesystems:ceph:quincy:upstream/openSUSE_Leap_${releasever}?auth=basic                                              filesystems-ceph                                        -g -p 89
 
 # free range routing
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/network/${releasever_major}.${releasever_minor}/?auth=basic                                                          openSUSE-network-SLE                                    -g -p 90

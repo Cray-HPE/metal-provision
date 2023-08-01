@@ -24,7 +24,7 @@
 ---
 packages:
   # rationale: Application for faciliatting configuring a hypervisor node.
-  - crucible=0.0.3-1
+  - crucible=0.0.4-1
   # rationale: Free range routing.
   - frr=8.4-150500.4.3.1
   # rationale: Necessary for Mercury software proof-of-concepts.

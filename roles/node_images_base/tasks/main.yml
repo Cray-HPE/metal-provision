@@ -90,8 +90,8 @@
     insertafter: EOF
     create: true
   loop:
-  - /root/.bashrc
-  - /etc/skel/.bashrc
+    - /root/.bashrc
+    - /etc/skel/.bashrc
 
 - name: Copy mdadm.conf configuration
   ansible.builtin.copy:

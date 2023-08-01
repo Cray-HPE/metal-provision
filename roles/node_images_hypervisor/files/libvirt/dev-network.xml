@@ -1,0 +1,10 @@
+<network>
+  <name>management-network</name>
+  <bridge name='virbr100' stp='on' delay='0'/>
+  <ip family='ipv4' address='10.17.37.1' prefix='24'>
+    <dhcp>
+      <range start='10.17.37.2' end='10.17.37.254'/>
+      <host mac='52:54:00:5E:25:2A' name='management-vm' ip='10.17.37.2'/>
+    </dhcp>
+  </ip>
+</network>

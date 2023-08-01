@@ -46,6 +46,12 @@
     src: sysctl.d/
     dest: /etc/sysctl.d/
 
+- name: Copy terraform configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: terraform/
+    dest: /srv/cray/terraform/
+
 - name: Setup services
   ansible.builtin.include_tasks:
     file: services.yml

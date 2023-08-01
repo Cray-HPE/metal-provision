@@ -60,6 +60,12 @@
     src: sysctl.d/
     dest: /etc/sysctl.d/
 
+- name: Copy libvirt configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: libvirt/
+    dest: /srv/cray/libvirt/
+
 - name: Setup services
   ansible.builtin.include_tasks:
     file: services.yml

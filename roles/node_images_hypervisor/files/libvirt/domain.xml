@@ -1,0 +1,51 @@
+<domain type='kvm'>
+  <name>management-vm</name>
+  <memory unit='MiB'>4096</memory>
+  <vcpu>4</vcpu>
+  <os>
+    <type arch='x86_64'>hvm</type>
+    <boot dev='hd'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <cpu mode='custom' match='exact' check='full'>
+    <model fallback='forbid'>qemu64</model>
+    <feature policy='require' name='x2apic'/>
+    <feature policy='require' name='hypervisor'/>
+    <feature policy='require' name='lahf_lm'/>
+    <feature policy='disable' name='svm'/>
+  </cpu>
+  <clock offset='utc'/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+    <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <disk type='volume' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source pool='management-pool' volume='management-vm.qcow2'/>
+      <backingStore/>
+      <target dev='vda' bus='virtio'/>
+    </disk>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='/vms/cloud-init/management-vm/cloud-init.iso'/>
+      <target dev='hda' bus='ide'/>
+    </disk>
+    <interface type='direct'>
+      <source dev='bond0' mode='bridge'/>
+      <model type='virtio'/>
+    </interface>
+    <interface type='direct'>
+      <source dev='bond0.cmn0' mode='bridge'/>
+      <model type='virtio'/>
+    </interface>
+    <console type='pty' tty='/dev/pts/0'>
+      <source path='/dev/pts/0'/>
+      <target port='0'/>
+    </console>
+  </devices>
+</domain>

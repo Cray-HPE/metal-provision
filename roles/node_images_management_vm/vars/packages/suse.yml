@@ -23,7 +23,6 @@
 #
 ---
 packages:
-  - cani=0.1.0-1
   - canu=1.7.4-1
   - ceph-common<17.2.6
   - cloud-init-config-suse=23.1-150100.8.63.5

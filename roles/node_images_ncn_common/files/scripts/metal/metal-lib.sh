@@ -470,6 +470,7 @@ function paginate() {
 
 function install_csm_rpms() {
     local repos
+    local cani_url
     local canu_url
     local goss_servers_url
     local csm_testing_url
@@ -480,7 +481,7 @@ function install_csm_rpms() {
         echo "***"
         echo "WARNING: Unable to contact Nexus. This is expected if Nexus is unhealthy or not deployed"
         echo "         (e.g. during initial NCN deployment). One or more of the following RPMs may not be"
-        echo "         up to date and/or not installed: canu, goss-servers, csm-testing, platform-utils,"
+        echo "         up to date and/or not installed: canu, cani, goss-servers, csm-testing, platform-utils,"
         echo "         iuf-cli, cray-cmstools-crayctldeploy."
         echo "***"
         return
@@ -494,6 +495,8 @@ function install_csm_rpms() {
     # search through the csm-sle repos looking for our packages
     for repo in $repos; do
         # Retrieve the packages from nexus
+        test -n "$cani_url" || cani_url=$(paginate "https://packages.local/service/rest/v1/components?repository=$repo" \
+            | jq -r  '.items[] | .assets[] | .downloadUrl' | grep cani | sort -V | tail -1)
         test -n "$canu_url" || canu_url=$(paginate "https://packages.local/service/rest/v1/components?repository=$repo" \
             | jq -r  '.items[] | .assets[] | .downloadUrl' | grep canu | sort -V | tail -1)
         test -n "$goss_servers_url" || goss_servers_url=$(paginate "https://packages.local/service/rest/v1/components?repository=$repo" \
@@ -509,6 +512,7 @@ function install_csm_rpms() {
 
     done
 
+    test -z "$cani_url" && echo WARNING: unable to install cani
     test -z "$canu_url" && echo WARNING: unable to install canu
     test -z "$goss_servers_url" && echo WARNING: unable to install goss-servers
     test -z "$csm_testing_url" && echo WARNING: unable to install csm-testing
@@ -516,5 +520,5 @@ function install_csm_rpms() {
     test -z "$iuf_cli_url" && echo WARNING: unable to install iuf-cli
     test -z "$cray_cmstools_url" && echo WARNING: unable to install cray-cmstools-crayctldeploy
 
-    zypper install -y $canu_url $goss_servers_url $csm_testing_url $platform_utils_url $iuf_cli_url $cray_cmstools_url && systemctl enable goss-servers && systemctl restart goss-servers
+    zypper install -y $cani_url $canu_url $goss_servers_url $csm_testing_url $platform_utils_url $iuf_cli_url $cray_cmstools_url && systemctl enable goss-servers && systemctl restart goss-servers
 }

@@ -23,3 +23,6 @@
 #
 ---
 services:
+  - enabled: true
+    name: libvirtd.service
+    state: stopped

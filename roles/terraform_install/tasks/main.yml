@@ -22,4 +22,19 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
+- name: Install packages
+  ansible.builtin.include_tasks:
+    file: packages.yml
+  tags:
+    - packages
+
+- name: Git clone terraform configuration
+  ansible.builtin.git:
+    repo: https://github.com/Cray-HPE/fawkes-terraform.git
+    dest: /srv/cray/terraform
+
+- name: (air gap) Terraform init
+  ansible.builtin.command:
+    creates: /srv/cray/terraform/.terraform
+    chdir: /srv/cray/terraform
+    cmd: terraform init

@@ -29,22 +29,12 @@ packages:
   - frr=8.4-150500.4.3.1
   # rationale: Necessary for Mercury software proof-of-concepts.
   - libguestfs0=1.48.4-150500.1.13
-  # rationale: Dependency of libvirt.
-  - libvirt-client=9.0.0-150500.6.3.1
-  # rationale: Dependency of libvirt.
-  - libvirt-devel=9.0.0-150500.6.3.1
-  # rationale: Hypervisor virtualization API.
-  - libvirt=9.0.0-150500.6.3.1
   # rationale: Necessary for Mercury software proof-of-concepts.
   - libxslt-tools=1.1.34-150400.3.3.1
   # rationale: Drivers for VMs.
-  - qemu-kvm=7.1.0-150500.49.3.1
+  - qemu=7.1.0-150500.49.6.1
   # rationale: Necessary for providing consoles to VMs.
-  - qemu-ui-spice-core=7.1.0-150500.49.3.1
+  - qemu-ui-spice-core=7.1.0-150500.49.6.1
   # rationale: Used for modifying proof-of-concept yaml files.
   - yq=4.30.8-150500.1.8
 patterns:
-  # rationale: SUSE KVM dependencies.
-  - patterns-server-kvm_server=20180302-11.1
-  # rationale: SUSE KVM tools.
-  - patterns-server-kvm_tools=20180302-11.1

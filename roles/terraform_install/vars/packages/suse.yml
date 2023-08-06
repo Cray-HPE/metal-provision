@@ -22,4 +22,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
+packages:
+  - terraform=0.13.4-6.3.1
+patterns:

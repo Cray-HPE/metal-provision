@@ -48,6 +48,10 @@
   <on_poweroff>destroy</on_poweroff>
   <on_reboot>restart</on_reboot>
   <on_crash>restart</on_crash>
+  <memoryBacking>
+    <source type='memfd'/>
+    <access mode='shared'/>
+  </memoryBacking>
   <devices>
     <emulator>/usr/bin/qemu-system-x86_64</emulator>
     <console type='pty' tty='/dev/pts/0'>
@@ -70,5 +74,9 @@
       <source network='isolated'/>
       <model type='virtio'/>
     </interface>
+    <channel type='unix'>
+      <source mode='bind'/>
+      <target type='virtio' name='org.qemu.guest_agent.0'/>
+    </channel>
   </devices>
 </domain>

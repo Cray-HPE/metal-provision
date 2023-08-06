@@ -22,4 +22,8 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
+- name: Copy sysctl configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: sysctl.d/
+    dest: /etc/sysctl.d/

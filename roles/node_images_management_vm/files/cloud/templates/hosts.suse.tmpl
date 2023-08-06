@@ -13,15 +13,16 @@ you need to add the following to config:
 #     /etc/cloud/cloud.cfg or cloud-config from user-data
 #
 # The following lines are desirable for IPv4 capable hosts
-127.0.0.1 {{ region }}-{{ local_hostname }}.local {{ region }}-{{ local_hostname }} {{ local_hostname }}
+127.0.1.1 {{fqdn}} {{hostname}}
 127.0.0.1 localhost.localdomain localhost
 127.0.0.1 localhost4.localdomain4 localhost4
 
 # The following lines are desirable for IPv6 capable hosts
-::1 {{ region }}-{{ local_hostname }}.local {{ region }}-{{ local_hostname }} {{ local_hostname }}
+::1 {{fqdn}} {{hostname}}
 ::1 localhost.localdomain localhost
 ::1 localhost6.localdomain6 localhost6
 ::1 localhost ipv6-localhost ipv6-loopback
+
 
 fe00::0 ipv6-localnet
 ff00::0 ipv6-mcastprefix
@@ -29,5 +30,4 @@ ff02::1 ipv6-allnodes
 ff02::2 ipv6-allrouters
 ff02::3 ipv6-allhosts
 
-#
-192.168.254.1 ncn-h001
+169.254.0.1 localhypervisor

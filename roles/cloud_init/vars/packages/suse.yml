@@ -22,4 +22,8 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
+packages:
+  - cloud-init-config-suse=23.1-150100.8.63.5
+  - cloud-init=23.1-150100.8.63.5
+  - supportutils-plugin-cloud-init=1.1-150400.1.5
+patterns:

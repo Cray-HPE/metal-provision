@@ -22,4 +22,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
+packages:
+  - qemu-guest-agent=7.1.0-150500.49.6.1
+patterns:

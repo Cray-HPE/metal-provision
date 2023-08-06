@@ -24,23 +24,20 @@
 ---
 services:
   - enabled: true
-    name: cloud-config.service
+    name: apache2
     state: stopped
   - enabled: true
-    name: cloud-final.service
+    name: dnsmasq
     state: stopped
   - enabled: true
-    name: cloud-init.service
-    state: stopped
-  - enabled: true
-    name: cloud-init-local.service
+    name: nexus
     state: stopped
   - enabled: false
-    name: csm-node-identity.service
+    name: grafana
     state: stopped
   - enabled: false
-    name: csm-node-heartbeat.service
+    name: grok-exporter
     state: stopped
   - enabled: false
-    name: spire-agent.service
+    name: prometheus
     state: stopped

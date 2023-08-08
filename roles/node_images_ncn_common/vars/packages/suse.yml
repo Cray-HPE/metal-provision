@@ -26,7 +26,7 @@ packages:
   - amsd=3.3.0-1773.7.sles15
   - apparmor-profiles=3.0.4-150500.9.3
   - aws-cli=1.27.89-150200.30.11.1
-  - ceph-common<17.2.6
+  - ceph-common<17.2.7
   - conman=0.3.1-150500.1.2
   - cpupower=5.14-150500.9.3.1
   - dracut-metal-mdsquash=2.4.2-1

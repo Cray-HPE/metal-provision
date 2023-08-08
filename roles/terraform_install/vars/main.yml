@@ -21,20 +21,4 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-services:
-  - enabled: true
-    name: chronyd.service
-    state: stopped
-  - enabled: true
-    name: cmdline-perm.service
-    state: stopped
-  - enabled: true
-    name: csm-node-heartbeat.service
-    state: stopped
-  - enabled: true
-    name: csm-node-identity.service
-    state: stopped
-  - enabled: true
-    name: spire-agent.service
-    state: stopped
+terraform_repo_version: v1.0.0

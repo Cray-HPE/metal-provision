@@ -1,0 +1,4 @@
+<network>
+  <name>isolated</name>
+  <ip address='169.254.0.1' netmask='255.255.255.252'/>
+</network>

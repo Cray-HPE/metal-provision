@@ -27,12 +27,6 @@ services:
     name: chronyd.service
     state: stopped
   - enabled: true
-    name: cloud-init-local.service
-    state: stopped
-  - enabled: true
-    name: cloud-init.service
-    state: stopped
-  - enabled: true
     name: cmdline-perm.service
     state: stopped
   - enabled: true

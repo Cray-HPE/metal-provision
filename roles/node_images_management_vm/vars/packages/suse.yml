@@ -24,7 +24,7 @@
 ---
 packages:
   - canu=1.7.4-1
-  - ceph-common<17.2.6
+  - ceph-common<17.2.7
   - cloud-init-config-suse=23.1-150100.8.63.5
   - cloud-init=23.1-150100.8.63.5
   - cray-site-init=1.32.0-1

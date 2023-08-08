@@ -22,11 +22,12 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Install packages
-  ansible.builtin.include_tasks:
-    file: packages.yml
-  tags:
-    - packages
+# Enable if/when packages are ever added.
+# - name: Install packages
+#   ansible.builtin.include_tasks:
+#     file: packages.yml
+#   tags:
+#     - packages
 
 - name: Copy cloud.cfg configuration
   ansible.builtin.copy:
@@ -46,6 +47,7 @@
     src: sysctl.d/
     dest: /etc/sysctl.d/
 
-- name: Setup services
-  ansible.builtin.include_tasks:
-    file: services.yml
+# Enable if/when services are ever added.
+# - name: Setup services
+#   ansible.builtin.include_tasks:
+#     file: services.yml

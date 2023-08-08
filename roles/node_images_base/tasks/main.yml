@@ -81,7 +81,7 @@
 
 - name: Add ll alias
   ansible.builtin.lineinfile:
-    path: /root/.bashrc
+    path: "{{ item }}"
     line: "alias ll='ls -l --color'"
     owner: root
     regexp: "^alias ll='.*$"
@@ -89,6 +89,9 @@
     state: present
     insertafter: EOF
     create: true
+  loop:
+    - /root/.bashrc
+    - /etc/skel/.bashrc
 
 - name: Copy mdadm.conf configuration
   ansible.builtin.copy:

@@ -54,12 +54,13 @@
     regexp: '^(KDUMP_COMMANDLINE_APPEND)="(.*)"'
     line: "\\g<1>=\"module_blacklist={{ kernel.blacklists.kdump | join(',') }} \\g<2>\""
 
-- name: Copy sysctl configuration
+- name: Copy libvirt and cloud-init seed files for management-vm
   ansible.posix.synchronize:
     delete: false
-    src: sysctl.d/
-    dest: /etc/sysctl.d/
+    src: management-vm/
+    dest: /srv/cray/management-vm/
 
-- name: Setup services
-  ansible.builtin.include_tasks:
-    file: services.yml
+# Enable if/when services are defined.
+# - name: Setup services
+#   ansible.builtin.include_tasks:
+#     file: services.yml

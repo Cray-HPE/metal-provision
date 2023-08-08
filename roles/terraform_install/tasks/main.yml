@@ -32,7 +32,7 @@
   ansible.builtin.git:
     repo: https://github.com/Cray-HPE/fawkes-terraform.git
     dest: /srv/cray/terraform
-    version: terraform_repo_version
+    version: {{ terraform_repo_version }}
 
 - name: (air gap) Terraform init
   ansible.builtin.command:

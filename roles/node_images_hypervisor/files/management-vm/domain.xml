@@ -69,14 +69,14 @@
       <source file='/vms/cloud-init/management-vm/cloud-init.iso'/>
       <target dev='hda' bus='ide'/>
     </disk>
-    <!-- Start off with the default, isolated network. -->
-    <interface>
-      <source network='isolated'/>
-      <model type='virtio'/>
-    </interface>
     <channel type='unix'>
       <source mode='bind'/>
       <target type='virtio' name='org.qemu.guest_agent.0'/>
     </channel>
+    <!-- Start off with the default, isolated network. -->
+    <interface type="network">
+      <source network='isolated'/>
+      <model type='virtio'/>
+    </interface>
   </devices>
 </domain>

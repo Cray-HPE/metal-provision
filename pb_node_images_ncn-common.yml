@@ -29,4 +29,5 @@
     - node_images_base
     - packages_csm
     - packages_user
+    - sysctl
     - node_images_ncn_common

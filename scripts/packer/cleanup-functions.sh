@@ -53,16 +53,14 @@ function cleanup_root_user {
 function zypper_repo_rpm {
     echo '- Zypper repository / RPM association'
 
-    declare -a REPOS_ALIAS
-    declare -a PACKAGES
-    PACKAGES=("$(rpm -qa --queryformat '%{NAME}=%{VERSION}-%{RELEASE} ' || true)")
-    REPOS_ALIAS=("$(zypper --no-refresh info "${PACKAGES[*]%%=*}" | awk -F: '/^Repository/{print $2}' | sort | uniq | grep -vi 'expired\|\@System' || true)")
+    mapfile -t PACKAGES < <(rpm -qa --queryformat '%{NAME}\n' || true)
+    mapfile -t REPOS_ALIAS < <(zypper --no-refresh info "${PACKAGES[@]}" | awk -F: '/^Repository/{gsub(/^[ \t]+/, "", $2); print $2}' | sort | uniq | grep -vi 'expired\|\@System' || true)
 
     # List zypper repository and the RPM's installed from it
-    if [[ -n "${REPOS_ALIAS[*]}" ]]; then
+    if [ ${#REPOS_ALIAS[@]} -gt 0 ]; then
         for repo in "${REPOS_ALIAS[@]}"; do
-            printf '\n%s\n' $(zypper --no-refresh lr -u ${repo} | awk '/^URI/{print $3}' || true)
-            zypper se -s -i -r ${repo} | awk -F'|' 'NF>0{print $2,$4,$5}' || true
+            printf '\n%s\n' "$(zypper --no-refresh lr -u "${repo}" | awk '/^URI/{print $3}' || true)"
+            zypper se -s -i -r "${repo}" | awk -F'|' 'NF>0{print $2,$4,$5}' || true
             printf '=%.0s' {1..100}
         done
     fi

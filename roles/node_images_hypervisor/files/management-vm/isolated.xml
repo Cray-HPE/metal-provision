@@ -26,9 +26,9 @@
 
 <network>
   <name>isolated</name>
-  <ip family="ipv4" address="192.168.0.1" prefix="30">
+  <ip family='ipv4' address='192.168.0.1' prefix='30'>
     <dhcp>
-      <range start="192.168.0.2" end="192.168.0.2"/>
+      <range start='192.168.0.2' end='192.168.0.2'/>
     </dhcp>
   </ip>
 </network>

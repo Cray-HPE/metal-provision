@@ -23,7 +23,7 @@
 #
 ---
 packages:
-  - canu=1.7.4-1
+  - canu=1.7.5-1
   - cray-site-init=1.32.0-1
   - ilorest=4.2.0.0-20
   - metal-init=1.4.2-1

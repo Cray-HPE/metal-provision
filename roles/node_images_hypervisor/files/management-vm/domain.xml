@@ -74,7 +74,7 @@
       <target type='virtio' name='org.qemu.guest_agent.0'/>
     </channel>
     <!-- Start off with the default, isolated network. -->
-    <interface type="network">
+    <interface type='network'>
       <source network='isolated'/>
       <model type='virtio'/>
     </interface>

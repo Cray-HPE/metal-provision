@@ -31,12 +31,6 @@
     - never
     - packages
 
-- name: Copy cloud.cfg configuration
-  ansible.builtin.copy:
-    src: files/cloud.cfg
-    dest: /etc/cloud/cloud.cfg
-    mode: "644"
-
 # Perms shold be set a different way
 - name: Install cmdline-perm.service
   ansible.builtin.copy:

@@ -29,17 +29,11 @@
 #   tags:
 #     - packages
 
-- name: Copy cloud.cfg configuration
-  ansible.builtin.copy:
-    mode: preserve
-    src: cloud.cfg
-    dest: /etc/cloud/cloud.cfg
-
-- name: Copy cloud.cfg.d configuration
+- name: Sync new cloud-init files
   ansible.posix.synchronize:
     delete: false
-    src: cloud.cfg.d/
-    dest: /etc/cloud/cloud.cfg.d/
+    src: cloud/
+    dest: /etc/cloud/
 
 - name: Copy sysctl configuration
   ansible.posix.synchronize:

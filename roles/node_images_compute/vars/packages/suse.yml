@@ -29,7 +29,7 @@ packages:
   - csm-auth-utils=1.0.0-1
   - csm-node-heartbeat=2.1-3
   # CMS Team
-  - bos-reporter=2.5.5-1
+  - bos-reporter=2.6.0-1
   - cfs-debugger=1.4.0-1
   - cfs-state-reporter=1.9.3-1
   - cfs-trust=1.6.7-1

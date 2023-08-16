@@ -53,13 +53,13 @@ packages:
   # - cray-node-identity                  : Provides nid and xname through systemd
   # - cray-system-files                   :
   # - cray-systemd-presets                :
-  - cray-hugepage-setup=0.7.1-2.5_20230113063638__g3e2f155
-  - cray-network-dracut=1.4.0-2.5_20230113063048__gc9eac23
-  - cray-system-files=1.14.6-2.5_20230130112320__g7ae5ecd
-  - cray-systemd-presets=1.7.3-2.5_20230113091846__g4a496ef
+  - cray-hugepage-setup=0.8.2-2.6_20230804001644__g9c84ef3b22ea
+  - cray-network-dracut=1.5.1-2.6_20230804001703__g71255c7a5e62
+  - cray-system-files=1.15.2-2.6_20230804002228__gb1f6310b93a4
+  - cray-systemd-presets=1.8.1-2.6_20230804002212__g21dc19294c93
   # COS SHASTA-OS packages
   # - cray-low-noise-mode                 : Hardware optimization
-  - cray-low-noise-mode=1.3.3-2.5_20230113084748__g7892358
+  - cray-low-noise-mode=1.4.7-2.6_20230804002029__g1862b6d8f622
   # GPU Support Packages
   - autoconf=2.69-1.445
   - automake=1.15.1-4.10.2

@@ -201,7 +201,7 @@ def restart_chrony():
 
 if __name__ == "__main__":
     USER_DATA_FILE = '/var/lib/cloud/instance/user-data.txt'
-    DEFAULT_CONF = '/etc/chrony.conf'
+    DEFAULT_CONF = '/etc/chrony.conf.j2'
     CONF_DIR = '/etc/chrony.d'
 
     token = get_token()

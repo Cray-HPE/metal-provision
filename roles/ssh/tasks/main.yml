@@ -1,0 +1,17 @@
+---
+- name: Check for root ssh key
+  state:
+    path: /root/.ssh/id_rsa.pub
+  register: root_ssh_pub_key
+
+- name: Make root ssh key
+  user:
+    name: root
+    generate_ssh_key: yes
+  when: root_ssh_pub_key.stat.exists == false
+
+- name: Register contents of root ssh key
+  shell: cat /root/.ssh/id_rsa.pup
+  register: root_ssh_pub_key_contents
+
+

@@ -1,0 +1,5 @@
+---
+- name: localectl set-locale
+  ansible.builtin.command:
+    cmd: "{{ locale_notify_command }}"
+  changed_when: yes

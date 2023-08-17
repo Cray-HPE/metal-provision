@@ -1,0 +1,12 @@
+---
+- name: configure chrony.conf.j2 for chrony
+  template:
+    src: chrony.conf.j2.j2
+    dest: "{{ chrony_conf_file }}"
+  notify: 'restart chrony'
+
+- name: configure cray.conf for chrony
+  template:
+    src: cray.conf.j2
+    dest: "{{ cray_conf_file }}"
+  notify: 'restart chrony'

@@ -1,0 +1,28 @@
+---
+- name: install requirements
+  ansible.builtin.package:
+    name: "{{ locale_requirements }}"
+    state: present
+
+- name: ensure (specified) locales are present
+  community.general.locale_gen:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ locales_present }}"
+
+- name: ensure (specified) locales are absent
+  community.general.locale_gen:
+    name: "{{ item }}"
+    state: absent
+  with_items: "{{ locales_absent }}"
+
+# Specific to SUSE
+- name: set default locale
+  ansible.builtin.template:
+    src: locale.conf.j2
+    dest: "{{ locale_configuration_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - localectl set-locale

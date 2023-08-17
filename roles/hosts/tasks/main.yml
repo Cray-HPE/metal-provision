@@ -1,0 +1,8 @@
+---
+- name: create host entries
+  lineinfile:
+    destination: /etc/hosts
+    line: "{{ item.ip }} {{ item.name }}"
+    when: hosts is define
+    with_items:
+      - host_list

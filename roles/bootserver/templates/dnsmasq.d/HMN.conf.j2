@@ -1,0 +1,13 @@
+# HMN:
+{% set server = ansible_facts[interface_hmn].ipv4.address %}
+{% set network = '%s/%s' | format(ansible_facts[interface_hmn].ipv4.network, ansible_facts[interface_hmn].ipv4.prefix) %}
+server=/hmn/
+address=/hmn/
+domain=hmn,{{ network | ansible.utils.ipaddr('1') | ansible.utils.ipv4('address') }},{{ network | ansible.utils.ipaddr('-1') | ansible.utils.ipv4('address') }},local
+interface-name={{ server_name }}.hmn,{{ interface_hmn }}
+dhcp-option=interface:{{ interface_hmn }},option:domain-search,hmn
+interface={{ interface_hmn }}
+dhcp-option=interface:{{ interface_hmn }},option:dns-server,{{ server }}
+dhcp-option=interface:{{ interface_hmn }},option:ntp-server,{{ server }}
+dhcp-option=interface:{{ interface_hmn }},option:router,{{ network | ansible.utils.ipaddr('1') | ansible.utils.ipv4('address') }}
+dhcp-range=interface:{{ interface_hmn }},{{ network | ansible.utils.ipaddr(dhcp.hmn.range.min) | ansible.utils.ipv4('address') }},{{ network | ansible.utils.ipaddr(dhcp.hmn.range.max) | ansible.utils.ipv4('address') }},{{ dhcp.hmn.ttl }}

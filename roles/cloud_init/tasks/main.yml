@@ -22,18 +22,8 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Install packages
-  ansible.builtin.include_tasks:
-    file: packages.yml
-  tags:
-    - packages
-
 - name: Copy cloud.cfg configuration
   ansible.builtin.copy:
     mode: preserve
     src: cloud/
     dest: /etc/cloud/
-
-- name: Setup services
-  ansible.builtin.include_tasks:
-    file: services.yml

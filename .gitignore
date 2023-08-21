@@ -8,3 +8,7 @@ suse.repos
 # Terraform
 .terraform
 .terraform.lock.hcl
+
+# Ansible
+ansible.log
+.collections

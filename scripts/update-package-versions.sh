@@ -143,9 +143,10 @@ do
 done
 
 if [[ -z "$ARCH" ]]; then
-    echo >&2 "error: missing -a architecture option"
-    usage
-    exit 3
+    echo >&2 "error: missing -a architecture option, assuming x86_64"
+    ARCH='x86_64'
+    DOCKER_ARCH='linux/amd64'
+    DOCKER_CACHE_IMAGE="${DOCKER_CACHE_IMAGE}-${ARCH}"
 fi
 
 if [[ "$NO_CACHE" == "true" && "$(docker images -q $DOCKER_CACHE_IMAGE 2> /dev/null)" != "" ]]; then

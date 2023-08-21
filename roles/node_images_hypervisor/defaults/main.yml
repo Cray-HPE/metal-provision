@@ -22,13 +22,5 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-kernel:
-  blacklists:
-    standard:
-      - libiscsi
-      - rpcrdma
-    kdump:
-      - mlx5_core
-      - mlx5_ib
-      - sunrpc
-      - xhci_hcd
+management_vm_memory: 4096
+management_vm_vcpu: 4

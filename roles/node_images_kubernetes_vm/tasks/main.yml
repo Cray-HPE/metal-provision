@@ -22,13 +22,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-# Enable if/when packages are ever added.
-# - name: Install packages
-#   ansible.builtin.include_tasks:
-#     file: packages.yml
-#   tags:
-#     - packages
-
 - name: Sync new cloud-init files
   ansible.posix.synchronize:
     delete: false
@@ -41,7 +34,8 @@
     src: sysctl.d/
     dest: /etc/sysctl.d/
 
-# Enable if/when services are ever added.
-# - name: Setup services
-#   ansible.builtin.include_tasks:
-#     file: services.yml
+- name: Copy sysctl configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: sysctl.d/
+    dest: /etc/sysctl.d/

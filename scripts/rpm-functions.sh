@@ -23,7 +23,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}")/.." &> /dev/null && pwd )"
-echo ${BASE_DIR}
 function list-compute-repos-files() {
     /usr/bin/envsubst '$ARTIFACTORY_USER $ARTIFACTORY_TOKEN' < ${BASE_DIR}/scripts/repos/compute.template.repos > ${BASE_DIR}/scripts/repos/compute.repos
     cat <<-EOF
@@ -62,15 +61,15 @@ EOF
 function create-fake-conntrack {
     zypper --non-interactive install rpm-build createrepo_c
     echo "Building a custom local repository for conntrack dependency, pulls in conntrack-tools while mocking conntrack."
-    rm -rf ${BASE_DIR}/scripts/repos/conntrack || true
+    rm -rf "${BASE_DIR}/scripts/repos/conntrack" || true
     mkdir -p /tmp/conntrack
-    cp -v ${BASE_DIR}/scripts/repos/conntrack.spec /tmp/conntrack
+    cp -v "${BASE_DIR}/scripts/repos/conntrack.spec" /tmp/conntrack
     rpmbuild -ba --define "_rpmdir /tmp/conntrack" /tmp/conntrack/conntrack.spec
-    mkdir -p ${BASE_DIR}/scripts/repos/conntrack/noarch
+    mkdir -p "${BASE_DIR}/scripts/repos/conntrack/noarch"
     rm /tmp/conntrack/conntrack.spec
     mv /tmp/conntrack/* /var/local-repos/conntrack/
     createrepo /var/local-repos/conntrack
-    zypper -n addrepo --refresh --no-gpgcheck ${BASE_DIR}/scripts/repos/conntrack buildonly-local-conntrack
+    zypper -n addrepo --refresh --no-gpgcheck "${BASE_DIR}/scripts/repos/conntrack" buildonly-local-conntrack
     zypper --non-interactive remove --clean-deps rpm-build createrepo_c
 }
 
@@ -89,7 +88,11 @@ function remove-comments-and-empty-lines() {
         -e '/^[[:alpha:][:punct:]]*$/d' \
         -e 's/"*//g' \
         -e "s/'*//g" \
+        -e '/{{.*}}/d' \
         -e '/^PACKAGES=(/d' \
+        -e '/^packages:/d' \
+        -e '/^packages_aarch64:/d' \
+        -e '/^packages_x86_64:/d' \
         -e '/^)$/d' \
         "$@"
 }
@@ -99,9 +102,16 @@ function setup-csm-rpms {
 }
 
 function cleanup-csm-rpms {
-    # This function is invoked outside of csm-rpms (e.g. node-images), this handles undoing any damage done to the host machine.
-    # Do not use --clean-deps here, some items like ca-certificates will remove python3.
+    # Do not invoke this within a packer build, otherwise if any of the following packages were intentionally installed they will end up getting removed.
+    # Do not use --clean-deps here, doing so may remove extra packages that already existed prior to setup-csm-rpms.
+    # Do not remove ca-certificates-mozilla ca-certificates or SSL errors will occur in the metal-provision pipeline.
     zypper --non-interactive remove gettext-tools gawk jq || echo 'Ignoring errors'
+    rm -f \
+    "${BASE_DIR}/scripts/repos/compute.repos" \
+    "${BASE_DIR}/scripts/repos/cray.repos" \
+    "${BASE_DIR}/scripts/repos/google.repos" \
+    "${BASE_DIR}/scripts/repos/hpe.repos" \
+    "${BASE_DIR}/scripts/repos/suse.repos"
 }
 
 function zypper-add-repos() {
@@ -159,7 +169,7 @@ function setup-package-repos() {
     if [ ! -d ${BASE_DIR}/scripts/repos/conntrack ]; then
         create-fake-conntrack
     else
-        zypper -n addrepo --refresh --no-gpgcheck ${BASE_DIR}/scripts/repos/conntrack buildonly-local-conntrack
+        zypper -n addrepo --refresh --no-gpgcheck "${BASE_DIR}/scripts/repos/conntrack" buildonly-local-conntrack
     fi
     zypper lr -e /tmp/repos.repos
     cat /tmp/repos.repos
@@ -197,10 +207,16 @@ function update-package-versions() {
 
         package_names="${package_names} $package"
     done < <(
-            if [[ $packages_path =~ .*ya?ml ]]; then
-                yq '.packages' < $packages_path | remove-comments-and-empty-lines
+        if [[ "$packages_path" =~ .*ya?ml ]]; then
+            if [[ "$packages_path" =~ .*x86_64.* ]]; then
+                yq '.packages_x86_64' "$packages_path" | remove-comments-and-empty-lines
+            elif [[ "$packages_path" =~ .*aarch64.* ]]; then
+                yq '.packages_aarch64' "$packages_path" | remove-comments-and-empty-lines
+            else
+                yq '.packages' "$packages_path" | remove-comments-and-empty-lines
+            fi
         else
-                remove-comments-and-empty-lines $packages_path
+            remove-comments-and-empty-lines "$packages_path"
         fi
     )
 
@@ -225,9 +241,15 @@ function update-package-versions() {
         #shellcheck disable=SC2155
         local current_version
         if [[ $packages_path =~ .*ya?ml ]]; then
-            current_version=$(yq '.packages' < $packages_path | remove-comments-and-empty-lines | grep -oP "^${package//+/\\+}[=<>]\K.*$")
+            if [[ "$packages_path" =~ .*x86_64.* ]]; then
+                current_version=$(yq '.packages_x86_64' "$packages_path" | remove-comments-and-empty-lines | grep -oP "^${package//+/\\+}[=<>]\K.*$")
+            elif [[ "$packages_path" =~ .*aarch64.* ]]; then
+                current_version=$(yq '.packages_aarch64' "$packages_path" | remove-comments-and-empty-lines | grep -oP "^${package//+/\\+}[=<>]\K.*$")
+            else
+                current_version=$(yq '.packages' "$packages_path" | remove-comments-and-empty-lines | grep -oP "^${package//+/\\+}[=<>]\K.*$")
+            fi
         else
-            current_version=$(remove-comments-and-empty-lines $packages_path | grep -oP "^${package//+/\\+}[=<>]\K.*$")
+            current_version=$(remove-comments-and-empty-lines "$packages_path" | grep -oP "^${package//+/\\+}[=<>]\K.*$")
         fi
         #shellcheck disable=SC2155
         local latest_version=$(echo "${package_info}" | grep -oPz "Name + : ${package}\nVersion + : \K.*" | tr '\0' '\n')
@@ -274,7 +296,13 @@ function validate-package-versions() {
     echo "Running zypper install --dry-run to validate packages"
 
     if [[ $packages_path =~ .*ya?ml ]]; then
-        yq '.packages' < $packages_path | remove-comments-and-empty-lines | xargs -t -r zypper --no-refresh --non-interactive install --dry-run --auto-agree-with-licenses --no-recommends --force-resolution
+            if [[ "$packages_path" =~ .*x86_64.* ]]; then
+                yq '.packages_x86_64' "$packages_path" | remove-comments-and-empty-lines | xargs -t -r zypper --no-refresh --non-interactive install --dry-run --auto-agree-with-licenses --no-recommends --force-resolution
+            elif [[ "$packages_path" =~ .*aarch64.* ]]; then
+                yq '.packages_aarch64' "$packages_path" | remove-comments-and-empty-lines | xargs -t -r zypper --no-refresh --non-interactive install --dry-run --auto-agree-with-licenses --no-recommends --force-resolution
+            else
+                yq '.packages' "$packages_path" | remove-comments-and-empty-lines | xargs -t -r zypper --no-refresh --non-interactive install --dry-run --auto-agree-with-licenses --no-recommends --force-resolution
+            fi
     else
         #shellcheck disable=SC2046
         remove-comments-and-empty-lines "$packages_path" | xargs -t -r zypper --no-refresh --non-interactive install --dry-run --auto-agree-with-licenses --no-recommends --force-resolution
@@ -311,7 +339,7 @@ function get-package-list-from-inventory() {
         local jq_script='. | map("\(.name)=\(.version)") | unique | .[]'
     fi
 
-    jq -r "${jq_script}" < $inventory_file > $output_path
+    jq -r "${jq_script}" < "$inventory_file" > "$output_path"
 }
 
 function cleanup-package-repos() {

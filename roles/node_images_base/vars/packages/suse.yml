@@ -33,23 +33,23 @@ packages:
   # rationale: Necessary for viewing and managing routing tables.
   - iproute2=5.14-150400.1.8
   # rationale: Dependency for daemon necessities.
-  - libsystemd0=249.16-150400.8.28.3
+  - libsystemd0=249.16-150400.8.25.7
   # rationale: Dependency for daemon necessities.
-  - libudev1=249.16-150400.8.28.3
+  - libudev1=249.16-150400.8.25.7
   # rationale: Dependency for daemon necessities.
-  - systemd-coredump=249.16-150400.8.28.3
+  - systemd-coredump=249.16-150400.8.25.7
   # rationale: Dependency for daemon necessities.
-  - systemd-lang=249.16-150400.8.28.3
+  - systemd-lang=249.16-150400.8.25.7
   # rationale: Necessary for daemons.
-  - systemd-sysvinit=249.16-150400.8.28.3
+  - systemd-sysvinit=249.16-150400.8.25.7
   # rationale: Necessary for daemons.
-  - systemd=249.16-150400.8.28.3
+  - systemd=249.16-150400.8.25.7
   # rationale: Necessary for TPM2.
   - tpm2.0-abrmd=2.4.0-150400.1.6
   # rationale: Necessary for TPM2.
   - tpm2.0-tools=5.2-150400.4.6
   # rationale: Necessary for hardware interfaces.
-  - udev=249.16-150400.8.28.3
+  - udev=249.16-150400.8.25.7
   #
   ## Filesystems and block device helpers
   #

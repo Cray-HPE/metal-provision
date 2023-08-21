@@ -489,6 +489,7 @@ function install_csm_rpms() {
 
     # get a list of repos that start with "csm-sle", skipping any compute repos
     repos=$(curl -sSf https://packages.local/service/rest/v1/repositories | jq -r '.[] | .["name"]' | grep ^csm-sle | grep -v compute | tr '\n' ' ')
+    repos="$repos csm-noos"
 
     echo "install_csm_rpms will search the following repos: $repos"
 

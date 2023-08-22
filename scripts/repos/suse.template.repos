@@ -81,10 +81,10 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/network/${releasever_major}.${releasever_minor}/?auth=basic                                                          openSUSE-network-SLE                                    -g -p 90
 
 # SUSE PTF 1204911 Kernel
-#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF/1204911/${releasever_major}-SP${releasever_minor}?auth=basic                                                       SUSE-PTF.1204911-15-SP4                                 -g -p 90
+#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1204911/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1204911                                        -g -p 89
 
-# SUSE PTF systemd/udev
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF/1213185/SLE-Module-Basesystem?auth=basic                                                                           SUSE-PTF.1213185-SLE-Module-Basesystem                  -g -p 89
+# SUSE PTF 1213185 systemd/udev
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1214447/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1214447                                        -g -p 89
 
 # These storage repos are only offered in x86_64
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/7/x86_64/product?auth=basic                                                                             SUSE-Storage-7-x86_64-Pool                              -g -p 89

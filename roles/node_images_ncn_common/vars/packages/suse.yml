@@ -68,7 +68,7 @@ packages:
   - xfsdump=3.1.6-1.30
   # CMS Team
   - cfs-debugger=1.5.0-1
-  - cfs-state-reporter=1.9.4-1
+  - cfs-state-reporter=1.10.1-1
   - cfs-trust=1.6.8-1
   # cloud-init: Must use 21.4-1, specifically our forked build in csm-rpms
   #             MTL-2092 is upgrading to cloud-init-23.

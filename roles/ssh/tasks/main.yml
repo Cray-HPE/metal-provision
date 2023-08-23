@@ -11,7 +11,7 @@
   when: root_ssh_pub_key.stat.exists == false
 
 - name: Register contents of root ssh key
-  shell: cat /root/.ssh/id_rsa.pup
+  shell: cat /root/.ssh/id_rsa.pub
   register: root_ssh_pub_key_contents
 
 

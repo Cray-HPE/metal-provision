@@ -23,7 +23,7 @@
 #
 ---
 packages:
-  - java-11-openjdk-devel=11.0.19.0-150000.3.96.1
+  - java-11-openjdk-devel=11.0.20.0-150000.3.99.1
   # CSM Team
   - acpid=2.0.31-2.1
   - csm-auth-utils=1.0.0-1
@@ -42,11 +42,11 @@ packages:
   - libgdk_pixbuf-2_0-0=2.42.9-150400.5.6.1
   - libgio-2_0-0=2.70.5-150400.3.8.1
   - libglvnd=1.5.0-150500.1.2
-  - libgtk-3-0=3.24.34-150400.3.3.1
+  - libgtk-3-0=3.24.34-150400.3.6.1
   - libgtksourceview-3_0-1=3.24.11-150400.10.11
   - libopenblas_pthreads0=0.3.21-150500.2.6
   - munge=0.5.15-150400.18.3.6
-  - typelib-1_0-Gtk-3_0=3.24.34-150400.3.3.1
+  - typelib-1_0-Gtk-3_0=3.24.34-150400.3.6.1
   # COS General Packages
   # - cray-hugepage-setup                 : Customizing hugepage setup
   # - cray-network-dracut                 : Custom ifup.sh scripts for generic distribution
@@ -56,7 +56,7 @@ packages:
   - cray-hugepage-setup=0.8.2-2.6_20230804001644__g9c84ef3b22ea
   - cray-network-dracut=1.5.1-2.6_20230804001703__g71255c7a5e62
   - cray-system-files=1.15.2-2.6_20230804002228__gb1f6310b93a4
-  - cray-systemd-presets=1.8.1-2.6_20230804002212__g21dc19294c93
+  - cray-systemd-presets=1.8.1-2.6_20230804002220__g21dc19294c93
   # COS SHASTA-OS packages
   # - cray-low-noise-mode                 : Hardware optimization
   - cray-low-noise-mode=1.4.7-2.6_20230804002029__g1862b6d8f622

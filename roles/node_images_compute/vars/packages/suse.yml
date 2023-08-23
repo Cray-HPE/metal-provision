@@ -31,7 +31,7 @@ packages:
   # CMS Team
   - bos-reporter=2.6.3-1
   - cfs-debugger=1.5.0-1
-  - cfs-state-reporter=1.9.4-1
+  - cfs-state-reporter=1.10.1-1
   - cfs-trust=1.6.8-1
   # CDST GUI Packages
   - libGLU1=9.0.0-8.45

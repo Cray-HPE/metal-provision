@@ -23,3 +23,6 @@
 #
 ---
 services:
+  - enabled: true
+    name: ssh-import-id.service
+    state: stopped

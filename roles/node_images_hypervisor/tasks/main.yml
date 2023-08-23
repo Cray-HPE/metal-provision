@@ -60,6 +60,12 @@
     src: management-vm/
     dest: /srv/cray/management-vm/
 
+- name: Copy systemd configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: systemd/
+    dest: /usr/lib/systemd/system/
+
 # Enable if/when services are defined.
 # - name: Setup services
 #   ansible.builtin.include_tasks:

@@ -30,8 +30,9 @@ function cleanup {
     rm -rf /mnt/squashfs
 }
 
+# shellcheck disable=SC1091
 # Source common dracut parameters.
-. "$(dirname $0)/../common/dracut-lib.sh"
+. "$(dirname "$0")/../common/dracut-lib.sh"
 
 # This facilitates creating the artifacts in the NCN pipeline.
 mkdir -pv /mnt/squashfs /squashfs
@@ -39,7 +40,7 @@ mount -v -o bind / /mnt/squashfs
 
 if [[ "$1" != "squashfs-only" ]]; then
     echo "Creating initrd/kernel artifacts"
-    
+
     # NOTE: These mounts help create metal artifacts when running inside of the NCN pipeline, they are not necessary when this script runs
     #       on a physical server. These are harmless enough that they're always mounted, regardless of context.
     if [ "$(stat -c %d:%i / >/dev/null 2>&1)" != "$(stat -c %d:%i /proc/1/root/. 2>&1 >/dev/null)" ]; then
@@ -52,10 +53,10 @@ if [[ "$1" != "squashfs-only" ]]; then
         mount --bind /sys /mnt/squashfs/sys
         mount --bind /var /mnt/squashfs/var
     fi
-    
-    # This has been here since we first made images, more or less as a last/final check that we have no cache left-over from the auto-install.  
+
+    # This has been here since we first made images, more or less as a last/final check that we have no cache left-over from the auto-install.
     [ -f /var/adm/autoinstall/cache ] && rm -rf /var/adm/autoinstall/cache
-    
+
     unshare -R /mnt/squashfs bash -c "dracut \
         --add \"$(printf '%s' "${ADD[*]}")\" \
         --force \
@@ -69,7 +70,7 @@ if [[ "$1" != "squashfs-only" ]]; then
         ARCH_KERNEL="Image-${KVER}" || \
         ARCH_KERNEL="vmlinuz-${KVER}"
 
-    cp -v /mnt/squashfs/boot/${ARCH_KERNEL} /squashfs/${KVER}.kernel
+    cp -v /mnt/squashfs/boot/"${ARCH_KERNEL}" /squashfs/"${KVER}".kernel
 
     cp -v /mnt/squashfs/tmp/initrd.img.xz /squashfs/initrd.img.xz
     rm -f /mnt/squashfs/tmp/initrd.img.xz
@@ -85,6 +86,8 @@ if [[ "$1" != "squashfs-only" ]]; then
 fi
 
 if [[ "$1" != "kernel-initrd-only" ]]; then
+  echo "Removing character special files from the filesystem"
+  find /mnt/squashfs -type c -exec rm -f '{}' \;
   echo "Creating squashfs artifact"
   mksquashfs /mnt/squashfs \
       /squashfs/filesystem.squashfs \

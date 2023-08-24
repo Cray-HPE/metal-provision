@@ -85,6 +85,8 @@ if [[ "$1" != "squashfs-only" ]]; then
 fi
 
 if [[ "$1" != "kernel-initrd-only" ]]; then
+  echo "Removing character special files from the filesystem"
+  find /mnt/squashfs -type c -exec rm -f '{}' \;
   echo "Creating squashfs artifact"
   mksquashfs /mnt/squashfs \
       /squashfs/filesystem.squashfs \

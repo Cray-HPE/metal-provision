@@ -40,9 +40,9 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
   loop:
-    - src: domain.xml.j2
+    - src: bootstrap/domain.xml.j2
       dest: /srv/cray/bootstrap/domain.xml
-    - src: isolated.xml.j2
+    - src: bootstrap/isolated.xml.j2
       dest: /srv/cray/bootstrap/isolated.xml
 
 - name: Create /vms

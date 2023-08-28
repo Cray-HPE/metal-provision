@@ -23,13 +23,12 @@
 #
 ---
 - name: Node Images Application
-  hosts: packer
+  hosts: application
   become: true # Enable builds that do not login as root to escalate privilege.
   environment:
-    HTTPS_PROXY: "{{ HTTPS_PROXY }}"
+    HTTPS_PROXY: "{{ HTTPS_PROXY | default() }}"
   roles:
-    - node_images_base
-    - cloud_init
-    - packages_csm
-    - packages_user
+    - packages
     - node_images_application
+    - services
+    - sysctl

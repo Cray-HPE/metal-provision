@@ -22,12 +22,45 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Node Images Common
-  hosts: packer
+- name: Node Images NCN Common Prep
+  hosts: ncn
+  become: true # Enable builds that do not login as root to escalate privilege.
+  tasks:
+
+    # We use hpe-yq, which provides different binaries than the upstream yq for ncn-common due to technical debt.
+    - name: Remove yq so hpe-yq can install
+      when: ansible_distribution_file_variety == "SUSE"
+      block:
+      # NOTE: Never set force_resolution to true, always inspect the error(s). Usually a package is obsoleting another, and one can be removed from our lists.
+
+        - name: Uninstall yq
+          community.general.zypper:
+            name: yq
+            state: removed
+            update_cache: false
+
+- name: Node Images NCN
+  hosts: ncn
   become: true # Enable builds that do not login as root to escalate privilege.
   roles:
-    - node_images_base
-    - packages_csm
-    - packages_user
+    - packages
     - sysctl
-    - node_images_ncn_common
+    - node_images_ncn
+    - services
+
+- name: Node Images NCN
+  hosts: ncn_google
+  become: true # Enable builds that do not login as root to escalate privilege.
+  roles:
+    - packages
+    - node_images_ncn_google
+    - services
+
+- name: Node Images NCN Metal
+  hosts: ncn_metal
+  become: true # Enable builds that do not login as root to escalate privilege.
+  roles:
+    - packages
+    - sysctl
+    - node_images_ncn_metal
+    - services

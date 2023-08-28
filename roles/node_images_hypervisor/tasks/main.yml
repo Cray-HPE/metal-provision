@@ -22,51 +22,43 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Install packages
-  ansible.builtin.include_tasks:
-    file: packages.yml
-    apply:
-      tags: packages
-  tags:
-    - never
-    - packages
-
 - name: Copy motd
   ansible.builtin.copy:
     mode: '0644'
     src: motd
     dest: /etc/motd
 
-- name: Blacklist kernel modules
-  ansible.builtin.lineinfile:
-    create: true
+- name: Copy cloud-init bootstrap seed files
+  ansible.posix.synchronize:
+    delete: false
+    src: bootstrap/
+    dest: /srv/cray/bootstrap/
+
+- name: Template bootstrap libvirt seed files
+  ansible.builtin.template:
     mode: '0644'
-    path: /etc/modprobe.d/disabled-modules.conf
-    regexp: 'install {{ item }} /bin/true'
-    line: 'install {{ item }} /bin/true'
-    state: present
-  loop: "{{ kernel.blacklists.standard }}"
+    src: "{{ item }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - src: domain.xml.j2
+      dest: /srv/cray/bootstrap/domain.xml
+    - src: isolated.xml.j2
+      dest: /srv/cray/bootstrap/isolated.xml
 
-- name: Blacklist kernel modules for kdump
+- name: Create /vms
+  ansible.builtin.file:
+    mode: '0755'
+    path: '/vms'
+    state: 'directory'
+
+- name: Copy sysctl configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: sysctl.d/
+    dest: /etc/sysctl.d/
+
+- name: Add management-vm alias
   ansible.builtin.lineinfile:
-    backrefs: true
-    path: /etc/sysconfig/kdump
-    regexp: '^(KDUMP_COMMANDLINE_APPEND)="(.*)"'
-    line: "\\g<1>=\"module_blacklist={{ kernel.blacklists.kdump | join(',') }} \\g<2>\""
-
-- name: Copy libvirt and cloud-init seed files for management-vm
-  ansible.posix.synchronize:
-    delete: false
-    src: management-vm/
-    dest: /srv/cray/management-vm/
-
-- name: Copy systemd configuration
-  ansible.posix.synchronize:
-    delete: false
-    src: systemd/
-    dest: /usr/lib/systemd/system/
-
-# Enable if/when services are defined.
-# - name: Setup services
-#   ansible.builtin.include_tasks:
-#     file: services.yml
+    path: /etc/hosts
+    regexp: "^{{ isolated_network | ansible.utils.ipaddr('last_usable') | regex_escape() }}"
+    line: "{{ isolated_network | ansible.utils.ipaddr('last_usable') }} management-vm.local management-vm"

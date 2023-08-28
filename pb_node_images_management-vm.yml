@@ -22,15 +22,13 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Node Images Management
-  hosts: packer
+- name: Node Images Management VM
+  hosts: management_vm
   become: true # Enable builds that do not login as root to escalate privilege.
+  vars_files:
+    - vars/fawkes.yml
   roles:
-    - node_images_base
-    - packages_user
-    - cloud_init
-    - libvirt
-    - qemu_guest
-    - terraform_install
+    - packages
     - node_images_management_vm
+    - services
     - sysctl

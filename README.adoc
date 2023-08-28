@@ -56,19 +56,22 @@ It is not required to create the other distro blocks, but it is encouraged to in
 
 == Packages
 
-Packages are controlled by role variables, typically in a file following the path structure of:
+Packages are controlled by group variables, typically in a file following the path structure of:
 
 [source,bash]
 ----
-roles/<role>/vars/packages/<distro>[-<arch>].yml
+group_vars/<group>/packages.<distro>[.<arch>].yml
 ----
+NOTE: Each `arch` specific file also uses a different parent variable name, e.g. `packages_x86_64` instead of `packages`.
+
+There is also a base collection of packages defined in `/vars`, these are pulled into top-level playpooks such as `pb_node_images.yml`.
 
 === Adding new Distros
 
 . Add a new YAML file for the distro.
 The `&lt;distro&gt;` name needs to match the Ansible fact
 `ansible_distribution_file_variety | lower`.
-. Update the `tasks/packages.yml` file for the new distro and package manager, copy-paste one of the other distro's `block`s and refactor it for the appropriate package manager module.
+. Update the `group_vars/<group>/packages.<distro>[.<arch>]*.yml` file for the new distro and package manager, copy-paste one of the other distro's `block`s and refactor it for the appropriate package manager module.
 
 Note:: The `&lt;arch&gt;` is optional.
 Defining a YAML by `&lt;distro&gt;` without an `&lt;arch&gt;` value implies that the packages listed are intended for all architectures.

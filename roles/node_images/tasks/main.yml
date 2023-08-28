@@ -1,0 +1,118 @@
+#
+# MIT License
+#
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+---
+- name: Blacklist kernel modules
+  ansible.builtin.lineinfile:
+    create: true
+    mode: '0644'
+    path: /etc/modprobe.d/disabled-modules.conf
+    regexp: 'install {{ item }} /bin/true'
+    line: 'install {{ item }} /bin/true'
+    state: present
+  loop: "{{ kernel.blacklists.standard }}"
+
+- name: Blacklist kernel modules for kdump
+  ansible.builtin.lineinfile:
+    backrefs: true
+    path: /etc/sysconfig/kdump
+    regexp: '^(KDUMP_COMMANDLINE_APPEND)="(.*)"'
+    line: "\\g<1>=\"module_blacklist={{ kernel.blacklists.kdump | join(',') }} \\g<2>\""
+
+- name: Symlink python3 to python
+  ansible.builtin.file:
+    src: /usr/bin/python3
+    dest: /usr/bin/python
+    state: link
+
+- name: Get current systemd default
+  ansible.builtin.command: "systemctl get-default"
+  changed_when: false
+  register: node_images_system_default
+
+- name: Set default to multi-user target
+  ansible.builtin.command: "systemctl set-default multi-user.target"
+  changed_when: false
+  when: "'multi-user' not in node_images_system_default.stdout"
+
+- name: Initialize log directory
+  ansible.builtin.file:
+    path: /var/log/cray
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Initialize log file
+  ansible.builtin.file:
+    path: /var/log/cray/no.log
+    state: touch
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Copy limit configuration
+  ansible.posix.synchronize:
+    src: limits.d/
+    dest: /etc/security/limits.d/
+
+- name: Remove default NTP pool
+  ansible.builtin.lineinfile:
+    path: /etc/chrony.conf
+    regexp: '^#?\s*pool\s.*'
+    line: ""
+
+- name: Remove default NTP pool configuration file
+  ansible.builtin.file:
+    path: /etc/chrony.d/pool.conf
+    state: absent
+
+- name: Add ll alias
+  ansible.builtin.lineinfile:
+    path: "{{ item }}"
+    line: "alias ll='ls -l --color'"
+    owner: root
+    regexp: "^alias ll='.*$"
+    mode: '0644'
+    state: present
+    insertafter: EOF
+    create: true
+  loop:
+    - /root/.bashrc
+    - /etc/skel/.bashrc
+
+- name: Copy mdadm.conf configuration
+  ansible.builtin.copy:
+    mode: preserve
+    src: mdadm.conf
+    dest: /etc/mdadm.conf
+
+- name: Configure rsyslog
+  ansible.posix.synchronize:
+    src: rsyslog.d/
+    dest: /etc/rsyslog.d/
+
+- name: Install scripts
+  ansible.posix.synchronize:
+    src: scripts
+    dest: /srv/cray/

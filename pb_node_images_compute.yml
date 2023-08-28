@@ -23,12 +23,12 @@
 #
 ---
 - name: Node Images Compute
-  hosts: packer
+  hosts: compute
   become: true
   environment:
-    HTTPS_PROXY: "{{ HTTPS_PROXY }}"
+    HTTPS_PROXY: "{{ HTTPS_PROXY | default() }}"
   roles:
-    - node_images_base
-    - packages_csm
-    - packages_user
+    - packages
     - node_images_compute
+    - services
+    - sysctl

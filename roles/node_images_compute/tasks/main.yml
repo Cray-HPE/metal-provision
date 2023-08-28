@@ -22,32 +22,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Install packages
-  ansible.builtin.include_tasks:
-    file: packages.yml
-    apply:
-      tags: packages
-  tags:
-    - never
-    - packages
-
-- name: Blacklist kernel modules
-  ansible.builtin.lineinfile:
-    create: true
-    path: /etc/modprobe.d/disabled-modules.conf
-    regexp: 'install {{ item }} /bin/true'
-    line: 'install {{ item }} /bin/true'
-    mode: '0644'
-    state: present
-  loop: "{{ kernel.blacklists.standard }}"
-
-- name: Blacklist kernel modules for kdump
-  ansible.builtin.lineinfile:
-    backrefs: true
-    path: /etc/sysconfig/kdump
-    regexp: '^(KDUMP_COMMANDLINE_APPEND)="(.*)"'
-    line: "\\g<1>=\"module_blacklist={{ kernel.blacklists.kdump | join(',') }} \\g<2>\""
-
 - name: Create cray.sh profile
   ansible.builtin.file:
     path: /etc/profile.d/cray.sh
@@ -79,34 +53,3 @@
     path: /etc/fstab
     state: absent
     regexp: '^LABEL=ROOTRAID.*'
-
-- name: Setup services
-  ansible.builtin.include_tasks:
-    file: services.yml
-
-- name: Google tasks
-  ansible.builtin.include_tasks:
-    file: google.yml
-    apply:
-      tags: google
-  tags:
-    - google
-    - never
-
-- name: Metal tasks
-  ansible.builtin.include_tasks:
-    file: metal.yml
-    apply:
-      tags: metal
-  tags:
-    - metal
-    - never
-
-- name: Vagrant tasks
-  ansible.builtin.include_tasks:
-    file: vagrant.yml
-    apply:
-      tags: vagrant
-  tags:
-    - never
-    - vagrant

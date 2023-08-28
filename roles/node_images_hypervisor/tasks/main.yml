@@ -37,7 +37,7 @@
 - name: Template bootstrap libvirt seed files
   ansible.builtin.template:
     mode: '0644'
-    src: "{{ item }}"
+    src: "{{ item.src }}"
     dest: "{{ item.dest }}"
   loop:
     - src: domain.xml.j2

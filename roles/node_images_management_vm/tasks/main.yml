@@ -22,30 +22,38 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Install packages
-  ansible.builtin.include_tasks:
-    file: packages.yml
-  tags:
-    - packages
-
-- name: Copy cloud.cfg configuration
-  ansible.builtin.copy:
-    mode: preserve
-    src: cloud.cfg
-    dest: /etc/cloud/cloud.cfg
-
-- name: Copy cloud.cfg.d configuration
+- name: Sync new cloud-init files
   ansible.posix.synchronize:
     delete: false
-    src: cloud.cfg.d/
-    dest: /etc/cloud/cloud.cfg.d/
+    src: cloud/
+    dest: /etc/cloud/
+
+- name: Add hosts template
+  ansible.builtin.template:
+    mode: '0644'
+    src: hosts.suse.tmpl.j2
+    dest: /etc/cloud/templates/hosts.suse.tmpl.j2
+
+- name: Configure DNS Forwarder
+  ansible.builtin.lineinfile:
+    path: /etc/sysconfig/network/config
+    regexp: "^NETCONFIG_DNS_FORWARDER="
+    line: 'NETCONFIG_DNS_FORWARDER="dnsmasq"'
+
+- name: Git clone terraform configuration
+  ansible.builtin.git:
+    repo: https://github.com/Cray-HPE/fawkes-terraform.git
+    dest: /srv/cray/terraform
+    version: "{{ terraform_repo_version }}"
+
+- name: (air gap) Terraform init
+  ansible.builtin.command:
+    creates: /srv/cray/terraform/.terraform
+    chdir: /srv/cray/terraform
+    cmd: terraform init
 
 - name: Copy sysctl configuration
   ansible.posix.synchronize:
     delete: false
     src: sysctl.d/
     dest: /etc/sysctl.d/
-
-- name: Setup services
-  ansible.builtin.include_tasks:
-    file: services.yml

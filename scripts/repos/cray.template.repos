@@ -1,16 +1,18 @@
 # CSM / CLOUD / PET / MTL / NET
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos?auth=basic                                                                                           cray-algol60-csm-rpms-stable-noos                                                          --no-gpgcheck -p 87
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-${releasever_major}sp${releasever_minor}?auth=basic                                                   cray-algol60-csm-rpms-stable-sle-${releasever_major}sp${releasever_minor}                  --no-gpgcheck -p 88
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-15sp3?auth=basic                                                                                      cray-algol60-csm-rpms-stable-sle-15sp3                                                     --no-gpgcheck -p 89
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos?auth=basic                                                                                                cray-algol60-csm-rpms-stable-noos                                                          --no-gpgcheck -p 87
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-${releasever_major}sp${releasever_minor}?auth=basic                                                        cray-algol60-csm-rpms-stable-sle-${releasever_major}sp${releasever_minor}                  --no-gpgcheck -p 88
 
 # SAT
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sat-rpms/hpe/stable/sle-15sp3?auth=basic                                                                                      cray-algol60-sat-rpms-stable-sle-15sp3                                                     --no-gpgcheck -p 88
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sat-rpms/hpe/stable/sle-15sp3?auth=basic                                                                                           cray-algol60-sat-rpms-stable-sle-15sp3                                                     --no-gpgcheck -p 90
 
 # COS
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/cos-rpm-stable-local/release/cos-2.5/sle${releasever_major}_sp${releasever_minor}_ncn?auth=basic               cray-cos-sle-2.5-SHASTA-OS-cos-ncn                                                         --no-gpgcheck -p 89
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/cos-rpm-stable-local/release/cos-2.6/sle${releasever_major}_sp${releasever_minor}_ncn?auth=basic                   cray-cos-sle-2.6-SHASTA-OS-cos-ncn                                                          --no-gpgcheck -p 89
 
 # SDU
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/sdu-rpm-stable-local/release/img_oci-shasta-2.1/sle15_sp3_ncn?auth=basic                                       sdu-rpm-stable-local                                                                       --no-gpgcheck -p 89
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/sdu-rpm-stable-local/release/img_oci-shasta-2.1/sle15_sp3_ncn?auth=basic                                            sdu-rpm-stable-local                                                                       --no-gpgcheck -p 89
 
 # CVT
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos?auth=basic                                             csm-diags-sle-15sp4-1.5.0                                                                  --no-gpgcheck -p 89
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos?auth=basic                                                  csm-diags-noos-1.5.0                                                                       --no-gpgcheck -p 89
+
+#TEMP Slingshot
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/slingshot-host-software-rpm-master-local/dev/master/sle${releasever_major}_sp${releasever_minor}_ncn?auth=basic     slingshot                                                                                  --no-gpgcheck -p 89

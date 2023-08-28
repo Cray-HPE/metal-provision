@@ -49,6 +49,29 @@ function cleanup_root_user {
     rm -fv /etc/ssh/ssh_host*
 }
 
+# Function for printing rpm/zypper repo association
+function zypper_repo_rpm {
+    echo '- Zypper repository / RPM association'
+
+    mapfile -t PACKAGES < <(rpm -qa --queryformat '%{NAME}\n' || true)
+    mapfile -t REPOS_ALIAS < <(zypper --no-refresh info "${PACKAGES[@]}" | awk -F: '/^Repository/{gsub(/^[ \t]+/, "", $2); print $2}' | sort | uniq | grep -vi 'expired\|\@System' || true)
+
+    # List zypper repository and the RPM's installed from it
+    if [ ${#REPOS_ALIAS[@]} -gt 0 ]; then
+        for repo in "${REPOS_ALIAS[@]}"; do
+            printf '\n%s\n' "$(zypper --no-refresh lr -u "${repo}" | awk '/^URI/{print $3}' || true)"
+            zypper se -s -i -r "${repo}" | awk -F'|' 'NF>0{print $2,$4,$5}' || true
+            printf '=%.0s' {1..100}
+        done
+    fi
+
+    # List RPM's that are not associated with a zypper repository (orphaned)
+    printf '\n%s\n' "Orphaned packages. '@System'"
+    zypper -q pa -i --orphaned | grep -v 'expired' | awk -F'|' 'NF>0{print $3,$4,$5}' || true
+    printf '=%.0s' {1..100}
+    printf '\n'
+}
+
 # Function for handling the cleanup/purge of any package manager
 function cleanup_package_manager {
     echo 'Cleaning up OS package manager ...'
@@ -69,6 +92,7 @@ function cleanup_package_manager {
             get-current-package-list /tmp/installed.packages explicit
             get-current-package-list /tmp/installed.deps.packages deps
             zypper lr -e /tmp/installed.repos
+            zypper_repo_rpm | tee /tmp/zypper_repo_rpm.log
 
             echo '- Removing Zypper Repos'
             cleanup-package-repos
@@ -95,14 +119,9 @@ function cleanup_package_manager {
             echo >&2 'Unhandled OS; nothing to do'
             ;;
     esac
-
-    echo 'Removing executable bits from mst'
-    if [ -f /etc/systemd/system/mst.service ] && [ -x /etc/systemd/system/mst.service ]; then
-        chmod 644 /etc/systemd/system/mst.service
-    fi
 }
 
-# Function for removing udev and networkmanager files from the build environment.
+# Function for removing udev and network manager files from the build environment.
 function cleanup_network {
     echo 'Removing build environment network files ... '
     echo '- Purge persistent-net udev rules'
@@ -115,8 +134,36 @@ function cleanup_network {
             :
             ;;
         suse)
-            echo '- Purge wicked interface cache (necessary for virsh, or `vagrant up` on multiple instances will fail)'
-            rm -f /var/lib/wicked/*.xml
+            if [ -d /var/lib/wicked ]; then
+                echo '- Purge wicked interface cache (necessary for virsh, or `vagrant up` on multiple instances will fail)'
+                rm -f /var/lib/wicked/*.xml
+            fi
+            ;;
+        *)
+            echo >&2 'Unhandled OS; nothing to do'
+            ;;
+    esac
+    echo 'Done'
+}
+
+
+# Function for removing network files on metal media.
+function cleanup_metal_network {
+    echo 'Removing build environment network files for metal ... '
+    case "${OS}" in
+        debian)
+            :
+            ;;
+        rhel)
+            :
+            ;;
+        suse)
+            echo '- Purging "eth" sysconfig files'
+            rm -f /etc/sysconfig/network/*eth*
+            if [ -d /etc/NetworkManager/system-connections ]; then
+                echo '- Purging NetworkManager "eth" files'
+                rm -f /etc/NetworkManager/system-connections/*eth*
+            fi
             ;;
         *)
             echo >&2 'Unhandled OS; nothing to do'
@@ -164,4 +211,66 @@ function defrag {
     filler="$(($(df -BM --output=avail /|grep -v Avail|cut -d "M" -f1)-1024))"
     dd if=/dev/zero of=/root/zero-file bs=1M count=$filler
     rm -f /root/zero-file
+}
+
+# Fix ``logrotate.service``, preventing confusing failure messages 
+# during login such as ``[FAILED] Failed to start Rotate log files.``.
+function fix_logrotate_errors {
+    local logrotate=/etc/logrotate.d
+    local olddirs
+    echo "Scanning logrotate configurations for directory statements ... "
+    if [ ! -d "$logrotate" ]; then
+        echo "Nothing to do, $logrotate does not exist."
+        return
+    fi
+    if ! grep -q olddir "$logrotate/"* ; then
+        return
+    fi
+    mapfile -t olddirs < <(grep olddir $logrotate/* | awk '{print $NF}')
+    echo "Fixing logrotate.service; validating [${#olddirs[@]}] olddir line(s) ... "
+    for olddir in "${olddirs[@]}"; do
+        if [ -d "$olddir" ]; then
+            echo "Logrotate directory [$olddir] already exists. Continuing ... "
+            continue
+        else
+            echo "Logrotate directory [$olddir] does not exist! Creating ... "
+            mkdir -p "$olddir"
+        fi
+    done
+    echo 'Done.'
+}
+
+# Fix ``systemd-remount-fs.service``, preventing confusing failure messages
+# during login like ``[FAILED] Failed to start Remount Root and Kernel File Systems.``
+function fix_livecd_systemd_remount {
+    sed -i -E 's:^(LABEL=)\w+(\s+/\s+):\1cow\2:' /etc/fstab
+}
+
+function create_release_file {
+    local name
+    local artifact_version
+    local epoch
+    local hash
+    local timestamp
+    name="${1:-''}"
+    artifact_version="${2:-''}"
+    if [ -z "${name}" ]; then
+        echo >&2 'Missing name for release file. Aborting!'
+        return 1
+    fi
+    echo "Making /etc/$name-release ... "
+    if [[ -z "$artifact_version" ]] || [[ "$artifact_version" = 'none' ]]; then
+      hash="dev"
+      epoch="$(date -u +%s%N | cut -b1-13)"
+    else
+      hash="$(echo "$artifact_version" | awk -F- '{print $1}')"
+      epoch="$(echo "$artifact_version" | awk -F- '{print $NF}')"
+    fi
+    timestamp="$(date -d "@${epoch:0:-3}" '+%Y:%m:%d-%H:%M:%S')"
+    cat << EOF > "/etc/${name}-release"
+VERSION=$hash-$epoch
+TIMESTAMP=$timestamp
+EOF
+    echo 'Done. Preview:'
+    cat "/etc/${name}-release"
 }

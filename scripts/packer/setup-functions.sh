@@ -46,13 +46,13 @@ function install_ansible {
     mkdir -pv /etc/ansible /opt/cray/ansible
     case "${OS}" in
         debian)
-            python3.10 -m venv --upgrade-deps /opt/cray/ansible
+            python3.11 -m venv --upgrade-deps /opt/cray/ansible
             ;;
         rhel)
             python3.11 -m venv --upgrade-deps /opt/cray/ansible
             ;;
         suse)
-            python3.10 -m venv --upgrade-deps /opt/cray/ansible
+            python3.11 -m venv --upgrade-deps /opt/cray/ansible
             ;;
     esac
 
@@ -166,4 +166,18 @@ function hpc-release {
         echo '- restoring zypper lock for kernel-default'
         zypper addlock kernel-default
     fi
+}
+
+# Removes Zypper locks for wicked and its service programs. Needed when installing cloud-init from SUSE.
+# Cloud-init supports both Wicked and NetworkManager, but both must be installed.
+function remove_wicked_locks {
+    local wicked_packages=( 'wicked' 'wicked-service' )
+    echo "cloud-init will require [${wicked_packages[*]}], removing locks ... "
+    zypper locks
+    for wicked_package in "${wicked_packages[@]}"; do
+        if zypper removelock "$wicked_package"; then
+            echo "- removing zypper lock for ${wicked_package}"
+        fi
+    done
+    zypper locks
 }

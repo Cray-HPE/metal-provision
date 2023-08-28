@@ -91,7 +91,7 @@ REPOS_FILTER="all"
 AUTO_YES="false"
 
 DOCKER_CACHE_IMAGE="csm-rpms-cache"
-DOCKER_BASE_IMAGE="artifactory.algol60.net/csm-docker/stable/csm-docker-sle:15.4"
+DOCKER_BASE_IMAGE="artifactory.algol60.net/csm-docker/stable/csm-docker-sle:15.5"
 
 while [[ "$#" -gt 0 ]]
 do
@@ -143,9 +143,10 @@ do
 done
 
 if [[ -z "$ARCH" ]]; then
-    echo >&2 "error: missing -a architecture option"
-    usage
-    exit 3
+    echo >&2 "error: missing -a architecture option, assuming x86_64"
+    ARCH='x86_64'
+    DOCKER_ARCH='linux/amd64'
+    DOCKER_CACHE_IMAGE="${DOCKER_CACHE_IMAGE}-${ARCH}"
 fi
 
 if [[ "$NO_CACHE" == "true" && "$(docker images -q $DOCKER_CACHE_IMAGE 2> /dev/null)" != "" ]]; then

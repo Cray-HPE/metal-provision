@@ -22,11 +22,11 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Node Images Kubernetes
-  hosts: packer
+- name: Node Images Kubernetes VM
+  hosts: kubernetes_vm
   become: true # Enable builds that do not login as root to escalate privilege.
   roles:
-    - node_images_base
-    - packages_csm
-    - packages_user
+    - packages
     - node_images_kubernetes_vm
+    - services
+    - sysctl

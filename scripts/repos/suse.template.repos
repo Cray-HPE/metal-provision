@@ -28,6 +28,11 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Legacy/${releasever_major}-SP${releasever_minor}/${basearch}/update?auth=basic                        SUSE-SLE-Module-Legacy-Updates                          -g -p 89
 #https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Legacy/${releasever_major}-SP${releasever_minor}/${basearch}/update_debug?auth=basic                  SUSE-SLE-Module-Legacy-Debuginfo-Updates                -g -p 89
 
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Packagehub-Subpackages/${releasever_major}-SP${releasever_minor}/${basearch}/product?auth=basic       SUSE-SLE-Module-Packagehub-Subpackages-Pool                       -g -p 89
+#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Packagehub-Subpackages/${releasever_major}-SP${releasever_minor}/${basearch}/product_debug?auth=basic SUSE-SLE-Module-Packagehub-Subpackages-Debuginfo-Pool             -g -p 89
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Packagehub-Subpackages/${releasever_major}-SP${releasever_minor}/${basearch}/update?auth=basic         SUSE-SLE-Module-Packagehub-Subpackages-Updates                    -g -p 89
+#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Packagehub-Subpackages/${releasever_major}-SP${releasever_minor}/${basearch}/update_debug?auth=basic   SUSE-SLE-Module-Packagehub-Subpackages-Debuginfo-Updates          -g -p 89
+
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Public-Cloud/${releasever_major}-SP${releasever_minor}/${basearch}/product?auth=basic                SUSE-SLE-Module-Public-Cloud-Pool                       -g -p 89
 #https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Module-Public-Cloud/${releasever_major}-SP${releasever_minor}/${basearch}/product_debug?auth=basic          SUSE-SLE-Module-Public-Cloud-Debuginfo-Pool             -g -p 89
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Public-Cloud/${releasever_major}-SP${releasever_minor}/${basearch}/update?auth=basic                  SUSE-SLE-Module-Public-Cloud-Updates                    -g -p 89
@@ -76,13 +81,15 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 # cephadm, ceph-common, and libfmt
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/step?auth=basic                                     openSUSE-Backports-step                                 -g -p 89
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/standard?auth=basic                                 openSUSE-Backports-standard                             -g -p 89
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/filesystems:ceph:quincy:upstream/openSUSE_Leap_${releasever}?auth=basic                                              filesystems-ceph                                        -g -p 89
 
 # free range routing
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/network/${releasever_major}.${releasever_minor}/?auth=basic                                                          openSUSE-network-SLE                                    -g -p 90
 
-# SUSE PTF Packages
-#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF/${releasever_major}-SP${releasever_minor}/SLE-Module-Basesystem?auth=basic                                         SUSE-SLE-Module-Basesystem-PTF                          -g -p 90
+# SUSE PTF 1204911 Kernel
+#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1204911/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1204911                                        -g -p 89
+
+# SUSE PTF 1214447 systemd/udev
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1214447/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1214447                                        -g -p 89
 
 # These storage repos are only offered in x86_64
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/7/x86_64/product?auth=basic                                                                             SUSE-Storage-7-x86_64-Pool                              -g -p 89

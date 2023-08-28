@@ -266,7 +266,7 @@ function create_release_file {
       hash="$(echo "$artifact_version" | awk -F- '{print $1}')"
       epoch="$(echo "$artifact_version" | awk -F- '{print $NF}')"
     fi
-    timestamp="$(date -d "@${epoch:0:-3}" '+%Y:%m:%d-%H:%M:%S')"
+    timestamp="$(date -d "@${epoch:0:-3}" '+%Y-%m-%d_%H:%M:%S')"
     cat << EOF > "/etc/${name}-release"
 VERSION=$hash-$epoch
 TIMESTAMP=$timestamp

@@ -36,5 +36,11 @@ services:
     name: cloud-final.service
     state: stopped
   - enabled: true
+    name: csm-node-heartbeat.service
+    state: stopped
+  - enabled: true
+    name: csm-node-identity.service
+    state: stopped
+  - enabled: true
     name: kubelet.service
     state: stopped

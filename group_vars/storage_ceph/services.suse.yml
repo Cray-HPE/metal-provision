@@ -35,6 +35,12 @@ services:
   - enabled: true
     name: cloud-final.service
     state: stopped
+  - enabled: true
+    name: csm-node-heartbeat.service
+    state: stopped
+  - enabled: true
+    name: csm-node-identity.service
+    state: stopped
   - enabled: false
     name: spire-agent.service
     state: stopped

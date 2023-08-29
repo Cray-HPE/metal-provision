@@ -6,7 +6,7 @@ After=network-online.target
 
 [Service]
 ExecCondition=/bin/bash -c '[ ! -f /etc/ssh/ssh_import_id.disabled ]'
-Environment=URL=http://management-vm:3000/api/v1/repos/root/ssh-public-keys/raw/ssh-public-keys.json
+Environment=URL=http://{{ server_name }}/git/api/v1/repos/root/ssh-public-keys/raw/ssh-public-keys.json
 Environment=KEYS_FILE=/root/.ssh/authorized_keys
 ExecStartPre=/bin/bash -c 'mkdir -p /root/.ssh'
 ExecStart=/bin/bash -c "curl -sX 'GET' ${URL} -H 'accept: application/json' | jq -r '.ssh_authorized_keys[]' > ${KEYS_FILE}"

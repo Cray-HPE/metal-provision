@@ -1,5 +1,5 @@
 ---
-- name: Install Sqlite3
+- name: install Sqlite3
   package:
     name: sqlite3
     state: present

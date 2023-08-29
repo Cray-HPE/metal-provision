@@ -1,8 +1,14 @@
 ---
-- name: create host entries
-  lineinfile:
-    destination: /etc/hosts
-    line: "{{ item.ip }} {{ item.name }}"
-    when: hosts is define
-    with_items:
-      - host_list
+- name: set hostname
+  hostname:
+    name: "{{ hostname }}"
+
+- name: set /etc/hosts file
+  template:
+    src: ect_hosts.js
+    dest: "{{ hosts_file }}"
+    owner: root
+    group: root
+    mode: 0644
+
+

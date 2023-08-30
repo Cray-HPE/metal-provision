@@ -533,7 +533,7 @@ function skopeo-sync-with-retry() {
     local src="$1"
 
     [[ -d "$src" ]] || return 0
-
+    declare -a podman_run_flags=(--network host)
     nexus-setdefault-credential
     # Note: Have to default NEXUS_USERNAME below since
     # nexus-setdefault-credential returns immediately if NEXUS_PASSWORD is set.

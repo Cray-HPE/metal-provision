@@ -26,19 +26,22 @@ services:
   - enabled: true
     name: apache2.service
     state: stopped
+  - enabled: false # Can't enable until consoles are defined in /etc/conman.conf
+    name: conman.service
+    state: stopped
   - enabled: true
     name: dnsmasq.service
     state: stopped
   - enabled: true
     name: nexus.service
     state: stopped
-  - enabled: false
+  - enabled: true
     name: grafana.service
     state: stopped
-  - enabled: false
+  - enabled: true
     name: grok-exporter.service
     state: stopped
-  - enabled: false
+  - enabled: true
     name: prometheus.service
     state: stopped
   - enabled: true

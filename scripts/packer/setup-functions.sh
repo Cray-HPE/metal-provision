@@ -145,7 +145,6 @@ function resize_root {
 # node-images-ncn-common
 # node-images-kubernetes
 # node-images-storage-ceph
-# node-images-application <--- potentially changing after blue/green
 # node-images-compute     <--- potentially changing after blue/green
 function setup_legacy_python {
     local python_default

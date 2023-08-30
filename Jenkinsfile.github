@@ -82,12 +82,6 @@ pipeline {
                             }
                         }
 
-                        stage('Validate application packages') {
-                            steps {
-                                sh "./scripts/update-package-versions.sh -a x86_64 -p group_vars/application/packages.suse.yml --compute --validate --suffix ${env.SUFFIX}"
-                            }
-                        }
-
                         stage('Validate compute packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p group_vars/compute/packages.suse.yml --compute --validate --suffix ${env.SUFFIX}"
@@ -184,12 +178,6 @@ pipeline {
                         stage('Validate user packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p vars/packages/user.suse.yml --compute --validate --suffix ${env.SUFFIX}"
-                            }
-                        }
-
-                        stage('Validate application packages') {
-                            steps {
-                                sh "./scripts/update-package-versions.sh -a aarch64 -p group_vars/application/packages.suse.yml --compute --validate --suffix ${env.SUFFIX}"
                             }
                         }
 

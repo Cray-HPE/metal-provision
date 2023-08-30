@@ -53,3 +53,10 @@
     path: /etc/fstab
     state: absent
     regexp: '^LABEL=ROOTRAID.*'
+
+- name: Configure dhcp settings
+  ansible.builtin.lineinfile:
+    path: /etc/sysconfig/network/dhcp
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop: "{{ dhcp }}"

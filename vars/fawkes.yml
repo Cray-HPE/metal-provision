@@ -26,6 +26,7 @@ server_name: fawkes
 
 # NOTE: These only configure apache2's proxies, they do not denote which port these services should use.
 port_grafana: 3000
-port_gitea: 3030 # This actually does configure gitea.
+port_gitea_http: 3030 # This actually does configure gitea.
+port_gitea_ssh: 2222 # This actually does configure gitea.
 port_nexus: 8081
 port_prometheus: 9090

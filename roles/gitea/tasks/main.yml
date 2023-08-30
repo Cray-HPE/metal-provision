@@ -14,7 +14,7 @@
     dest: /usr/local/bin/gitea
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
     force: true
   notify: "Restart gitea"
   when: (not gitea_version_check|bool) or (not ansible_check_mode and (gitea_active_version.stdout != gitea_version))
@@ -49,10 +49,10 @@
 - name: Create gitea data directories
   ansible.builtin.file:
     state: directory
-    path: "{{ item.path|default(item) }}"
-    owner: "{{ item.owner|default(gitea_user) }}"
-    group: "{{ item.group|default(gitea_user) }}"
-    mode: 0755
+    path: "{{ item.path | default(item) }}"
+    owner: "{{ item.owner | default(gitea_user) }}"
+    group: "{{ item.group | default(gitea_user) }}"
+    mode: '0755'
     recurse: true
   with_items:
     - "{{ gitea_home }}"
@@ -70,7 +70,7 @@
     dest: /usr/lib/systemd/system/gitea.service
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   notify:
     - "Reload systemd"
     - "Restart gitea"
@@ -85,7 +85,7 @@
     dest: "{{ gitea_config_dir }}/gitea.ini"
     owner: "{{ gitea_user }}"
     group: "{{ gitea_group }}"
-    mode: 0600
+    mode: '0600'
   notify: "Restart gitea"
 
 - name: Service gitea

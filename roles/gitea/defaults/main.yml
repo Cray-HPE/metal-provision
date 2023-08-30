@@ -16,7 +16,7 @@ gitea_http_domain: localhost
 gitea_root_url: http://localhost:3000
 gitea_protocol: http
 gitea_http_listen: 0.0.0.0
-gitea_http_port: 3000
+gitea_http_port: "{{ port_gitea_http }}"
 gitea_disable_http_git: false
 gitea_offline_mode: true
 
@@ -26,7 +26,8 @@ gitea_db_path: "{{ gitea_home }}/data/gitea.db"
 gitea_ssh_listen: 0.0.0.0
 gitea_ssh_domain: gitea
 gitea_start_ssh: true
-gitea_ssh_port: 2222
+gitea_ssh_port: "{{ port_gitea_ssh }}"
+
 
 gitea_secret_key: T0pS3cr31
 gitea_internal_token: SomethingVeryLong

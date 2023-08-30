@@ -21,20 +21,26 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-services:
-  - enabled: true
-    name: bos-reporter.service
-    state: stopped
-  - enabled: true
-    name: cfs-state-reporter.service
-    state: stopped
-  - enabled: true
-    name: cmdline-perm.service
-    state: stopped
-  - enabled: true
-    name: csm-node-heartbeat.service
-    state: stopped
-  - enabled: true
-    name: csm-node-identity.service
-    state: stopped
+
+# Allow access just to all sub-paths.
+<LocationMatch "^/prometheus/.*">
+    <IfModule !mod_access_compat.c>
+        Require all granted
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order allow,deny
+        Allow from all
+    </IfModule>
+</LocationMatch>
+
+<VirtualHost *:80>
+    ProxyPreserveHost On
+    ProxyRequests Off
+    ServerName {{ server_name }}
+    RewriteEngine On
+    RewriteRule "^/prometheus$" "/prometheus/" [R]
+    <Location "/prometheus/">
+        ProxyPass http://localhost:{{ port_prometheus }}/
+        ProxyPassReverse http://localhost:{{ port_prometheus }}/
+    </Location>
+</VirtualHost>

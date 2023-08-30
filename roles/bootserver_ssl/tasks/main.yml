@@ -22,19 +22,12 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
-  - enabled: true
-    name: bos-reporter.service
-    state: stopped
-  - enabled: true
-    name: cfs-state-reporter.service
-    state: stopped
-  - enabled: true
-    name: cmdline-perm.service
-    state: stopped
-  - enabled: true
-    name: csm-node-heartbeat.service
-    state: stopped
-  - enabled: true
-    name: csm-node-identity.service
-    state: stopped
+- name: Apache2 templates
+  ansible.builtin.template:
+    mode: '0644'
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  notify:
+    - 'bootserver-ssl : Restart apache2'
+  loop:
+    - {src: templates/apache2/vhosts.d/ssl.htaccess.j2, dest: /etc/apache2/vhosts.d/ssl.conf}

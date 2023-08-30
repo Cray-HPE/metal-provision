@@ -22,19 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
-  - enabled: true
-    name: bos-reporter.service
-    state: stopped
-  - enabled: true
-    name: cfs-state-reporter.service
-    state: stopped
-  - enabled: true
-    name: cmdline-perm.service
-    state: stopped
-  - enabled: true
-    name: csm-node-heartbeat.service
-    state: stopped
-  - enabled: true
-    name: csm-node-identity.service
-    state: stopped
+- name: Restart apache2
+  ansible.builtin.systemd:
+    name: apache2
+    state: restarted

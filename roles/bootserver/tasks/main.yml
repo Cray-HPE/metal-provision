@@ -25,10 +25,16 @@
 - name: Apache2 templates
   ansible.builtin.template:
     mode: '0644'
-    src: apache2/vhosts.d/nexus.conf.j2
-    dest: "/etc/apache2/vhosts.d/nexus.conf"
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
   notify:
     - 'bootserver : Restart apache2'
+  loop:
+    - {src: apache2/default-server.htaccess.j2, dest: /etc/apache2/default-server.conf}
+    - {src: apache2/vhosts.d/gitea.htaccess.j2, dest: /etc/apache2/vhosts.d/gitea.conf}
+    - {src: apache2/vhosts.d/grafana.htaccess.j2, dest: /etc/apache2/vhosts.d/grafana.conf}
+    - {src: apache2/vhosts.d/nexus.htaccess.j2, dest: /etc/apache2/vhosts.d/nexus.conf}
+    - {src: apache2/vhosts.d/prometheus.htaccess.j2, dest: /etc/apache2/vhosts.d/prometheus.conf}
 
 - name: DNSMasq templates
   ansible.builtin.template:

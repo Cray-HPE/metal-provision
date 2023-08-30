@@ -45,6 +45,15 @@
     - src: bootstrap/isolated.xml.j2
       dest: /srv/cray/bootstrap/isolated.xml
 
+- name: Template ssh-import-id
+  ansible.builtin.template:
+    mode: '0644'
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - src: systemd/ssh-import-id.service.j2
+      dest: /usr/lib/systemd/system/ssh-import-id.service
+
 - name: Create /vms
   ansible.builtin.file:
     mode: '0755'

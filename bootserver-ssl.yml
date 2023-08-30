@@ -22,19 +22,10 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
-  - enabled: true
-    name: bos-reporter.service
-    state: stopped
-  - enabled: true
-    name: cfs-state-reporter.service
-    state: stopped
-  - enabled: true
-    name: cmdline-perm.service
-    state: stopped
-  - enabled: true
-    name: csm-node-heartbeat.service
-    state: stopped
-  - enabled: true
-    name: csm-node-identity.service
-    state: stopped
+- name: Bootserver SSL
+  hosts: localhost
+  become: true # Enable builds that do not login as root to escalate privilege.
+  vars_files:
+    - vars/fawkes.yml
+  roles:
+    - bootserver_ssl

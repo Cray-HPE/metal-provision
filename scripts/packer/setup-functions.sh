@@ -37,6 +37,23 @@ else
     echo "Detected OS family: ${OS}"
 fi
 
+# Prevent the package manager from installing documentation.
+function exclude_docs {
+    case "${OS}" in
+        debian)
+            echo >&2 "exclude_docs not implemented for debian"
+            ;;
+        rhel)
+            echo >&2 "exclude_docs not implemented for RHEL"
+            ;;
+        suse)
+            grep rpm.install.excludedocs /etc/zypp/zypp.conf
+            sed -i -E 's/^#?\s*(rpm\.install\.excludedocs) = .*$/\1 = yes/' /etc/zypp/zypp.conf
+            grep rpm.install.excludedocs /etc/zypp/zypp.conf
+            ;;
+    esac
+}
+
 # Installs Ansible
 function install_ansible {
 

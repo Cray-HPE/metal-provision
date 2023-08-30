@@ -32,3 +32,12 @@ services:
   - enabled: true
     name: nexus.service
     state: started
+  - enabled: true
+    name: grafana.service
+    state: started
+  - enabled: true
+    name: grok-exporter.service
+    state: started
+  - enabled: true
+    name: prometheus.service
+    state: started

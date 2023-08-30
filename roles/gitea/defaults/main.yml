@@ -29,8 +29,7 @@ gitea_start_ssh: true
 gitea_ssh_port: "{{ port_gitea_ssh }}"
 
 
-gitea_secret_key: T0pS3cr31
-gitea_internal_token: SomethingVeryLong
+gitea_secret_key: "{{ gitea_secret_key }}"
 gitea_disable_git_hooks: true
 
 gitea_show_user_email: false

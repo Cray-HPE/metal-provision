@@ -75,7 +75,7 @@
     - "Reload systemd"
     - "Restart gitea"
 
-- name: Reload systemd"
+- name: Reload systemd
   ansible.builtin.systemd:
     daemon_reload: true
 

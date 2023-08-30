@@ -28,5 +28,6 @@ server_name: fawkes
 port_grafana: 3000
 port_gitea_http: 3030 # This actually does configure gitea.
 port_gitea_ssh: 2222 # This actually does configure gitea.
+gitea_secret_key: 3a9Flqoj # TODO: Very insecure. Remove it.
 port_nexus: 8081
 port_prometheus: 9090

@@ -33,6 +33,9 @@ dhcp:
     range:
       min: 10
       max: 300
+
 interface_mtl: eth1
 interface_hmn: eth2
-interface_cmn: eth3
+interface_ext: eth3
+
+web_root: /var/www

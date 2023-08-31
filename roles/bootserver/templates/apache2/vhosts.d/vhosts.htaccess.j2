@@ -22,7 +22,41 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 
-# Allow access just to all sub-paths.
+# Allow access to all git sub-paths.
+<LocationMatch "^/git/.*">
+    <IfModule !mod_access_compat.c>
+        Require all granted
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order allow,deny
+        Allow from all
+    </IfModule>
+</LocationMatch>
+
+# Allow access to all grafana sub-paths.
+<LocationMatch "^/grafana/.*">
+    <IfModule !mod_access_compat.c>
+        Require all granted
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order allow,deny
+        Allow from all
+    </IfModule>
+</LocationMatch>
+
+# Allow access to all prometheus sub-paths.
+<LocationMatch "^/prometheus/.*">
+    <IfModule !mod_access_compat.c>
+        Require all granted
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order allow,deny
+        Allow from all
+    </IfModule>
+</LocationMatch>
+
+
+# Allow access to all nexus sub-paths.
 <LocationMatch "^/nexus/.*">
     <IfModule !mod_access_compat.c>
         Require all granted
@@ -33,12 +67,34 @@
     </IfModule>
 </LocationMatch>
 
-# https://help.sonatype.com/repomanager3/planning-your-implementation/run-behind-a-reverse-proxy#RunBehindaReverseProxy-Apachehttpd.1
 <VirtualHost *:80>
     ProxyPreserveHost On
+    AllowEncodedSlashes NoDecode
     ProxyRequests Off
-    ServerName {{ server_name }}
+    ServerName fawkes
     RewriteEngine On
+
+    # https://docs.gitea.com/administration/reverse-proxies#apache-httpd-with-a-sub-path
+    RewriteRule "^/git$" "/git/" [R]
+    <Location "/git/">
+        ProxyPass http://localhost:{{ port_gitea_http }}/ nocanon
+        ProxyPassReverse http://localhost:{{ port_gitea_http }}/
+    </Location>
+
+    # https://community.grafana.com/t/reverse-proxy-documentation-for-apache/25122
+    RewriteRule "^/grafana$" "/grafana/" [R]
+    <Location "/grafana/">
+        ProxyPass http://localhost:{{ port_grafana }}/
+        ProxyPassReverse http://localhost:{{ port_grafana }}/
+    </Location>
+
+    RewriteRule "^/prometheus$" "/prometheus/" [R]
+    <Location "/prometheus/">
+        ProxyPass http://localhost:{{ port_prometheus }}/
+        ProxyPassReverse http://localhost:{{ port_prometheus }}/
+    </Location>
+
+    # https://help.sonatype.com/repomanager3/planning-your-implementation/run-behind-a-reverse-proxy#RunBehindaReverseProxy-Apachehttpd.1
     RewriteRule "^/nexus$" "/nexus/" [R]
     <Location "/nexus/">
         ProxyPass http://localhost:{{ port_nexus }}/

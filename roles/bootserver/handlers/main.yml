@@ -27,6 +27,11 @@
     name: apache2
     state: restarted
 
+- name: Restart apparmor
+  ansible.builtin.systemd:
+    name: apparmor
+    state: restarted
+
 - name: Restart dnsmasq
   ansible.builtin.systemd:
     name: dnsmasq

@@ -31,10 +31,24 @@
     - 'bootserver : Restart apache2'
   loop:
     - {src: apache2/default-server.htaccess.j2, dest: /etc/apache2/default-server.conf}
-    - {src: apache2/vhosts.d/gitea.htaccess.j2, dest: /etc/apache2/vhosts.d/gitea.conf}
-    - {src: apache2/vhosts.d/grafana.htaccess.j2, dest: /etc/apache2/vhosts.d/grafana.conf}
-    - {src: apache2/vhosts.d/nexus.htaccess.j2, dest: /etc/apache2/vhosts.d/nexus.conf}
-    - {src: apache2/vhosts.d/prometheus.htaccess.j2, dest: /etc/apache2/vhosts.d/prometheus.conf}
+    - {src: apache2/listen.htaccess.j2, dest: /etc/apache2/listen.conf}
+    - {src: apache2/vhosts.d/vhosts.htaccess.j2, dest: /etc/apache2/vhosts.d/vhosts.conf}
+
+- name: Initialize web directories
+  ansible.builtin.file:
+    path: "{{ web_root }}"
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Initialize tftp/http boot directory
+  ansible.builtin.file:
+    path: "{{ web_root }}/boot"
+    state: directory
+    mode: '0755'
+    owner: dnsmasq
+    group: tftp
 
 - name: DNSMasq templates
   ansible.builtin.template:
@@ -42,8 +56,19 @@
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
   loop:
+    - {src: dnsmasq.conf.j2, dest: /etc/dnsmasq.conf }
     - {src: dnsmasq.d/boot.conf.j2, dest: /etc/dnsmasq.d/boot.conf }
     - {src: dnsmasq.d/MTL.conf.j2, dest: /etc/dnsmasq.d/MTL.conf }
     - {src: dnsmasq.d/HMN.conf.j2, dest: /etc/dnsmasq.d/HMN.conf }
   notify:
     - 'bootserver : Restart dnsmasq'
+
+- name: Update apparmor's dnsmasq profile for the webroot
+  ansible.builtin.lineinfile:
+    path: /etc/apparmor.d/usr.sbin.dnsmasq
+    regexp: ^(@{TFTP_DIR}=)(?!{{ web_root }})(.*)
+    line: \1{{ web_root }} \2
+    backrefs: true
+    state: present
+  notify:
+    - 'bootserver : Restart apparmor'

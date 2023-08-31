@@ -78,7 +78,7 @@
 
 - name: Remove default NTP pool
   ansible.builtin.lineinfile:
-    path: /etc/chrony.conf.j2
+    path: /etc/chrony.conf
     regexp: '^#?\s*pool\s.*'
     line: ""
 

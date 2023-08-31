@@ -22,4 +22,5 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-packages: []
+packages:
+  - apparmor-profiles=3.0.4-150500.11.3.1

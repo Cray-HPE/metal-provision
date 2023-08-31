@@ -23,4 +23,4 @@
 #
 ---
 terraform_repo_version: v1.0.0
-main_server: bootserver
+web_root: /var/www

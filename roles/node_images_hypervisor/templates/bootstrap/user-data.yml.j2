@@ -1,0 +1,6 @@
+#cloud-config
+mounts:
+  - [ "LABEL=vms_images", "/vms/images", "virtiofs", "defaults,noauto" ] # Add noauto until we iron out the domain.xml.
+users:
+  - name: root
+    ssh_authorized_keys: [ ]

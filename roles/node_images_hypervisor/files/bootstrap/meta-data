@@ -1,2 +1,2 @@
 instance-id: management
-local-hostname: management-vm
+local-hostname: management

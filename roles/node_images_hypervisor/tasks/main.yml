@@ -44,6 +44,8 @@
       dest: /srv/cray/bootstrap/domain.xml
     - src: bootstrap/isolated.xml.j2
       dest: /srv/cray/bootstrap/isolated.xml
+    - src: bootstrap/user-data.yml.j2
+      dest: /srv/cray/bootstrap/user-data
 
 - name: Template ssh-import-id
   ansible.builtin.template:

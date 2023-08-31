@@ -23,13 +23,13 @@
 #
 ---
 services:
-  - enabled: true
+  - enabled: false
     name: apache2.service
     state: stopped
   - enabled: false # Can't enable until consoles are defined in /etc/conman.conf
     name: conman.service
     state: stopped
-  - enabled: true
+  - enabled: false
     name: dnsmasq.service
     state: stopped
   - enabled: true

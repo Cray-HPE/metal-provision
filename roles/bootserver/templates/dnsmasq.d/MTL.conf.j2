@@ -29,6 +29,7 @@ server=/mtl/
 address=/mtl/
 domain=mtl,{{ network | ansible.utils.ipaddr('1') | ansible.utils.ipv4('address') }},{{ network | ansible.utils.ipaddr('-1') | ansible.utils.ipv4('address') }},local
 interface-name={{ server_name }}.mtl,{{ interface_mtl }}
+cname=fawkes.mtl,{{ server_name }}
 cname=packages.mtl,{{ server_name }}
 cname=registry.mtl,{{ server_name }}
 dhcp-option=interface:{{ interface_mtl }},option:domain-search,mtl

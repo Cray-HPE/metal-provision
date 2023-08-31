@@ -25,9 +25,9 @@ LoadModule proxy_module      /usr/lib64/apache2-prefork/mod_proxy.so
 LoadModule proxy_http_module /usr/lib64/apache2-prefork/mod_proxy_http.so
 LoadModule rewrite_module    /usr/lib64/apache2-prefork/mod_rewrite.so
 
-DocumentRoot "/var/www"
+DocumentRoot "{{ web_root }}"
 ServerName {{ server_name }}
-<Directory "/var/www">
+<Directory "{{ web_root }}">
     Options Indexes Followsymlinks SymLinksIfOwnerMatch
     AllowOverride None
     <IfModule !mod_access_compat.c>
@@ -61,13 +61,35 @@ ServerName {{ server_name }}
     </IfModule>
 </LocationMatch>
 
-# Allow access to ephemeral's sub-directories.
-<LocationMatch "^/ephemeral/.*/">
+# Allow access to boot directory.
+<LocationMatch "^/boot/">
     <IfModule !mod_access_compat.c>
-        Require all denied
+        Require all granted
     </IfModule>
     <IfModule mod_access_compat.c>
         Order allow,deny
-        Deny from all
+        Allow from all
+    </IfModule>
+</LocationMatch>
+
+# Allow access to boot directory.
+<LocationMatch "^/ephemeral/">
+    <IfModule !mod_access_compat.c>
+        Require all granted
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order allow,deny
+        Allow from all
+    </IfModule>
+</LocationMatch>
+
+# Allow access to ephemeral's sub-directories.
+<LocationMatch "^/ephemeral/.*/">
+    <IfModule !mod_access_compat.c>
+        Require all granted
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order allow,deny
+        Allow from all
     </IfModule>
 </LocationMatch>

@@ -51,6 +51,7 @@ fi
 echo "Building for [${ARCH}] [${EFI_BINARY}]"
 
 ISO_FSLABEL="${ISO_FSLABEL:-CRAYLIVE}"
+export ISO_FSLABEL
 ISO_NAME="${ISO_NAME:-'ISO'}"
 ISO_OUTPUT='/tmp/iso'
 ISO_SOURCE="${ISO_OUTPUT}_src"

@@ -32,7 +32,7 @@
   ansible.builtin.template:
     mode: '0644'
     src: cloud/templates/hosts.suse.tmpl.j2
-    dest: /etc/cloud/templates/hosts.suse.tmpl.j2
+    dest: /etc/cloud/templates/hosts.suse.tmpl
 
 - name: Configure DNS Forwarder
   ansible.builtin.lineinfile:

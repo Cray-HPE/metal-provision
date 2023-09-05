@@ -24,6 +24,14 @@
 #
 set -eu
 
+if [ "$RUN_OSCAP" != true ] ; then
+  touch /tmp/oval-results.xml
+  touch /tmp/oval-patch-results.xml
+  touch /tmp/oval-report.html
+  touch /tmp/oval-patch-report.html
+  exit 0
+fi
+
 SLES_MAJOR=$(awk -F= '/VERSION_ID/{gsub(/["]/,"");printf("%d", $NF)}' /etc/os-release)
 TEMP_DIR=$(mktemp -d)
 

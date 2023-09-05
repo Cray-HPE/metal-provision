@@ -78,6 +78,7 @@ function install-grub2 {
     envsubst '$app_id $BOOT_LOADER_DIR $name $ISO_FSLABEL' < $(dirname $0)/grub.template.cfg > /tmp/grub.cfg
 
     grub2-mkstandalone \
+        -v \
         --format=${ARCH}-efi \
         --output=${ISO_SOURCE}/${EFI_DIR}/${EFI_BINARY} \
         --locales="" \

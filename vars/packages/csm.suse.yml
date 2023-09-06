@@ -23,7 +23,7 @@
 #
 ---
 packages:
-  - craycli=0.82.9-1
+  - craycli=0.82.10-1
   - csm-auth-utils=1.0.0-1
   - csm-node-heartbeat=2.3-1
   - csm-node-identity=1.0.22-1

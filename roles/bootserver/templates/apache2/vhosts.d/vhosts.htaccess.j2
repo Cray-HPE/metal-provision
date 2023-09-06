@@ -97,8 +97,8 @@
     # https://help.sonatype.com/repomanager3/planning-your-implementation/run-behind-a-reverse-proxy#RunBehindaReverseProxy-Apachehttpd.1
     RewriteRule "^/nexus$" "/nexus/" [R]
     <Location "/nexus/">
-        ProxyPass http://localhost:{{ port_nexus }}/
-        ProxyPassReverse http://localhost:{{ port_nexus }}/
+        ProxyPass http://localhost:{{ port_nexus }}/nexus/
+        ProxyPassReverse http://localhost:{{ port_nexus }}/nexus/
     </Location>
 </VirtualHost>
 
@@ -110,8 +110,8 @@
     ProxyTimeout 300
     ServerName packages
     ServerAlias packages
-    ProxyPass / http://localhost:{{ port_nexus }}/ nocanon
-    ProxyPassReverse / http://localhost:{{ port_nexus }}/
+    ProxyPass / http://localhost:{{ port_nexus }}/nexus/ nocanon
+    ProxyPassReverse / http://localhost:{{ port_nexus }}/nexus/
 </VirtualHost>
 
 # Necessary for http://packages.mtl to proxy to nexus.
@@ -122,6 +122,6 @@
     ProxyTimeout 300
     ServerName packages.mtl
     ServerAlias packages.mtl
-    ProxyPass / http://localhost:{{ port_nexus }}/ nocanon
-    ProxyPassReverse / http://localhost:{{ port_nexus }}/
+    ProxyPass / http://localhost:{{ port_nexus }}/nexus/ nocanon
+    ProxyPassReverse / http://localhost:{{ port_nexus }}/nexus/
 </VirtualHost>

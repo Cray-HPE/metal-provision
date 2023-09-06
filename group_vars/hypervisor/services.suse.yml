@@ -26,3 +26,6 @@ services:
   - enabled: true
     name: NetworkManager.service
     state: started
+  - enabled: true
+    name: ssh-import-id.service
+    state: stopped

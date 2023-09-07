@@ -24,20 +24,17 @@
 ---
 services:
   - enabled: true
-    name: NetworkManager.service
-    state: started
-  - enabled: false
     name: wicked.service
-    state: stopped
-  - enabled: false
+    state: running
+  - enabled: true
     name: wickedd-auto4.service
-    state: stopped
-  - enabled: false
+    state: running
+  - enabled: true
     name: wickedd-dhcp4.service
-    state: stopped
-  - enabled: false
+    state: running
+  - enabled: true
     name: wickedd-dhcp6.service
-    state: stopped
-  - enabled: false
+    state: running
+  - enabled: true
     name: wickedd-nanny
-    state: stopped
+    state: running

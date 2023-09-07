@@ -25,16 +25,16 @@
 services:
   - enabled: true
     name: wicked.service
-    state: running
+    state: started
   - enabled: true
     name: wickedd-auto4.service
-    state: running
+    state: started
   - enabled: true
     name: wickedd-dhcp4.service
-    state: running
+    state: started
   - enabled: true
     name: wickedd-dhcp6.service
-    state: running
+    state: started
   - enabled: true
     name: wickedd-nanny
-    state: running
+    state: started

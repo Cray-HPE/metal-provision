@@ -45,3 +45,6 @@ packages_x86_64:
   # rationale: Necessary for inspecting, configuring, and upgrading Mellanox devices.
   # mft: DO NOT INSTALL MFT FROM THE SPP REPO, NEVER APPEND "slesXspY"
   - mft=4.24.0-72
+  # rationale: Provides a mechanism to release updates for security advisories and functional issues.
+  - ucode-amd=20230724-150500.3.6.1
+  - ucode-intel=20230808-150200.27.1

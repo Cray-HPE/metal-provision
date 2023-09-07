@@ -31,8 +31,6 @@
     - vars/fawkes.yml
   roles:
     - packages
-    - sqlite3
-    - gitea
     - node_images_management_vm
     - gitea
     - services

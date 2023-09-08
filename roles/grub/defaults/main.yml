@@ -22,23 +22,23 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-iso_url: "http://{{ server_name }}/hypervisor-x86_64.iso"
-kernel_path: /ephemeral/boot/x86_64/loader/kernel
-initrd_path: /ephemeral/boot/x86_64/loader/initrd.img.xz
+iso_url: "http://{{ server_name }}/hypervisor-{{ ansible_architecture }}.iso"
+kernel_path: "/ephemeral/boot/{{ ansible_architecture }}/loader/kernel"
+initrd_path: "/ephemeral/boot/{{ ansible_architecture }}/loader/initrd.img.xz"
 kernel_params:
-  - "root=live:{{ iso_url }}"
+  - biosdevname=1
   - console=tty0
   - console=ttyS0,115200
-  - biosdevname=1
   - crashkernel=360M
-  - psi=1
-  - split_lock_detect=off
   - iommu=pt
-  - pcie_ports=native
-  - transparent_hugepage=never
-  - rd.shell
-  - rd.md=0
-  - rd.md.conf=0
-  - neednet=1
   - ip=dhcp
+  - pcie_ports=native
+  - psi=1
   - rd.live.ram=1
+  - rd.md.conf=0
+  - rd.md=0
+  - rd.neednet=1
+  - rd.shell
+  - "root=live:{{ iso_url }}"
+  - split_lock_detect=off
+  - transparent_hugepage=never

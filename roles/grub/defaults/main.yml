@@ -21,20 +21,24 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-isolated_network: 192.168.0.0/30
-server_name: bootserver
-
-# These must correspond to the pre-programmed ports of Grafana, Nexus, and Prometheus.
-port_grafana: 3000
-port_nexus: 8081
-port_prometheus: 9090
-
-# Control the http port for gitea on the management VM.
-gitea_secret_key: 3a9Flqoj # TODO: Very insecure. Remove it.
-port_gitea_http: 3030
-port_gitea_ssh: 2222
-
-# Control apache2 on the management VM.
-port_web_http: 80
-port_web_https: 443
-web_root: /var/www
+---
+iso_url: "http://{{ server_name }}/hypervisor-{{ ansible_architecture }}.iso"
+kernel_path: "/ephemeral/boot/{{ ansible_architecture }}/loader/kernel"
+initrd_path: "/ephemeral/boot/{{ ansible_architecture }}/loader/initrd.img.xz"
+kernel_params:
+  - biosdevname=1
+  - console=tty0
+  - console=ttyS0,115200
+  - crashkernel=360M
+  - iommu=pt
+  - ip=dhcp
+  - pcie_ports=native
+  - psi=1
+  - rd.live.ram=1
+  - rd.md.conf=0
+  - rd.md=0
+  - rd.neednet=1
+  - rd.shell
+  - "root=live:{{ iso_url }}"
+  - split_lock_detect=off
+  - transparent_hugepage=never

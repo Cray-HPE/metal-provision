@@ -21,20 +21,18 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-isolated_network: 192.168.0.0/30
-server_name: bootserver
+---
+gfxmode=auto
+timeout=2
+default=1
 
-# These must correspond to the pre-programmed ports of Grafana, Nexus, and Prometheus.
-port_grafana: 3000
-port_nexus: 8081
-port_prometheus: 9090
+locale_dir=$prefix/grub.locale
+lang=en_US
 
-# Control the http port for gitea on the management VM.
-gitea_secret_key: 3a9Flqoj # TODO: Very insecure. Remove it.
-port_gitea_http: 3030
-port_gitea_ssh: 2222
-
-# Control apache2 on the management VM.
-port_web_http: 80
-port_web_https: 443
-web_root: /var/www
+menuentry 'LiveCD' {
+  set gfxpayload=keep
+  echo 'Loading kernel ...'
+  linuxefi (http,{{ server_name }}){{ kernel_path }} {{ kernel_params | join(' ') }}
+  echo 'Loading initrd ...'
+  initrdefi (http,{{ server_name }}){{ initrd_path }}
+}

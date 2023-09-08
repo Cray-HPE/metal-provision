@@ -29,4 +29,5 @@
     - vars/fawkes.yml
   roles:
     - bootserver
+    - grub
     - services

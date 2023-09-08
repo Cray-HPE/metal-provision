@@ -1,0 +1,14 @@
+gfxmode=auto
+timeout=5
+default=1
+
+locale_dir=$prefix/grub.locale
+lang=en_US
+
+menuentry 'Installation' {
+  set gfxpayload=keep
+  echo 'Loading kernel ...'
+  linuxefi (http,{{ server_name }}){{ kernel_path }} {{ kernel_params | join(' ') }}
+  echo 'Loading initrd ...'
+  initrdefi (http,{{ server_name }}){{ initrd_path }}
+}

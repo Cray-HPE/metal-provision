@@ -27,8 +27,14 @@ services:
     name: cmdline-perm.service
     state: stopped
   - enabled: true
+    name: cray-node-exporter.service
+    state: stopped
+  - enabled: true
     name: csm-node-heartbeat.service
     state: stopped
   - enabled: true
     name: csm-node-identity.service
+    state: stopped
+  - enabled: true
+    name: smart.service
     state: stopped

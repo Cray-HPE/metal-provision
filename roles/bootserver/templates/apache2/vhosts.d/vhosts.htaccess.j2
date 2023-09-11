@@ -102,7 +102,7 @@
     </Location>
 </VirtualHost>
 
-# Necessary for http://packages to proxy to nexus.
+# Necessary for http://packages/nexus/ to proxy to nexus.
 <VirtualHost *:80>
     ProxyPreserveHost On
     ProxyRequests Off
@@ -110,11 +110,11 @@
     ProxyTimeout 300
     ServerName packages
     ServerAlias packages
-    ProxyPass / http://localhost:{{ port_nexus }}/nexus/ nocanon
-    ProxyPassReverse / http://localhost:{{ port_nexus }}/nexus/
+    ProxyPass /nexus/ http://localhost:{{ port_nexus }}/nexus/ nocanon
+    ProxyPassReverse /nexus/ http://localhost:{{ port_nexus }}/nexus/
 </VirtualHost>
 
-# Necessary for http://packages.mtl to proxy to nexus.
+# Necessary for http://packages.mtl/nexus/ to proxy to nexus.
 <VirtualHost *:80>
     ProxyPreserveHost On
     ProxyRequests Off
@@ -122,6 +122,6 @@
     ProxyTimeout 300
     ServerName packages.mtl
     ServerAlias packages.mtl
-    ProxyPass / http://localhost:{{ port_nexus }}/nexus/ nocanon
-    ProxyPassReverse / http://localhost:{{ port_nexus }}/nexus/
+    ProxyPass /nexus/ http://localhost:{{ port_nexus }}/nexus/ nocanon
+    ProxyPassReverse /nexus/ http://localhost:{{ port_nexus }}/nexus/
 </VirtualHost>

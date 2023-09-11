@@ -27,7 +27,7 @@ set -euo pipefail
 WORKING_DIR="$(dirname $0)"
 
 # Default CSM Nexus URL - does not use HTTPS on purpose!
-DEFAULT_NEXUS_URL='http://packages'
+DEFAULT_NEXUS_URL='http://packages/nexus/'
 
 # Default Nexus registry - this is where csm docker images will be pushed to
 # this does not have http or https purposefully. This is used with skopeo-sync function
@@ -78,10 +78,11 @@ EOF
 proxy_server=0
 server=0
 client=0
+upload=0
 delete=0
 repo_path=''
 CSM_PATH=${CSM_PATH:-''}
-while getopts ":pscr:d:" o; do
+while getopts ":pscr:d:u:" o; do
     case "${o}" in
         p)
             proxy_server=1
@@ -97,6 +98,10 @@ while getopts ":pscr:d:" o; do
             ;;
         d)
             delete=1
+            repo_name="${OPTARG}"
+            ;;
+        u)
+            upload=1
             repo_name="${OPTARG}"
             ;;
         *)
@@ -300,10 +305,10 @@ function setup-nexus-server() {
         name="$(basename "$repo_path")"
         for directory in "$repo_path/repos/"*; do
             repo_name="${name}-$(basename "$directory")"
-            if ! nexus-create-repo "$repo_name"; then
+            if ! nexus-create-repo "$repo_name" yum; then
                 echo >&2 "Failed to create repo: $directory"
             fi
-            if ! nexus-upload "${directory}" "$repo_name"; then
+            if ! nexus-upload-rpms "${directory}" "$repo_name"; then
                 echo >&2 "Failed to upload $directory to $repo_name! Aborting."
                 return 1
             fi
@@ -317,7 +322,7 @@ function setup-nexus-server() {
             name="$(basename "$directory")"
             # Name distro specific repos with their distro name in lower case.
             repo_name="csm-$CSM_RELEASE-${name,,}"
-            if ! nexus-create-repo "$repo_name"; then
+            if ! nexus-create-repo "$repo_name" yum; then
                 echo >&2 "Failed to create repo: $repo_name. Aborting."
                 return 1
             fi
@@ -325,7 +330,7 @@ function setup-nexus-server() {
                 echo >&2 "Failed to create repo group: csm-${name,,}"
                 return 1
             fi
-            if ! nexus-upload "${directory}" "${repo_name}"; then
+            if ! nexus-upload-rpms "${directory}" "${repo_name}"; then
                 echo >&2 "Failed to upload $directory to $repo_name! Aborting."
                 return 1
             fi
@@ -384,8 +389,14 @@ function nexus-delete-repo() {
 function nexus-create-repo() {
     local exists
     local method
-    local uri='service/rest/v1/repositories/yum/hosted/'
+    local validate=true
     local repo_name="${1:-}"
+    local repo_type="${2:-}"
+    local uri="service/rest/v1/repositories/$repo_type/hosted/"
+
+    if [ "$repo_type" = 'raw' ]; then
+        validate=false
+    fi
 
     exists="$(curl \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
@@ -414,7 +425,7 @@ function nexus-create-repo() {
   "online": true,
   "storage": {
     "blobStoreName": "default",
-    "strictContentTypeValidation": true,
+    "strictContentTypeValidation": $validate,
     "writePolicy": "ALLOW"
   },
   "cleanup": null,
@@ -422,7 +433,7 @@ function nexus-create-repo() {
     "repodataDepth": 0,
     "deployPolicy": "STRICT"
   },
-  "format": "yum",
+  "format": "$repo_type",
   "type": "hosted"
 }
 EOF
@@ -494,7 +505,23 @@ EOF
     echo 'Done'
 }
 
-function nexus-upload() {
+function nexus-upload-raw() {
+    local dir="${1:-}"
+    local repo_name="${2:-}"
+    echo -n "Uploading $dir to $repo_name ... "
+    mapfile -t files < <(find "$dir/" -type f)
+    for i in "${files[@]}"; do
+       curl \
+       -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+       --upload-file \
+       "$i" \
+       --max-time 600 \
+       "${NEXUS_URL}/repository/$repo_name/";
+    done
+    echo 'Done'
+}
+
+function nexus-upload-rpms() {
     local dir="${1:-}"
     local repo_name="${2:-}"
     echo -n "Uploading $dir to $repo_name ... "
@@ -563,6 +590,10 @@ elif [ "$server" -ne 0 ]; then
     echo "Uploading RPMs from $CSM_PATH/rpms ... "
     setup-apache2-https-proxy
     setup-nexus-server
+elif [ "$upload" -ne 0 ]; then
+    echo "Uploading files from $repo_path to $repo_name ... "
+    nexus-create-repo "${repo_name}" raw
+    nexus-upload-raw "${repo_path}" "${repo_name}"
 elif [ "$proxy_server" -ne 0 ]; then
     echo "Setting up $NEXUS_URL as a proxy ... "
     nexus-reset

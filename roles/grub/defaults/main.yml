@@ -38,7 +38,8 @@ kernel_params:
   - rd.md.conf=0
   - rd.md=0
   - rd.neednet=1
+  - rd.peerdns=1
   - rd.shell
-  - "root=live:{{ iso_url }}"
+  - root=live:{{ iso_url }}
   - split_lock_detect=off
   - transparent_hugepage=never

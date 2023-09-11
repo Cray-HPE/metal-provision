@@ -43,7 +43,7 @@
     owner: "{{ gitea_user }}"
     group: "{{ gitea_group }}"
     mode: '0755'
-  with_items:
+  loop:
     - "{{ gitea_config_dir }}"
 
 - name: Create gitea data directories
@@ -54,7 +54,7 @@
     group: "{{ item.group | default(gitea_user) }}"
     mode: '0755'
     recurse: true
-  with_items:
+  loop:
     - "{{ gitea_home }}"
     - "{{ gitea_home }}/data"
     - "{{ gitea_home }}/custom"

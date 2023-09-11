@@ -71,8 +71,8 @@
     group: root
     state: link
   loop:
-    - {src: "{{ bootloaderx64_path }}", dest: "{{ web_root }}/boot/{{ bootloaderx64 }}"}
-    - {src: "{{ bootloaderaa64_path }}", dest: "{{ web_root }}/boot/{{ bootloaderaa64 }}"}
+    - {src: "{{ bootloader_path }}/{{ bootloaderaa64 }}", dest: "{{ web_root }}/boot/{{ bootloaderaa64 }}"}
+    - {src: "{{ bootloader_path }}/{{ bootloaderx86 }}", dest: "{{ web_root }}/boot/{{ bootloaderx64 }}"}
     - {src: "{{ grub_path }}", dest: "{{ web_root }}/boot/{{ grub_binary }}"}
 
 - name: Update apparmor's dnsmasq profile for the webroot
@@ -84,3 +84,20 @@
     state: present
   notify:
     - 'bootserver : Restart apparmor'
+
+- name: Make ephemeral
+  ansible.builtin.file:
+    mode: '0755'
+    owner: root
+    group: root
+    state: directory
+    path: '{{ web_root }}/ephemeral'
+
+- name: Mount the hypervisor ISO
+  ansible.posix.mount:
+    path: "{{ web_root }}/ephemeral"
+    src: /vms/assets/images/hypervisor-{{ ansible_architecture }}.iso
+    fstype: iso9660
+    state: mounted
+    boot: false
+    opts: ro

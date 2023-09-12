@@ -37,10 +37,10 @@ TEMP_DIR=$(mktemp -d)
 
 # Obtain the relevant OVAL files, download to a temporary directory.
 cd $TEMP_DIR
-wget --quiet --continue --retry-connrefused --tries=25 --waitretry=5 \
+wget --no-verbose --continue --retry-connrefused --tries=35 --waitretry=5 \
      https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-pub-mirror/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}.xml
 
-wget --quiet --continue --retry-connrefused --tries=25 --waitretry=5 \
+wget --no-verbose --continue --retry-connrefused --tries=35 --waitretry=5 \
      https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-pub-mirror/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}-patch.xml
 
 # Create oval test results in /tmp so the Pipeline can find them in an expected location.

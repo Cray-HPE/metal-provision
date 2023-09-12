@@ -71,8 +71,8 @@
     group: root
     state: link
   loop:
-    - {src: "{{ bootloader_path }}/{{ bootloaderaa64 }}", dest: "{{ web_root }}/boot/{{ bootloaderaa64 }}"}
-    - {src: "{{ bootloader_path }}/{{ bootloaderx86 }}", dest: "{{ web_root }}/boot/{{ bootloaderx64 }}"}
+    - {src: "{{ bootloaderaa64_path }}", dest: "{{ web_root }}/boot/{{ bootloaderaa64 }}"}
+    - {src: "{{ bootloaderx64_path }}", dest: "{{ web_root }}/boot/{{ bootloaderx64 }}"}
     - {src: "{{ grub_path }}", dest: "{{ web_root }}/boot/{{ grub_binary }}"}
 
 - name: Update apparmor's dnsmasq profile for the webroot

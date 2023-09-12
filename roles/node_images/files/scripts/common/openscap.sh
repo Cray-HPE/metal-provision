@@ -37,13 +37,17 @@ TEMP_DIR=$(mktemp -d)
 
 # Obtain the relevant OVAL files, download to a temporary directory.
 cd $TEMP_DIR
-wget --continue \
+wget -e use_proxy=yes \
+     -e https_proxy=${HTTPS_PROXY:-} \
+     --continue \
      --retry-connrefused \
      --tries=35 \
      --waitretry=5 \
      https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-pub-mirror/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}.xml
 
-wget --continue \
+wget -e use_proxy=yes \
+     -e https_proxy=${HTTPS_PROXY:-} \
+     --continue \
      --retry-connrefused \
      --tries=35 \
      --waitretry=5 \

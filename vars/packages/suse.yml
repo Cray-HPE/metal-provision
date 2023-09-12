@@ -54,6 +54,8 @@ packages:
   - tpm2.0-tools=5.2-150400.4.6
   # rationale: Necessary for hardware interfaces.
   - udev=249.16-150400.8.28.3.26700.1.PTF.1214447
+  # rationale: Necessary for fetching recovery items
+  - wget=1.20.3-150000.3.15.1
   #
   ## Filesystems and block device helpers
   #

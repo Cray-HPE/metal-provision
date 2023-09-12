@@ -1,0 +1,8 @@
+---
+- name: Grub templates
+  ansible.builtin.template:
+    mode: '0644'
+    src: grub.conf.j2
+    dest: "{{ web_root }}/boot/grub.cfg"
+    owner: dnsmasq
+    group: tftp

@@ -22,12 +22,17 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Bootserver
-  hosts: localhost
-  become: true # Enable builds that do not login as root to escalate privilege.
-  vars_files:
-    - vars/fawkes.yml
-  roles:
-    - bootserver
-    - grub
-    - services
+gfxmode=auto
+timeout=2
+default=1
+
+locale_dir=$prefix/grub.locale
+lang=en_US
+
+menuentry 'LiveCD' {
+  set gfxpayload=keep
+  echo 'Loading kernel ...'
+  linuxefi (http,{{ server_name }}){{ kernel_path }} {{ kernel_params | join(' ') }}
+  echo 'Loading initrd ...'
+  initrdefi (http,{{ server_name }}){{ initrd_path }}
+}

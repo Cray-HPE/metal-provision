@@ -102,7 +102,7 @@
     </Location>
 </VirtualHost>
 
-# Necessary for http://packages/nexus/ to proxy to nexus.
+# Necessary for http://packages/ to proxy to nexus.
 <VirtualHost *:80>
     ProxyPreserveHost On
     ProxyRequests Off
@@ -110,11 +110,16 @@
     ProxyTimeout 300
     ServerName packages
     ServerAlias packages
-    ProxyPass /nexus/ http://localhost:{{ port_nexus }}/nexus/ nocanon
-    ProxyPassReverse /nexus/ http://localhost:{{ port_nexus }}/nexus/
+    RewriteEngine On
+    RewriteCond expr "! %{REQUEST_URI} =~ m#^/nexus/#"
+    RewriteRule "^/(.*)$" "/nexus/$1" [R=308]
+    <Location "/nexus/">
+        ProxyPass http://localhost:8081/nexus/ nocanon
+        ProxyPassReverse http://localhost:8081/nexus/
+    </Location>
 </VirtualHost>
 
-# Necessary for http://packages.mtl/nexus/ to proxy to nexus.
+# Necessary for http://packages.mtl/ to proxy to nexus.
 <VirtualHost *:80>
     ProxyPreserveHost On
     ProxyRequests Off
@@ -122,6 +127,28 @@
     ProxyTimeout 300
     ServerName packages.mtl
     ServerAlias packages.mtl
-    ProxyPass /nexus/ http://localhost:{{ port_nexus }}/nexus/ nocanon
-    ProxyPassReverse /nexus/ http://localhost:{{ port_nexus }}/nexus/
+    RewriteEngine On
+    RewriteCond expr "! %{REQUEST_URI} =~ m#^/nexus/#"
+    RewriteRule "^/(.*)" "/nexus/$1" [R=308]
+    <Location "/nexus/">
+        ProxyPass http://localhost:8081/nexus/ nocanon
+        ProxyPassReverse http://localhost:8081/nexus/
+    </Location>
+</VirtualHost>
+
+# Necessary for http://packages.nmn/ to proxy to nexus.
+<VirtualHost *:80>
+    ProxyPreserveHost On
+    ProxyRequests Off
+    AllowEncodedSlashes NoDecode
+    ProxyTimeout 300
+    ServerName packages.nmn
+    ServerAlias packages.nmn
+    RewriteEngine On
+    RewriteCond expr "! %{REQUEST_URI} =~ m#^/nexus/#"
+    RewriteRule "^/(.*)$" "/nexus/$1" [R=308]
+    <Location "/nexus/">
+        ProxyPass http://localhost:8081/nexus/ nocanon
+        ProxyPassReverse http://localhost:8081/nexus/
+    </Location>
 </VirtualHost>

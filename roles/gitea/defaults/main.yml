@@ -13,7 +13,7 @@ gitea_user_repo_limit: -1
 
 gitea_app_name: "Metal Gitea"
 gitea_http_domain: localhost
-gitea_root_url: http://localhost:3000
+gitea_root_url: http://{{ server_name }}/git
 gitea_protocol: http
 gitea_http_listen: 0.0.0.0
 gitea_http_port: "{{ port_gitea_http }}"
@@ -24,7 +24,7 @@ gitea_db_type: sqlite3
 gitea_db_path: "{{ gitea_home }}/data/gitea.db"
 
 gitea_ssh_listen: 0.0.0.0
-gitea_ssh_domain: gitea
+gitea_ssh_domain: "{{ server_name }}"
 gitea_start_ssh: true
 gitea_ssh_port: "{{ port_gitea_ssh }}"
 

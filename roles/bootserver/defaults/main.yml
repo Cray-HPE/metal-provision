@@ -47,4 +47,4 @@ bootloaderaa64_path: "/usr/share/tftpboot-installation/\
   SLE-{{ ansible_distribution_major_version }}-SP{{ ansible_distribution_release }}-\
   aarch64/EFI/BOOT/{{ bootloaderaa64 }}"
 grub_binary: grub.efi
-grub_path: "/usr/share/grub2/x86_64-efi/{{ grub_binary }}"
+grub_path: "/usr/share/efi/{{ ansible_architecture }}/{{ grub_binary }}"

@@ -71,17 +71,22 @@ Options:
                 - login with sonatype/nexus default credentials
 -c          Set up the running node as a client; adds repositories ${WORKING_DIR}/repos/ to Zypper but using the Nexus URL
 -d          Delete a repository by name
--s          Set up the running node as a server; uploads a given CSM_RELEASE to the running Nexus instance at the given NEXUS_URL
--r          Path to a directory containing RPMs to upload. The name of this directory will dictate the name of the repository to upload create or upload to (must have a subdir called "repos" with repos subdirectories defined within it).
+-s          Uploads a CSM_RELEASE tarball's RPMs to nexus, creating a CSM package server.
+
+-u          Generic function to upload a given path to nexus.
+-r          Name of repository to create or update in nexus (pairs with -u)
+-t          Type of repository (e.g. raw, yum)
 EOF
 }
 proxy_server=0
 server=0
 client=0
+upload=0
 delete=0
 repo_path=''
+repo_type='raw'
 CSM_PATH=${CSM_PATH:-''}
-while getopts ":pscr:d:" o; do
+while getopts ":pscr:d:u:t:" o; do
     case "${o}" in
         p)
             proxy_server=1
@@ -98,6 +103,16 @@ while getopts ":pscr:d:" o; do
         d)
             delete=1
             repo_name="${OPTARG}"
+            ;;
+        u)
+            upload=1
+            repo_name="${OPTARG}"
+            ;;
+        t)
+            repo_type="${OPTARG}"
+            if [ "$repo_type" = 'rpm' ]; then
+                repo_type='yum'
+            fi
             ;;
         *)
             usage
@@ -120,12 +135,12 @@ if [ "$proxy_server" -ne 0 ]; then
 fi
 [ "$error" -ne 0 ] && exit 2
 
-if [ -z ${NEXUS_URL:-''} ]; then
+if [ -z "${NEXUS_URL:-}" ]; then
     echo >&2 'Missing NEXUS_URL, presuming default: DEFAULT_NEXUS_URL'
     NEXUS_URL="$DEFAULT_NEXUS_URL"
 fi
 
-if [ -z ${NEXUS_REGISTRY:-''} ]; then
+if [ -z "${NEXUS_REGISTRY:-}" ]; then
     echo >&2 'Missing NEXUS_REGISTRY, presuming default: DEFAULT_NEXUS_REGISTRY'
     NEXUS_REGISTRY="$DEFAULT_NEXUS_REGISTRY"
 fi
@@ -143,10 +158,11 @@ function nexus-reset() {
         if [[ $repo_file =~ template ]]; then
             continue
         fi
-        mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
+        mapfile -t repos < <(remove-comments-and-empty-lines "${repo_file}" | awk '{print $1","$2}')
         for repo in "${repos[@]}"; do
-            name="$(echo ${repo} | awk -F, '{print $NF}')"
+            name="$(echo "${repo}" | awk -F, '{print $NF}')"
             curl \
+            -L \
             -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
             --request DELETE \
             "${NEXUS_URL}/service/rest/v1/repositories/${name}"
@@ -168,7 +184,7 @@ function zypper-reset() {
         if [[ $repo_file =~ template ]]; then
             continue
         fi
-        mapfile -t repos < <(remove-comments-and-empty-lines ${repo_file} | awk '{print $1","$2}')
+        mapfile -t repos < <(remove-comments-and-empty-lines "${repo_file}" | awk '{print $1","$2}')
         for repo in "${repos[@]}"; do
             name="$(echo ${repo} | awk -F, '{print $NF}')"
             zypper rr "${name}"
@@ -201,6 +217,7 @@ function nexus-proxy() {
 	        url="$(echo $url | sed -e 's/${releasever_major}/'"${sle_major}"'/' -e 's/${releasever_minor}/'"${sle_minor}"'/' -e 's/${basearch}/'"${basearch}"'/' -e 's/${releasever}/'"${sle_version}"'/')"
             echo $name $url
             curl \
+            -L \
             -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
            "${NEXUS_URL}/service/rest/v1/repositories/yum/proxy" \
            --header "Content-Type: application/json" \
@@ -300,10 +317,10 @@ function setup-nexus-server() {
         name="$(basename "$repo_path")"
         for directory in "$repo_path/repos/"*; do
             repo_name="${name}-$(basename "$directory")"
-            if ! nexus-create-repo "$repo_name"; then
+            if ! nexus-create-repo "$repo_name" yum; then
                 echo >&2 "Failed to create repo: $directory"
             fi
-            if ! nexus-upload "${directory}" "$repo_name"; then
+            if ! nexus-upload-yum "${directory}" "$repo_name"; then
                 echo >&2 "Failed to upload $directory to $repo_name! Aborting."
                 return 1
             fi
@@ -317,15 +334,15 @@ function setup-nexus-server() {
             name="$(basename "$directory")"
             # Name distro specific repos with their distro name in lower case.
             repo_name="csm-$CSM_RELEASE-${name,,}"
-            if ! nexus-create-repo "$repo_name"; then
+            if ! nexus-create-repo "$repo_name" yum; then
                 echo >&2 "Failed to create repo: $repo_name. Aborting."
                 return 1
             fi
-            if ! nexus-create-repo-group "csm-${name,,}" "$repo_name"; then
+            if ! nexus-create-repo-group-yum "csm-${name,,}" "$repo_name"; then
                 echo >&2 "Failed to create repo group: csm-${name,,}"
                 return 1
             fi
-            if ! nexus-upload "${directory}" "${repo_name}"; then
+            if ! nexus-upload-yum "${directory}" "${repo_name}"; then
                 echo >&2 "Failed to upload $directory to $repo_name! Aborting."
                 return 1
             fi
@@ -365,7 +382,7 @@ function setup-apache2-https-proxy() {
         "${PITDATA}/prep/site-init/customizations.yaml" \
         | jq -r '.data."root_ca.key" | @base64d' > /etc/apache2/ssl.key/ca.key
     if [ ! -f /etc/apache2/vhosts.d/nexus-ssl.conf ]; then
-        cp -p "$(dirname $0)/nexus-ssl.conf" /etc/apache2/vhosts.d/nexus-ssl.conf
+        cp -p "$(dirname $0)/nexus-ssl.htaccess" /etc/apache2/vhosts.d/nexus-ssl.conf
         systemctl restart apache2
     fi
 }
@@ -374,6 +391,7 @@ function nexus-delete-repo() {
     local name="${1:-}"
     echo >&2 "Deleting $name ..."
     curl \
+    -L \
     -v \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     -X DELETE \
@@ -384,15 +402,17 @@ function nexus-delete-repo() {
 function nexus-create-repo() {
     local exists
     local method
-    local uri='service/rest/v1/repositories/yum/hosted/'
     local repo_name="${1:-}"
+    local repo_type="${2:-}"
+
 
     exists="$(curl \
+    -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/service/rest/v1/repositories" \
     -s \
     --header "Content-type: application/json" \
-    | jq '.[] | select(.name=="'"${repo_name}"'")')"
+    | jq -r '.[] | select(.name=="'"${repo_name}"'")')"
     if [ -z "$exists" ]; then
         echo -n "Creating repo '$repo_name' ... "
         method=POST
@@ -402,7 +422,63 @@ function nexus-create-repo() {
         method=PUT
     fi
 
+    "nexus-create-repo-${repo_type}" "${repo_name}"
+
+    exists="$(curl \
+    -L \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/service/rest/v1/repositories" \
+    -s \
+    --header "Content-type: application/json" \
+    | jq -r '.[] | select(.name=="'"${repo_name}"'")')"
+    if [ -z "$exists" ]; then
+        echo >&2 "Error! The repository ${repo_name} failed to create! Please double-check the running nexus instance's health."
+        return 1
+    fi
+    echo 'Done'
+}
+
+nexus-create-repo-raw() {
+    local repo_name="${1:-}"
+    local uri="service/rest/v1/repositories/raw/hosted/"
+    if [ -z "$repo_name" ];then
+        return 1
+    fi
     curl \
+    -L \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/$uri" \
+    --header "Content-Type: application/json" \
+    --request POST \
+    --data-binary \
+   @- << EOF
+{
+  "name": "$repo_name",
+  "online": true,
+  "storage": {
+    "blobStoreName": "default",
+    "strictContentTypeValidation": false,
+    "writePolicy": "ALLOW"
+  },
+  "cleanup": null,
+  "component": {
+    "proprietaryComponents": false
+  },
+  "raw": {
+    "contentDisposition": "ATTACHMENT"
+  }
+}
+EOF
+}
+
+nexus-create-repo-yum() {
+    local repo_name="${1:-}"
+    local uri="service/rest/v1/repositories/yum/hosted/"
+    if [ -z "$repo_name" ];then
+        return 1
+    fi
+    curl \
+    -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/$uri" \
     --header "Content-Type: application/json" \
@@ -418,28 +494,18 @@ function nexus-create-repo() {
     "writePolicy": "ALLOW"
   },
   "cleanup": null,
+  "component": {
+    "proprietaryComponents": false
+  },
   "yum": {
     "repodataDepth": 0,
     "deployPolicy": "STRICT"
-  },
-  "format": "yum",
-  "type": "hosted"
+  }
 }
 EOF
-    exists="$(curl \
-    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
-    "${NEXUS_URL}/service/rest/v1/repositories" \
-    -s \
-    --header "Content-type: application/json" \
-    | jq '.[] | select(.name=="'"${repo_name}"'")')"
-    if [ -z "$exists" ]; then
-        echo >&2 "Error! The repository ${repo_name} failed to create! Please double-check the running nexus instance's health."
-        return 1
-    fi
-    echo 'Done'
 }
 
-function nexus-create-repo-group() {
+function nexus-create-repo-group-yum() {
     local exists
     local method
     local uri='service/rest/v1/repositories/yum/group'
@@ -447,6 +513,7 @@ function nexus-create-repo-group() {
     shift
     local repo_names="$*"
     exists="$(curl \
+    -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/service/rest/v1/repositories" \
     -s \
@@ -461,6 +528,7 @@ function nexus-create-repo-group() {
         method=PUT
     fi
     curl \
+    -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/$uri" \
     --header "Content-Type: application/json" \
@@ -482,6 +550,7 @@ function nexus-create-repo-group() {
    }
 EOF
     exists="$(curl \
+    -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/service/rest/v1/repositories" \
     -s \
@@ -494,13 +563,31 @@ EOF
     echo 'Done'
 }
 
-function nexus-upload() {
+function nexus-upload-raw() {
+    local dir="${1:-}"
+    local repo_name="${2:-}"
+    echo -n "Uploading $dir to $repo_name ... "
+    mapfile -t files < <(find "$dir/" -type f)
+    for i in "${files[@]}"; do
+       curl \
+       -L \
+       -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+       --upload-file \
+       "$i" \
+       --max-time 600 \
+       "${NEXUS_URL}/repository/$repo_name/";
+    done
+    echo 'Done'
+}
+
+function nexus-upload-yum() {
     local dir="${1:-}"
     local repo_name="${2:-}"
     echo -n "Uploading $dir to $repo_name ... "
     mapfile -t rpms < <(find "$dir/" -type f -name \*.rpm)
     for i in "${rpms[@]}"; do
        curl \
+       -L \
        -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
        --upload-file \
        "$i" \
@@ -563,6 +650,10 @@ elif [ "$server" -ne 0 ]; then
     echo "Uploading RPMs from $CSM_PATH/rpms ... "
     setup-apache2-https-proxy
     setup-nexus-server
+elif [ "$upload" -ne 0 ]; then
+    echo "Uploading files from $repo_path to $repo_name ... "
+    nexus-create-repo "${repo_name}" "${repo_type:-raw}"
+    "nexus-upload-${repo_type}" "${repo_path}" "${repo_name}"
 elif [ "$proxy_server" -ne 0 ]; then
     echo "Setting up $NEXUS_URL as a proxy ... "
     nexus-reset

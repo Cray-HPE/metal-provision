@@ -6,3 +6,6 @@ network:
       dhcp4: true
       dhcp6: false
       mtu: 1500
+      nameservers:
+        addresses:
+        - 127.0.0.1

@@ -1,0 +1,6 @@
+#cloud-config
+mounts:
+  - [ "assets", "/vms/assets", "virtiofs", "defaults" ]
+users:
+  - name: root
+    ssh_authorized_keys: [ ]

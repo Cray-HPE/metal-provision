@@ -54,6 +54,11 @@
   </memoryBacking>
   <devices>
     <emulator>/usr/bin/qemu-system-x86_64</emulator>
+    <filesystem type="mount" accessmode="passthrough">
+      <driver type="virtiofs" queue="1024"/>
+      <source dir="/vms/assets"/>
+      <target dir="assets"/>
+    </filesystem>
     <console type='pty' tty='/dev/pts/0'>
       <source path='/dev/pts/0'/>
       <target port='0'/>

@@ -28,8 +28,10 @@ dhcp-vendorclass=efi-x86_64-sb-http,HTTPClient:Arch:00016 # Commonly used x86_64
 dhcp-vendorclass=efi-arm64-sb-http,HTTPClient:Arch:00013
 dhcp-option-force=tag:efi-x86_64-sb-http,60,HTTPClient
 dhcp-option-force=tag:efi-arm64-sb-http,60,HTTPClient
-dhcp-boot=tag:efi-x86_64-sb-http,"http://{{ server_name }}/hypervisor-x86_64.iso"
-dhcp-boot=tag:efi-arm64-sb-http,"http://{{ server_name }}/hypervisor-aarch64.iso"
+
+dhcp-boot=tag:efi-x86_64-sb-http,"http://{{ server_name }}/boot/{{ bootloaderx64 }}"
+dhcp-boot=tag:efi-arm64-sb-http,"http://{{ server_name }}/boot/{{ bootloaderaa64 }}"
+
 interface-name={{ server_name }},{{ interface_mtl }}
 interface-name=packages,{{ interface_mtl }}
 interface-name=registry,{{ interface_mtl }}

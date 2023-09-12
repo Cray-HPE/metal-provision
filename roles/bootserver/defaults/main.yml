@@ -38,4 +38,13 @@ interface_mtl: eth1
 interface_hmn: eth2
 interface_ext: eth3
 
-web_root: /var/www
+bootloaderx64: bootx64.efi
+bootloaderx64_path: "/usr/share/tftpboot-installation/\
+  SLE-{{ ansible_distribution_major_version }}-SP{{ ansible_distribution_release }}-\
+  x86_64/EFI/BOOT/{{ bootloaderx64 }}"
+bootloaderaa64: bootaa64.efi
+bootloaderaa64_path: "/usr/share/tftpboot-installation/\
+  SLE-{{ ansible_distribution_major_version }}-SP{{ ansible_distribution_release }}-\
+  aarch64/EFI/BOOT/{{ bootloaderaa64 }}"
+grub_binary: grub.efi
+grub_path: "/usr/share/efi/{{ ansible_architecture }}/{{ grub_binary }}"

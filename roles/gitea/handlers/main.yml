@@ -7,3 +7,10 @@
 - name: Reload systemd
   ansible.builtin.systemd:
     daemon_reload: true
+
+- name: Migrate gitea
+  ansible.builtin.shell: "sudo -u gitea -i gitea -c {{ gitea_config_dir }}/gitea.ini migrate"
+  args:
+    executable: /bin/bash
+  changed_when: false
+  failed_when: false

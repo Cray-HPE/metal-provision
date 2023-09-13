@@ -56,10 +56,28 @@ cloud-init query --format="$(cat /etc/cloud/templates/hosts.suse.tmpl)" >/etc/ho
 function ifconf() {
     local gw
     local nic=bond0.cmn0
+    local primary_driver
+    local secondary_driver
 
     # Render the template
     printf 'net-init: [ % -20s ]\n' 'running: sysconfig'
-    cloud-init query --format="$(cat /etc/cloud/templates/cloud-init-network.tmpl)" >/etc/cloud/cloud.cfg.d/00_network.cfg || fail_and_die "cloud-init query failed to render cloud-init-network.tmpl"
+    primary_driver="$(ethtool -i mgmt0 | awk '/driver/{print $NF}')"
+    secondary_driver="$(ethtool -i mgmt1 | awk '/driver/{print $NF}')"
+    if [ "$primary_driver" != "$secondary_driver" ]; then
+        printf 'net-init: [ % -20s ]\n' 'driver: mismatch'
+    fi
+    printf 'net-init: [ % -20s ]\n' "driver: $primary_driver"
+    case "${primary_driver}" in
+        mlx*)
+            cloud-init query --format="$(cat /etc/cloud/templates/cloud-init-network.mlx.tmpl)" >/etc/cloud/cloud.cfg.d/00_network.cfg || fail_and_die "cloud-init query failed to render cloud-init-network.mlx.tmpl"
+            ;;
+        qede)
+            cloud-init query --format="$(cat /etc/cloud/templates/cloud-init-network.qede.tmpl)" >/etc/cloud/cloud.cfg.d/00_network.cfg || fail_and_die "cloud-init query failed to render cloud-init-network.qede.tmpl"
+            ;;
+        *)
+            cloud-init query --format="$(cat /etc/cloud/templates/cloud-init-network.tmpl)" >/etc/cloud/cloud.cfg.d/00_network.cfg || fail_and_die "cloud-init query failed to render cloud-init-network.tmpl"
+            ;;
+    esac
     printf 'net-init: [ % -20s ]\n' 'running: acclimating'
 
     # PHASE 1: Invoke the generated template; generate the ifcfg files
@@ -78,6 +96,7 @@ function ifconf() {
     else
         echo "default ${gw} - $nic" >/etc/sysconfig/network/ifroute-$nic
     fi
+
 
     # removing eth0 configs
     # ALWAYS DO THIS; THESE SHOULD NOT EXIST IN METAL

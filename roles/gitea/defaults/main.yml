@@ -13,7 +13,7 @@ gitea_user_repo_limit: -1
 
 gitea_app_name: "Metal Gitea"
 gitea_http_domain: localhost
-gitea_root_url: http://{{ server_name }}/git
+gitea_root_url: http://localhost/git
 gitea_protocol: http
 gitea_http_listen: 0.0.0.0
 gitea_http_port: "{{ port_gitea_http }}"

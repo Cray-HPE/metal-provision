@@ -16,7 +16,8 @@
     group: root
     mode: '0755'
     force: true
-  notify: "Restart gitea"
+  notify:
+    - "gitea : Restart gitea"
   when: (not gitea_version_check|bool) or (not ansible_check_mode and (gitea_active_version.stdout != gitea_version))
 
 - name: Create gitea group
@@ -72,8 +73,8 @@
     group: root
     mode: '0644'
   notify:
-    - "Reload systemd"
-    - "Restart gitea"
+    - "gitea : Reload systemd"
+    - "gitea : Restart gitea"
 
 - name: Reload systemd
   ansible.builtin.systemd:
@@ -86,7 +87,9 @@
     owner: "{{ gitea_user }}"
     group: "{{ gitea_group }}"
     mode: '0600'
-  notify: "Restart gitea"
+  notify:
+    - "gitea : Restart gitea"
+    - "gitea : Migrate gitea"
 
 - name: Service gitea
   ansible.builtin.service:

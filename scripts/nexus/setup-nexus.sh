@@ -418,11 +418,10 @@ function nexus-create-repo() {
         method=POST
     else
         echo -n "Updating existing repo '$repo_name' ... "
-        uri="$uri/$repo_name"
         method=PUT
     fi
 
-    "nexus-create-repo-${repo_type}" "${repo_name}"
+    "nexus-create-repo-${repo_type}" "${repo_name}" "${method}"
 
     exists="$(curl \
     -L \
@@ -440,16 +439,23 @@ function nexus-create-repo() {
 
 nexus-create-repo-raw() {
     local repo_name="${1:-}"
+    local method="${2:-POST}"
     local uri="service/rest/v1/repositories/raw/hosted/"
+
     if [ -z "$repo_name" ];then
         return 1
     fi
+
+    if [ "$method" = PUT ]; then
+        uri="$uri/$repo_name"
+    fi
+
     curl \
     -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/$uri" \
     --header "Content-Type: application/json" \
-    --request POST \
+    --request "$method" \
     --data-binary \
    @- << EOF
 {
@@ -473,16 +479,23 @@ EOF
 
 nexus-create-repo-yum() {
     local repo_name="${1:-}"
+    local method="${2-POST}"
     local uri="service/rest/v1/repositories/yum/hosted/"
+
     if [ -z "$repo_name" ];then
         return 1
     fi
+
+    if [ "$method" = PUT ]; then
+        uri="$uri/$repo_name"
+    fi
+
     curl \
     -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/$uri" \
     --header "Content-Type: application/json" \
-    --request POST \
+    --request "$method" \
     --data-binary \
    @- << EOF
 {

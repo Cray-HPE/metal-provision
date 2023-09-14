@@ -98,7 +98,7 @@ while getopts ":pscr:d:u:t:" o; do
             client=1
             ;;
         r)
-            repo_path="${OPTARG}"
+            repo_name="${OPTARG}"
             ;;
         d)
             delete=1
@@ -106,7 +106,7 @@ while getopts ":pscr:d:u:t:" o; do
             ;;
         u)
             upload=1
-            repo_name="${OPTARG}"
+            repo_path="${OPTARG}"
             ;;
         t)
             repo_type="${OPTARG}"

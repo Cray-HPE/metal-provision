@@ -90,14 +90,3 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 
 # SUSE PTF 1214447 systemd/udev
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1214447/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1214447                                        -g -p 89
-
-# These storage repos are only offered in x86_64
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/7/x86_64/product?auth=basic                                                                             SUSE-Storage-7-x86_64-Pool                              -g -p 89
-#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/7/x86_64/product_debug?auth=basic                                                                       SUSE-Storage-7-x86_64-Debuginfo-Pool                    -g -p 89
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/7/x86_64/update?auth=basic                                                                               SUSE-Storage-7-x86_64-Updates                           -g -p 89
-#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/7/x86_64/update_debug?auth=basic                                                                         SUSE-Storage-7-x86_64-Debuginfo-Updates                 -g -p 89
-
-#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/6/x86_64/product?auth=basic                                                                             SUSE-Storage-6-x86_64-Pool                              -g -p 89
-#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/Storage/6/x86_64/product_debug?auth=basic                                                                       SUSE-Storage-6-x86_64-Debuginfo-Pool                    -g -p 89
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/6/x86_64/update?auth=basic                                                                               SUSE-Storage-6-x86_64-Updates                           -g -p 89
-#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/Storage/6/x86_64/update_debug?auth=basic                                                                         SUSE-Storage-6-x86_64-Debuginfo-Updates                 -g -p 89

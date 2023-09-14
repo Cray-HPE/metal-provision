@@ -292,11 +292,11 @@ function setup-zypper-nexus() {
 function nexus-get-credential() {
 
     if ! command -v kubectl 1>&2 >/dev/null; then
-      echo "Requires kubectl"
+      echo "Requires kubectl for auto-fetching credentials from Kubernetes secrets."
       return 1
     fi
     if ! command -v base64 1>&2 >/dev/null ; then
-      echo "Requires base64"
+      echo "Requires base64 for decoding credentials from Kubernetes secrets."
       return 1
     fi
 

@@ -22,20 +22,43 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-packages:
-  # rationale: Security.
-  - apparmor-profiles=3.0.4-150500.11.3.1
-  # rationale: Application for facilitating configuring a hypervisor node.
-  - crucible=0.0.11-1
-  # rationale: Free range routing.
-  - frr=8.4-150500.4.3.1
-  # rationale: Necessary for Mercury software proof-of-concepts.
-  - libguestfs0=1.48.4-150500.1.13
-  # rationale: Necessary for Mercury software proof-of-concepts.
-  - libxslt-tools=1.1.34-150400.3.3.1
-  # rationale: Drivers for VMs.
-  - qemu=7.1.0-150500.49.6.1
-  # rationale: Necessary for providing consoles to VMs.
-  - qemu-ui-spice-core=7.1.0-150500.49.6.1
-  # rationale: Necessary for providing timezone zoneinfo definition files.
-  - timezone=2023c-150000.75.23.1
+- name: Set timezone
+  community.general.timezone:
+    name: "{{ timezone }}"
+    hwclock: UTC
+
+- name: Render chrony template
+  ansible.builtin.template:
+    src: chrony.conf.j2
+    dest: "{{ chrony_conf_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - 'ntp : Restart chrony'
+
+- name: Render cray template
+  ansible.builtin.template:
+    src: cray.conf.j2
+    dest: "{{ cray_conf_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - 'ntp : Restart chrony'
+
+- name: Run handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Wait for time sync
+  ansible.builtin.command: chronyc waitsync 12 0.01
+  changed_when: false
+
+- name: System clock stats
+  ansible.builtin.command: chronyc tracking
+  register: chronyc_output
+  changed_when: false
+
+- name: Show system clock stats
+  ansible.builtin.debug:
+    msg: "{{ chronyc_output.stdout | regex_findall('.*offset.*') }}"

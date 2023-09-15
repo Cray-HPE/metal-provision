@@ -1,0 +1,44 @@
+# {{ ansible_managed }}
+# csm-generated config for {{ ansible_hostname }}. Do not modify--changes can be overwritten
+
+{% set hypervisor_mtl_network = '%s/%s' | format(ansible_facts[hypervisor_interface_mtl].ipv4.network, ansible_facts[hypervisor_interface_mtl].ipv4.prefix) %}
+{% set hypervisor_hmn_network = '%s/%s' | format(ansible_facts[hypervisor_interface_hmn].ipv4.network, ansible_facts[hypervisor_interface_hmn].ipv4.prefix) %}
+
+{%- for server in external_ntp_servers %}
+{%- if server and ansible_hostname in internal_ntp_servers %}
+server {{ server }} iburst trust
+initstepslew 1 {{ server }}
+{% endif %}
+{% endfor %}
+
+{%- for server in internal_ntp_servers %}
+{% if ansible_hostname != server %}
+server {{ server }} iburst trust maxpoll 0 minpoll 0
+{% endif %}
+{% endfor %}
+
+{% for peer in peers | sort -%}
+{% if loop.index <= 8 %}
+{% if ansible_hostname != peer %}
+peer {{ peer }} minpoll 0 maxpoll 0 iburst
+{% endif %}
+{% endif %}
+{% endfor %}
+
+allow {{ hypervisor_mtl_network }}
+cmdallow {{ hypervisor_mtl_network }}
+
+allow {{ hypervisor_hmn_network }}
+cmdallow {{ hypervisor_hmn_network }}
+
+{% if ansible_hostname == internal_ntp_servers[0] %}
+# {{ ansible_hostname }} has a lower stratum than other hypervisors since it is the primary server
+local stratum 8 orphan
+{% else %}
+# {{ ansible_hostname }} has a higher stratum so it selects {{ internal_ntp_servers[0] }} in the event of a tie
+local stratum 10 orphan
+{% endif %}
+
+bindcmdaddress 0.0.0.0
+bindcmdaddress ::
+hwtimestamp *

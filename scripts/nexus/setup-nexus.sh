@@ -98,7 +98,7 @@ while getopts ":pscr:d:u:t:" o; do
             client=1
             ;;
         r)
-            repo_path="${OPTARG}"
+            repo_name="${OPTARG}"
             ;;
         d)
             delete=1
@@ -106,7 +106,7 @@ while getopts ":pscr:d:u:t:" o; do
             ;;
         u)
             upload=1
-            repo_name="${OPTARG}"
+            repo_path="${OPTARG}"
             ;;
         t)
             repo_type="${OPTARG}"
@@ -292,11 +292,11 @@ function setup-zypper-nexus() {
 function nexus-get-credential() {
 
     if ! command -v kubectl 1>&2 >/dev/null; then
-      echo "Requires kubectl"
+      echo "Requires kubectl for auto-fetching credentials from Kubernetes secrets."
       return 1
     fi
     if ! command -v base64 1>&2 >/dev/null ; then
-      echo "Requires base64"
+      echo "Requires base64 for decoding credentials from Kubernetes secrets."
       return 1
     fi
 
@@ -418,11 +418,10 @@ function nexus-create-repo() {
         method=POST
     else
         echo -n "Updating existing repo '$repo_name' ... "
-        uri="$uri/$repo_name"
         method=PUT
     fi
 
-    "nexus-create-repo-${repo_type}" "${repo_name}"
+    "nexus-create-repo-${repo_type}" "${repo_name}" "${method}"
 
     exists="$(curl \
     -L \
@@ -440,16 +439,23 @@ function nexus-create-repo() {
 
 nexus-create-repo-raw() {
     local repo_name="${1:-}"
+    local method="${2:-POST}"
     local uri="service/rest/v1/repositories/raw/hosted/"
+
     if [ -z "$repo_name" ];then
         return 1
     fi
+
+    if [ "$method" = PUT ]; then
+        uri="$uri/$repo_name"
+    fi
+
     curl \
     -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/$uri" \
     --header "Content-Type: application/json" \
-    --request POST \
+    --request "$method" \
     --data-binary \
    @- << EOF
 {
@@ -473,16 +479,23 @@ EOF
 
 nexus-create-repo-yum() {
     local repo_name="${1:-}"
+    local method="${2-POST}"
     local uri="service/rest/v1/repositories/yum/hosted/"
+
     if [ -z "$repo_name" ];then
         return 1
     fi
+
+    if [ "$method" = PUT ]; then
+        uri="$uri/$repo_name"
+    fi
+
     curl \
     -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/$uri" \
     --header "Content-Type: application/json" \
-    --request POST \
+    --request "$method" \
     --data-binary \
    @- << EOF
 {

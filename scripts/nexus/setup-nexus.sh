@@ -319,16 +319,17 @@ function setup-nexus-server() {
             repo_name="${name}-$(basename "$directory")"
             if ! nexus-create-repo "$repo_name" yum; then
                 echo >&2 "Failed to create repo: $directory"
+                exit 1
             fi
             if ! nexus-upload-yum "${directory}" "$repo_name"; then
                 echo >&2 "Failed to upload $directory to $repo_name! Aborting."
-                return 1
+                exit 1
             fi
         done
     elif [ -n "${CSM_PATH}" ]; then
         if [ -z "${CSM_RELEASE:-}" ]; then
             echo >&2 'CSM_RELEASE value was unset!'
-            return 1
+            exit 1
         fi
         for directory in "${CSM_PATH}/rpm/cray/csm/"*; do
             name="$(basename "$directory")"
@@ -336,27 +337,27 @@ function setup-nexus-server() {
             repo_name="csm-$CSM_RELEASE-${name,,}"
             if ! nexus-create-repo "$repo_name" yum; then
                 echo >&2 "Failed to create repo: $repo_name. Aborting."
-                return 1
+                exit 1
             fi
             if ! nexus-create-repo-group-yum "csm-${name,,}" "$repo_name"; then
                 echo >&2 "Failed to create repo group: csm-${name,,}"
-                return 1
+                exit 1
             fi
             if ! nexus-upload-yum "${directory}" "${repo_name}"; then
                 echo >&2 "Failed to upload $directory to $repo_name! Aborting."
-                return 1
+                exit 1
             fi
             echo "Successfully created repository: $NEXUS_URL/repository/$repo_name"
         done
         if ! nexus-upload-docker-images; then
             echo >&2 "Failed to upload docker images in ${CSM_PATH}/docker. Aborting"
-            return 1
+            exit 1
         else
             echo "Successfully uploaded docker images in ${CSM_PATH}/docker."
         fi
     else
         echo >&2 'Nothing to upload. CSM_PATH is unset, and nothing was given with -r. Aborting.'
-        return 1
+        exit 1
     fi
 
 }
@@ -432,7 +433,7 @@ function nexus-create-repo() {
     | jq -r '.[] | select(.name=="'"${repo_name}"'")')"
     if [ -z "$exists" ]; then
         echo >&2 "Error! The repository ${repo_name} failed to create! Please double-check the running nexus instance's health."
-        return 1
+        exit 1
     fi
     echo 'Done'
 }
@@ -443,7 +444,8 @@ nexus-create-repo-raw() {
     local uri="service/rest/v1/repositories/raw/hosted/"
 
     if [ -z "$repo_name" ];then
-        return 1
+        echo >&2 "Error! The repo_name parameter cannot be empty."
+        exit 1
     fi
 
     if [ "$method" = PUT ]; then
@@ -483,7 +485,8 @@ nexus-create-repo-yum() {
     local uri="service/rest/v1/repositories/yum/hosted/"
 
     if [ -z "$repo_name" ];then
-        return 1
+        echo >&2 "Error! The repo_name parameter cannot be empty."
+        exit 1
     fi
 
     if [ "$method" = PUT ]; then
@@ -571,7 +574,7 @@ EOF
     | jq '.[] | select(.name=="'"${repo_name}"'")')"
     if [ -z "$exists" ]; then
         echo >&2 "Error! The repository ${repo_group_name} failed to create! Please double-check the running nexus instance's health."
-        return 1
+        exit 1
     fi
     echo 'Done'
 }

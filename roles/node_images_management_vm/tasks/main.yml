@@ -51,3 +51,15 @@
     delete: false
     src: sysctl.d/
     dest: /etc/sysctl.d/
+
+- name: Copy kernel module configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: modules-load.d/
+    dest: /etc/modules-load.d/
+
+- name: Copy chrony configuration
+  ansible.posix.synchronize:
+    delete: false
+    src: chrony/
+    dest: /etc/

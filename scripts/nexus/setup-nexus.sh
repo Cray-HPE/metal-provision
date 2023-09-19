@@ -662,10 +662,7 @@ if [ "$delete" -ne 0 ]; then
 elif [ "$server" -ne 0 ]; then
     echo "Uploading RPMs from $CSM_PATH/rpms ... "
     setup-apache2-https-proxy
-    if ! setup-nexus-server; then
-        echo >&2 'Failed to setup nexus server! Aborting.'
-        exit 1
-    fi
+    setup-nexus-server
 elif [ "$upload" -ne 0 ]; then
     echo "Uploading files from $repo_path to $repo_name ... "
     nexus-create-repo "${repo_name}" "${repo_type:-raw}"

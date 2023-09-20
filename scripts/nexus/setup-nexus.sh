@@ -334,15 +334,21 @@ function setup-nexus-server() {
             name="$(basename "$directory")"
             # Name distro specific repos with their distro name in lower case.
             repo_name="csm-$CSM_RELEASE-${name,,}"
-            if ! nexus-create-repo "$repo_name" yum; then
+# FIXME: MTL-2278 switch back to yum.
+#            if ! nexus-create-repo "$repo_name" yum; then
+            if ! nexus-create-repo "$repo_name" raw; then
                 echo >&2 "Failed to create repo: $repo_name. Aborting."
                 return 1
             fi
-            if ! nexus-create-repo-group-yum "csm-${name,,}" "$repo_name"; then
+# FIXME: MTL-2278 switch back to yum.
+#            if ! nexus-create-repo-group-yum "csm-${name,,}" "$repo_name"; then
+            if ! nexus-create-repo-group-raw "csm-${name,,}" "$repo_name"; then
                 echo >&2 "Failed to create repo group: csm-${name,,}"
                 return 1
             fi
-            if ! nexus-upload-yum "${directory}" "${repo_name}"; then
+# FIXME: MTL-2278 switch back to yum.
+#            if ! nexus-upload-yum "${directory}" "${repo_name}"; then
+            if ! nexus-upload-raw "${directory}" "${repo_name}"; then
                 echo >&2 "Failed to upload $directory to $repo_name! Aborting."
                 return 1
             fi

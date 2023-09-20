@@ -22,7 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-iso_url: "http://{{ server_name }}/nexus/repository/os-images/hypervisor-{{ ansible_architecture }}.iso"
+iso_url: "http://{{ server_name }}/nexus/repository/os-images/hypervisor/hypervisor-{{ ansible_architecture }}.iso"
 kernel_path: "/ephemeral/boot/{{ ansible_architecture }}/loader/kernel"
 initrd_path: "/ephemeral/boot/{{ ansible_architecture }}/loader/initrd.img.xz"
 kernel_params:

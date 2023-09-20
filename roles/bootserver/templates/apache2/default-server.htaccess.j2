@@ -72,7 +72,29 @@ ServerName {{ server_name }}
     </IfModule>
 </LocationMatch>
 
-# Allow access to boot directory.
+# Allow access to docs directory.
+<LocationMatch "^/docs/">
+    <IfModule !mod_access_compat.c>
+        Require all granted
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order allow,deny
+        Allow from all
+    </IfModule>
+</LocationMatch>
+
+# Allow access to docs sub-directories.
+<LocationMatch "^/docs/.*/">
+    <IfModule !mod_access_compat.c>
+        Require all granted
+    </IfModule>
+    <IfModule mod_access_compat.c>
+        Order allow,deny
+        Allow from all
+    </IfModule>
+</LocationMatch>
+
+# Allow access to ephemeral directory.
 <LocationMatch "^/ephemeral/">
     <IfModule !mod_access_compat.c>
         Require all granted

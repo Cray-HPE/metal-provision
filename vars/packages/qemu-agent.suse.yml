@@ -23,4 +23,4 @@
 #
 ---
 packages:
-  - qemu-guest-agent=7.1.0-150500.49.6.1
+  - qemu-guest-agent=6.2.0-150400.37.20.1

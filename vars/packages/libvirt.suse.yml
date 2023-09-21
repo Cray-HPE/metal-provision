@@ -23,6 +23,6 @@
 #
 ---
 packages:
-  - libvirt-client=9.0.0-150500.6.11.1
-  - libvirt-devel=9.0.0-150500.6.11.1
-  - libvirt=9.0.0-150500.6.11.1
+  - libvirt-client=8.0.0-150400.7.6.1
+  - libvirt-devel=8.0.0-150400.7.6.1
+  - libvirt=8.0.0-150400.7.6.1

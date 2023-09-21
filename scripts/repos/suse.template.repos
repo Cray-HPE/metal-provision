@@ -89,4 +89,4 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 #https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1204911/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1204911                                        -g -p 89
 
 # SUSE PTF 1214447 systemd/udev
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1214447/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1214447                                        -g -p 89
+#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1214447/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1214447                                        -g -p 89

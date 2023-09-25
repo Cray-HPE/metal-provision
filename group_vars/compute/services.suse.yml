@@ -38,3 +38,6 @@ services:
   - enabled: true
     name: csm-node-identity.service
     state: stopped
+  - enabled: true
+    name: spire-agent.service
+    state: stopped

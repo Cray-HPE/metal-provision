@@ -24,6 +24,9 @@
 ---
 services:
   - enabled: true
+    name: auditd.service
+    state: stoped
+  - enabled: true
     name: cfs-state-reporter.service
     state: stopped
   - enabled: false

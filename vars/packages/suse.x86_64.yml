@@ -23,6 +23,8 @@
 #
 ---
 packages_x86_64:
+  # rationale: prevents apparmor for spamming dmesg
+  - audit=3.0.6-150400.4.13.1
   # rationale: Runs tests
   - hpe-csm-goss-package=0.3.21-hpe4
   # rationale: Necessary for standardized network interface device names.

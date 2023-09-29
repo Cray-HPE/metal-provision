@@ -83,3 +83,5 @@ packages:
   - cm-cli=1.5.1-1
   # CVT
   - cvt=1.5.9-20230804061353_2d3e92970639
+  # SMA
+  - sma-cli-utils=1.5.3-1

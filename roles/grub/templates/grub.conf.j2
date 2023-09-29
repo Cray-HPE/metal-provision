@@ -32,7 +32,7 @@ lang=en_US
 menuentry 'LiveCD' {
   set gfxpayload=keep
   echo 'Loading kernel ...'
-  linuxefi (http,{{ server_name }}){{ kernel_path }} {{ kernel_params | join(' ') }}
+  linux (http,{{ server_name }}){{ kernel_path }} {{ kernel_params | join(' ') }}
   echo 'Loading initrd ...'
-  initrdefi (http,{{ server_name }}){{ initrd_path }}
+  initrd (http,{{ server_name }}){{ initrd_path }}
 }

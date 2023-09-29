@@ -52,3 +52,5 @@ packages_x86_64:
   # rationale: Provides a mechanism to release updates for security advisories and functional issues.
   - ucode-amd=20230724-150500.3.6.1
   - ucode-intel=20230808-150200.27.1
+  # rationale: Libraries in use does not support ARM.
+  - tpm-provisioner-client=1.0.1-2

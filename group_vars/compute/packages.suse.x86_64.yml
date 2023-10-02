@@ -23,6 +23,8 @@
 #
 ---
 packages_x86_64:
+  # CSM Packages
+  - cray-spire-dracut=2.0.1-1
   # COS SHASTA-OS packages
   # - cray-cos-release                    : Installed cle and cos release files.
   - cray-cos-release=1.4.0-2.6_20230804001533__gc3d4504a78a1

@@ -469,6 +469,7 @@ function paginate() {
 }
 
 function install_csm_rpms() {
+    echo >&2 "This function is deprecated, its function has been replaced by cloud-init."
     local repos
     local cani_url
     local canu_url

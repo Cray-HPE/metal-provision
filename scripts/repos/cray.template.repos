@@ -17,3 +17,5 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 
 #TEMP Slingshot
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/slingshot-host-software-rpm-master-local/dev/master/sle${releasever_major}_sp${releasever_minor}_ncn?auth=basic     slingshot                                                                                  --no-gpgcheck -p 89
+# SMA
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/sma-rpm-stable-local/release/sma-1.9/noos?auth=basic                                                                sma-cli-utils-1.5.3                                                                        --no-gpgcheck -p 89

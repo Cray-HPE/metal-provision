@@ -39,7 +39,7 @@ packages_x86_64:
   - grub2-x86_64-efi=2.06-150500.29.3.1
   # Drivers
   # rationale: Necessary for Mellanox device tools.
-  - kernel-mft-mlnx-kmp-default=4.24.0_k5.14.21_150500.55.19-1.sles15sp5
+  - kernel-mft-mlnx-kmp-default=4.24.0_k5.14.21_150500.55.28-1.sles15sp5
   # rationale: Necessary for advanced QLogic support (CASMTRIAGE-5033)
   - qlgc-fastlinq-kmp-default=8.72.4.1_k5.14.21_150500.53-8.sles15sp5
   # rationale: Necessary for collecting hardware information.

@@ -23,7 +23,7 @@
 #
 ---
 packages:
-  - apparmor-profiles=3.0.4-150500.11.3.1
+  - apparmor-profiles=3.0.4-150500.11.6.1
   - aws-cli=1.27.89-150200.30.11.1
   - ceph-common<17.2.7
   - conman=0.3.1-150500.1.2
@@ -35,15 +35,15 @@ packages:
   - hplip=3.21.10-150400.3.5.1
   - ipmitool=1.8.19.gb7c0d66-0
   - ipset=7.15-150400.12.3.2
-  - java-1_8_0-ibm-plugin=1.8.0_sr8.6-150000.3.77.1
-  - java-1_8_0-ibm=1.8.0_sr8.6-150000.3.77.1
+  - java-1_8_0-ibm-plugin=1.8.0_sr8.10-150000.3.80.1
+  - java-1_8_0-ibm=1.8.0_sr8.10-150000.3.80.1
   - jq=1.6-3.3.1
   - keepalived=2.0.19-bp152.1.9
   - kubectl="{{ kubernetes_release }}-0"
   - lsof=4.91-1.11
   - ltrace=0.7.91-150500.18.1
-  - mariadb-tools=10.6.14-150400.3.26.1
-  - mariadb=10.6.14-150400.3.26.1
+  - mariadb-tools=10.6.15-150400.3.29.3
+  - mariadb=10.6.15-150400.3.29.3
   - minicom=2.7.1-1.19
   - mlocate=0.26-150400.16.3.1
   - netcat-openbsd=1.203-150400.1.5
@@ -61,7 +61,7 @@ packages:
   - squid=5.7-150400.3.9.1
   - systemtap=4.6-150400.1.7
   - wget=1.20.3-150000.3.15.1
-  - wireshark=3.6.15-150000.3.97.1
+  - wireshark=3.6.16-150000.3.100.1
   - xfsdump=3.1.6-1.30
   # CMS Team
   - cfs-debugger=1.5.0-1
@@ -74,7 +74,7 @@ packages:
   - cloud-init=21.4-1
   - cray-kubectl-hns-plugin=1.0.2-1
   - cray-kubectl-kubelogin-plugin=1.25.3-1
-  - goss-servers=1.17.11-1
+  - goss-servers=1.17.12-1
   - hpe-csm-scripts=0.7.0-1
   - hpe-yq=4.33.3-1
   - loftsman=1.2.0-3
@@ -82,6 +82,6 @@ packages:
   # CM cli
   - cm-cli=1.5.1-1
   # CVT
-  - cvt=1.5.9-20230804061353_2d3e92970639
+  - cvt=1.5.10-20230925110721_8760a8d6d7bd
   # SMA
   - sma-cli-utils=1.5.3-1

@@ -23,13 +23,13 @@
 #
 ---
 packages:
-  - java-11-openjdk-devel=11.0.20.0-150000.3.99.1
+  - java-11-openjdk-devel=11.0.20.1-150000.3.102.1
   # CSM Team
   - acpid=2.0.31-2.1
   - csm-auth-utils=1.0.0-1
-  - csm-node-heartbeat=2.3-1
+  - csm-node-heartbeat=2.4-1
   # CMS Team
-  - bos-reporter=2.8.0-1
+  - bos-reporter=2.9.0-1
   - cfs-debugger=1.5.0-1
   - cfs-state-reporter=1.11.0-1
   - cfs-trust=1.6.8-1
@@ -55,11 +55,11 @@ packages:
   # - cray-systemd-presets                :
   - cray-hugepage-setup=0.8.2-2.6_20230804001644__g9c84ef3b22ea
   - cray-network-dracut=1.5.1-2.6_20230804001703__g71255c7a5e62
-  - cray-system-files=1.15.2-2.6_20230804002228__gb1f6310b93a4
+  - cray-system-files=1.15.3-2.6_20230911215322__gd8602cbbd773
   - cray-systemd-presets=1.8.1-2.6_20230804002220__g21dc19294c93
   # COS SHASTA-OS packages
   # - cray-low-noise-mode                 : Hardware optimization
-  - cray-low-noise-mode=1.4.7-2.6_20230804002029__g1862b6d8f622
+  - cray-low-noise-mode=1.4.8-2.6_20230911163148__g7ec75cf5515b
   # GPU Support Packages
   - autoconf=2.69-1.445
   - automake=1.15.1-4.10.2

@@ -25,9 +25,9 @@
 packages:
   - at=3.2.2-150400.4.3.10
   - bc=1.07.1-11.37
-  - bind-utils=9.16.42-150500.8.7.1
+  - bind-utils=9.16.44-150500.8.12.2
   - bsdtar=3.5.1-150400.3.12.1
-  - ca-certificates-mozilla=2.60-150200.27.1
+  - ca-certificates-mozilla=2.62-150200.30.1
   - ca-certificates=2+git20210309.21162a6-2.1
   - cron=4.2-150400.84.3.1
   - dmidecode=3.4-150400.16.8.1
@@ -43,7 +43,7 @@ packages:
   - fuse=2.9.7-3.3.1
   - gdb=12.1-150400.15.9.1
   - genders=1.27.3-150400.8.7
-  - git-core=2.35.3-150300.10.27.1
+  - git-core=2.35.3-150300.10.30.1
   - gnuplot=5.4.3-150400.1.6
   - hdparm=9.62-150400.1.7
   - helm-bash-completion=3.11.2-150000.1.21.1
@@ -53,7 +53,7 @@ packages:
   - hwloc=2.9.0-150400.3.6.1
   - issue-generator=1.13-150500.1.2
   - libasm1=0.185-150400.5.3.1
-  - libcanberra-gtk0=0.30-150400.13.10
+  - libcanberra-gtk0=0.30-150400.15.2.2
   - libdebuginfod1=0.185-150400.5.3.1
   - libdw1=0.185-150400.5.3.1
   - libelf-devel=0.185-150400.5.3.1

@@ -36,5 +36,5 @@ packages_aarch64:
   # - cray-udev-network-cn                : Provides udev rules for network interfaces
   # - cray-ckdump-helper                  : Wraps kdump, providing an interface for NMD
   - cray-system-setup-scripts=1.5.5-2.6_20230804002220__gdae63f3f92dd
-  - cray-udev-network-cn=1.8.10-2.6_20230815154348__g9d60496c0350
-  - cray-ckdump-helper=2.13.2-2.6_20230821202914__g343328ba9c1d
+  - cray-udev-network-cn=1.8.12-2.6_20230925201630__g2e3d7016390d
+  - cray-ckdump-helper=2.13.4-2.6_20230906214258__ge249006232a7

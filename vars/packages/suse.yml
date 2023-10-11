@@ -27,7 +27,7 @@ packages:
   ## OS Packages
   #
   # rationale: Necessary for fetching recovery items
-  - curl=8.0.1-150400.5.29.1
+  - curl=8.0.1-150400.5.32.1
   # rationale: Necessary for network time protocol (NTP).
   - chrony=4.1-150400.19.4
   # rationale: provides /sbin/mkinitrd

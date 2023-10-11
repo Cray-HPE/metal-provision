@@ -1,10 +1,10 @@
 # CSM / CLOUD / PET / MTL / NET
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos?auth=basic                                                                                                cray-algol60-csm-rpms-stable-noos                                                          --no-gpgcheck -p 87
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-${releasever_major}sp${releasever_minor}?auth=basic                                                        'cray-algol60-csm-rpms-stable-sle-${releasever_major}sp${releasever_minor}'                  --no-gpgcheck -p 88
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-${releasever_major}sp${releasever_minor}?auth=basic                                                        cray-algol60-csm-rpms-stable-sle                                                           --no-gpgcheck -p 88
 
 # Fawkes
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/fawkes-rpms/hpe/stable/noos?auth=basic                                                                                             cray-algol60-fawkes-rpms-stable-noos                                                       --no-gpgcheck -p 87
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/fawkes-rpms/hpe/stable/sle-${releasever_major}sp${releasever_minor}?auth=basic                                                     'cray-algol60-fawkes-rpms-stable-sle-${releasever_major}sp${releasever_minor}'               --no-gpgcheck -p 88
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/fawkes-rpms/hpe/stable/sle-${releasever_major}sp${releasever_minor}?auth=basic                                                     cray-algol60-fawkes-rpms-stable-sle                                                        --no-gpgcheck -p 88
 
 
 # SAT

@@ -94,24 +94,24 @@ function setup_repositories {
         rhel)
             # TODO: Use our own mirrors.
             rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official && \
-                rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8 && \
-                dnf -y --disablerepo '*' --enablerepo=extras \
-                swap centos-linux-repos centos-stream-repos && \
-                dnf -y distro-sync
-                            yum makecache -y -q
-                            yum update -y
-                            rpm -qa | sort -h > /tmp/initial.packages
-                            ;;
-                        suse)
-                            set +eu
-                            . /srv/cray/metal-provision/scripts/rpm-functions.sh
-                            setup-package-repos "$@"
-                            get-current-package-list /tmp/initial.packages explicit
-                            get-current-package-list /tmp/initial.deps.packages deps
-                            set -eu
-                            ;;
-                    esac
-                }
+            rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8 && \
+            dnf -y --disablerepo '*' --enablerepo=extras \
+            swap centos-linux-repos centos-stream-repos && \
+            dnf -y distro-sync
+            yum makecache -y -q
+            yum update -y
+            rpm -qa | sort -h > /tmp/initial.packages
+            ;;
+        suse)
+            set +eu
+            . /srv/cray/metal-provision/scripts/rpm-functions.sh
+            setup-package-repos "$@"
+            get-current-package-list /tmp/initial.packages explicit
+            get-current-package-list /tmp/initial.deps.packages deps
+            set -eu
+            ;;
+    esac
+}
 
 # Resize the rootFS, useful for expanding a VM's rootFS when using a new disk.
 function resize_root {

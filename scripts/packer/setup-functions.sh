@@ -96,7 +96,7 @@ function setup_repositories {
             rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official && \
             rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8 && \
             dnf -y --disablerepo '*' --enablerepo=extras \
-                swap centos-linux-repos centos-stream-repos && \
+            swap centos-linux-repos centos-stream-repos && \
             dnf -y distro-sync
             yum makecache -y -q
             yum update -y
@@ -121,22 +121,22 @@ function resize_root {
     # Find device and partition of /
     cd /
     df . | tail -n 1 | tr -s " " | cut -d " " -f 1 | sed -E -e 's/^([^0-9]+)([0-9]+)$/\1 \2/' |
-    if read -r dev_disk dev_partition_nr && [ -n "$dev_partition_nr" ]; then
-        echo "Expanding $dev_disk partition $dev_partition_nr";
-        sgdisk --move-second-header
-        sgdisk --delete=${dev_partition_nr} "$dev_disk"
-        sgdisk --new=${dev_partition_nr}:0:0 --typecode=0:8e00 ${dev_disk}
-        partprobe "$dev_disk"
+        if read -r dev_disk dev_partition_nr && [ -n "$dev_partition_nr" ]; then
+            echo "Expanding $dev_disk partition $dev_partition_nr";
+            sgdisk --move-second-header
+            sgdisk --delete=${dev_partition_nr} "$dev_disk"
+            sgdisk --new=${dev_partition_nr}:0:0 --typecode=0:8e00 ${dev_disk}
+            partprobe "$dev_disk"
 
-        if ! resize2fs "${dev_disk}${dev_partition_nr}"; then
-            if ! xfs_growfs ${dev_disk}${dev_partition_nr}; then
-                echo >&2 "Neither resize2fs nor xfs_growfs could resize the device. Potential filesystem mismatch on [$dev_disk]."
-                lsblk "$dev_disk"
+            if ! resize2fs "${dev_disk}${dev_partition_nr}"; then
+                if ! xfs_growfs ${dev_disk}${dev_partition_nr}; then
+                    echo >&2 "Neither resize2fs nor xfs_growfs could resize the device. Potential filesystem mismatch on [$dev_disk]."
+                    lsblk "$dev_disk"
+                fi
             fi
         fi
-    fi
-    cd -
-}
+        cd -
+    }
 
 # LEGACY FUNCTION
 # Overrides any newer Python version than what the python3 package installed.
@@ -167,12 +167,12 @@ function setup_legacy_python {
 # even with -U when installing with inventory file
 function hpc-release {
 
-    echo "Etching release file"
-    local restore_lock=0
-    if zypper removelock kernel-default; then
-        echo '- removing zypper lock for kernel-default'
-        restore_lock=1
-    fi
+echo "Etching release file"
+local restore_lock=0
+if zypper removelock kernel-default; then
+    echo '- removing zypper lock for kernel-default'
+    restore_lock=1
+fi
 
     # Needs --force-install in order to remove suse-release if it is present.
     # Don't PIN this, just install the latest one. If the base image already has this package, then pinning it here will
@@ -196,4 +196,42 @@ function remove_wicked_locks {
         fi
     done
     zypper locks
+}
+
+# Configures Zypper.
+function zypper_setup {
+
+    sed -i -E "s/.*download.max_silent_tries.*/download.max_silent_tries = 0/" /etc/zypp/zypp.conf
+    sed -i -E "s/.*download.connect_timeout.*/download.connect_timeout = 180/" /etc/zypp/zypp.conf
+    sed -i -E "s/.*download.transfer_timeout.*/download.transfer_timeout = 420/" /etc/zypp/zypp.conf
+    sed -i -E "s/^.*(solver\.onlyRequires).*/\1 = true/" /etc/zypp/zypp.conf
+    sed -i -E "s/^.*(rpm\.install\.excludedocs).*/\1 = no/" /etc/zypp/zypp.conf
+    grep excludedocs /etc/zypp/zypp.conf
+    grep onlyRequires /etc/zypp/zypp.conf
+}
+
+# Sometimes AutoYaST and dracut are still running some operations after the install has finished.
+# If the VM image starts saving before either process finishes, the build will fail.
+function wait_for_autoyast {
+    echo -n "Waiting for dracut operations to finish ... "
+    while ps aux | grep 'dracut' | grep -v grep &>/dev/null; do
+        sleep 5
+    done
+    echo 'Done'
+
+    echo -n "Waiting for YaST installation operations to complete ... "
+    while ps aux | grep '[Y]aST2.call installation continue' &>/dev/null; do
+        sleep 5
+    done
+    echo 'Done'
+}
+
+# Setup /tmp as a tmpfs so it auto purges on boot in the pipeline and during runtime.
+# DO NOT append ",nosuid,nodev,noexec" - this will break packer.
+function setup_tmp {
+    printf '% -16s\t% -3s\t%s\t%s 0 0\n' tmpfs /tmp tmpfs defaults,noatime,size=16G >> /etc/fstab
+    cat /etc/fstab
+    ls -l /tmp
+    rm -rf /tmp/*
+    mount -v -t tmpfs tmpfs /tmp
 }

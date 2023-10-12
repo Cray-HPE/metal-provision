@@ -312,7 +312,7 @@ function validate-package-versions() {
 function get-current-package-list() {
     #shellcheck disable=SC2155
     local inventory_file=$(mktemp)
-    local output_path="$1"
+    local output_file="$1"
     local packages="$2"
     local base_inventory="${3:-""}"
 
@@ -322,24 +322,14 @@ function get-current-package-list() {
         local base_arg=""
     fi
     #shellcheck disable=SC2046
-    python3 ${BASE_DIR}/scripts/get-packages.py -p /tmp -f $(basename $inventory_file) $base_arg
-    get-package-list-from-inventory $inventory_file $output_path $packages
-}
-
-function get-package-list-from-inventory() {
-    local inventory_file="$1"
-    local output_path="$2"
-    local packages="$3"
-
+    python3 "${BASE_DIR}/scripts/get-packages.py" -p /tmp -f $(basename $inventory_file) $base_arg
     if [[ "$packages" == "explicit" ]]; then
-        local jq_script='. | map(select(.status=="i+")) | map("\(.name)=\(.version)") | unique | .[]'
+        python3 "${BASE_DIR}/scripts/get-package-list-from-inventory.py" -p "$inventory_file" -o "$output_file" -e
     elif [[ "$packages" == "deps" ]]; then
-        local jq_script='. | map(select(.status=="i")) | map("\(.name)=\(.version)") | unique | .[]'
+        python3 "${BASE_DIR}/scripts/get-package-list-from-inventory.py" -p "$inventory_file" -o "$output_file" -d
     else
-        local jq_script='. | map("\(.name)=\(.version)") | unique | .[]'
+        python3 "${BASE_DIR}/scripts/get-package-list-from-inventory.py" -p "$inventory_file" -o "$output_file"
     fi
-
-    jq -r "${jq_script}" < "$inventory_file" > "$output_path"
 }
 
 function cleanup-package-repos() {

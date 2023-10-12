@@ -288,3 +288,11 @@ function lock_kernel {
     zypper locks
     echo 'Done'
 }
+
+function cleanup_zypper {
+    echo 'Removing our AutoYST cache to ensure no lingering sensitive content (e.g. credentials) remains ...'
+    rm -rf /var/adm/autoinstall/cache
+    zypper clean --all
+    rm -rf /etc/zypp/repos.d/*
+    echo 'Done'
+}

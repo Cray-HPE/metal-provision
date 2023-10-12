@@ -107,7 +107,7 @@ def get_packages():
     # Does not use the --xmlout option because the XML does not include
     # information about whether a package was user installed, or installed
     # as a dependency of another package.
-    # i = installed as a dependencly by zypper
+    # i = installed as a dependency by zypper
     # i+ = installed explicitly by the user
     lines = os.popen(
         'zypper --terse --non-interactive search --type package '

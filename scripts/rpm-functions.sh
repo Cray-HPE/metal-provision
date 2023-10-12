@@ -344,7 +344,7 @@ function get-package-list-from-inventory() {
 
 function cleanup-package-repos() {
     echo "Cleaning up buildonly-* package repos"
-    for repo in $(zypper lr | awk -F'|' '{gsub(/ /,""); print $3}'); do
+    for repo in $(zypper lr | grep -E '^[[:space:]]*[0-9]' | awk -F'|' '{gsub(/ /,""); print $3}'); do
         echo "Removing package repo ${repo}"
         zypper -n removerepo ${repo} || true
     done

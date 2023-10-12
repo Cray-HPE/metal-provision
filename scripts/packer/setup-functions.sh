@@ -197,3 +197,41 @@ function remove_wicked_locks {
     done
     zypper locks
 }
+
+# Configures Zypper.
+function zypper_setup {
+
+    sed -i -E "s/.*download.max_silent_tries.*/download.max_silent_tries = 0/" /etc/zypp/zypp.conf
+    sed -i -E "s/.*download.connect_timeout.*/download.connect_timeout = 180/" /etc/zypp/zypp.conf
+    sed -i -E "s/.*download.transfer_timeout.*/download.transfer_timeout = 420/" /etc/zypp/zypp.conf
+    sed -i -E "s/^.*(solver\.onlyRequires).*/\1 = true/" /etc/zypp/zypp.conf
+    sed -i -E "s/^.*(rpm\.install\.excludedocs).*/\1 = no/" /etc/zypp/zypp.conf
+    grep excludedocs /etc/zypp/zypp.conf
+    grep onlyRequires /etc/zypp/zypp.conf
+}
+
+# Sometimes AutoYaST and dracut are still running some operations after the install has finished.
+# If the VM image starts saving before either process finishes, the build will fail.
+function wait_for_autoyast {
+    echo -n "Waiting for dracut operations to finish ... "
+    while ps aux | grep 'dracut' | grep -v grep &>/dev/null; do
+        sleep 5
+    done
+    echo 'Done'
+
+    echo -n "Waiting for YaST installation operations to complete ... "
+    while ps aux | grep '[Y]aST2.call installation continue' &>/dev/null; do
+        sleep 5
+    done
+    echo 'Done'
+}
+
+# Setup /tmp as a tmpfs so it auto purges on boot in the pipeline and during runtime.
+# DO NOT append ",nosuid,nodev,noexec" - this will break packer.
+function setup_tmp {
+    printf '% -16s\t% -3s\t%s\t%s 0 0\n' tmpfs /tmp tmpfs defaults,noatime,size=16G >> /etc/fstab
+    cat /etc/fstab
+    ls -l /tmp
+    rm -rf /tmp/*
+    mount -v -t tmpfs tmpfs /tmp
+}

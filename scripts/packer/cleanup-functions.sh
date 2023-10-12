@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # MIT License
 #
@@ -213,7 +213,7 @@ function defrag {
     rm -f /root/zero-file
 }
 
-# Fix ``logrotate.service``, preventing confusing failure messages 
+# Fix ``logrotate.service``, preventing confusing failure messages
 # during login such as ``[FAILED] Failed to start Rotate log files.``.
 function fix_logrotate_errors {
     local logrotate=/etc/logrotate.d
@@ -260,17 +260,17 @@ function create_release_file {
     fi
     echo "Making /etc/$name-release ... "
     if [[ -z "$artifact_version" ]] || [[ "$artifact_version" = 'none' ]]; then
-      hash="dev"
-      epoch="$(date -u +%s%N | cut -b1-13)"
+        hash="dev"
+        epoch="$(date -u +%s%N | cut -b1-13)"
     else
-      hash="$(echo "$artifact_version" | awk -F- '{print $1}')"
-      epoch="$(echo "$artifact_version" | awk -F- '{print $NF}')"
+        hash="$(echo "$artifact_version" | awk -F- '{print $1}')"
+        epoch="$(echo "$artifact_version" | awk -F- '{print $NF}')"
     fi
     timestamp="$(date -d "@${epoch:0:-3}" '+%Y-%m-%d_%H:%M:%S')"
     cat << EOF > "/etc/${name}-release"
 VERSION=$hash-$epoch
 TIMESTAMP=$timestamp
 EOF
-    echo 'Done. Preview:'
-    cat "/etc/${name}-release"
+echo 'Done. Preview:'
+cat "/etc/${name}-release"
 }

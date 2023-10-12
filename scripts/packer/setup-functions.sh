@@ -94,24 +94,24 @@ function setup_repositories {
         rhel)
             # TODO: Use our own mirrors.
             rpm --import https://www.centos.org/keys/RPM-GPG-KEY-CentOS-Official && \
-            rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8 && \
-            dnf -y --disablerepo '*' --enablerepo=extras \
+                rpm --import https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8 && \
+                dnf -y --disablerepo '*' --enablerepo=extras \
                 swap centos-linux-repos centos-stream-repos && \
-            dnf -y distro-sync
-            yum makecache -y -q
-            yum update -y
-            rpm -qa | sort -h > /tmp/initial.packages
-            ;;
-        suse)
-            set +eu
-            . /srv/cray/metal-provision/scripts/rpm-functions.sh
-            setup-package-repos "$@"
-            get-current-package-list /tmp/initial.packages explicit
-            get-current-package-list /tmp/initial.deps.packages deps
-            set -eu
-            ;;
-    esac
-}
+                dnf -y distro-sync
+                            yum makecache -y -q
+                            yum update -y
+                            rpm -qa | sort -h > /tmp/initial.packages
+                            ;;
+                        suse)
+                            set +eu
+                            . /srv/cray/metal-provision/scripts/rpm-functions.sh
+                            setup-package-repos "$@"
+                            get-current-package-list /tmp/initial.packages explicit
+                            get-current-package-list /tmp/initial.deps.packages deps
+                            set -eu
+                            ;;
+                    esac
+                }
 
 # Resize the rootFS, useful for expanding a VM's rootFS when using a new disk.
 function resize_root {
@@ -121,22 +121,22 @@ function resize_root {
     # Find device and partition of /
     cd /
     df . | tail -n 1 | tr -s " " | cut -d " " -f 1 | sed -E -e 's/^([^0-9]+)([0-9]+)$/\1 \2/' |
-    if read -r dev_disk dev_partition_nr && [ -n "$dev_partition_nr" ]; then
-        echo "Expanding $dev_disk partition $dev_partition_nr";
-        sgdisk --move-second-header
-        sgdisk --delete=${dev_partition_nr} "$dev_disk"
-        sgdisk --new=${dev_partition_nr}:0:0 --typecode=0:8e00 ${dev_disk}
-        partprobe "$dev_disk"
+        if read -r dev_disk dev_partition_nr && [ -n "$dev_partition_nr" ]; then
+            echo "Expanding $dev_disk partition $dev_partition_nr";
+            sgdisk --move-second-header
+            sgdisk --delete=${dev_partition_nr} "$dev_disk"
+            sgdisk --new=${dev_partition_nr}:0:0 --typecode=0:8e00 ${dev_disk}
+            partprobe "$dev_disk"
 
-        if ! resize2fs "${dev_disk}${dev_partition_nr}"; then
-            if ! xfs_growfs ${dev_disk}${dev_partition_nr}; then
-                echo >&2 "Neither resize2fs nor xfs_growfs could resize the device. Potential filesystem mismatch on [$dev_disk]."
-                lsblk "$dev_disk"
+            if ! resize2fs "${dev_disk}${dev_partition_nr}"; then
+                if ! xfs_growfs ${dev_disk}${dev_partition_nr}; then
+                    echo >&2 "Neither resize2fs nor xfs_growfs could resize the device. Potential filesystem mismatch on [$dev_disk]."
+                    lsblk "$dev_disk"
+                fi
             fi
         fi
-    fi
-    cd -
-}
+        cd -
+    }
 
 # LEGACY FUNCTION
 # Overrides any newer Python version than what the python3 package installed.
@@ -167,12 +167,12 @@ function setup_legacy_python {
 # even with -U when installing with inventory file
 function hpc-release {
 
-    echo "Etching release file"
-    local restore_lock=0
-    if zypper removelock kernel-default; then
-        echo '- removing zypper lock for kernel-default'
-        restore_lock=1
-    fi
+echo "Etching release file"
+local restore_lock=0
+if zypper removelock kernel-default; then
+    echo '- removing zypper lock for kernel-default'
+    restore_lock=1
+fi
 
     # Needs --force-install in order to remove suse-release if it is present.
     # Don't PIN this, just install the latest one. If the base image already has this package, then pinning it here will

@@ -138,6 +138,10 @@ function cleanup_network {
                 echo '- Purge wicked interface cache (necessary for virsh, or `vagrant up` on multiple instances will fail)'
                 rm -f /var/lib/wicked/*.xml
             fi
+            if [ -d /var/lib/NetworkManager ]; then
+                echo '- Purge persistent-net udev rules'
+                rm -f /var/lib/NetworkManager/*.lease
+            fi
             ;;
         *)
             echo >&2 'Unhandled OS; nothing to do'
@@ -273,4 +277,14 @@ TIMESTAMP=$timestamp
 EOF
 echo 'Done. Preview:'
 cat "/etc/${name}-release"
+}
+
+function lock_kernel {
+    echo 'Locking kernel packages to prevent inadvertent updates ...'
+    current_kernel="$(awk -F= '/kernel-default/{gsub("\"", "", $0); print $NF}' /tmp/packages.sh)"
+    sed -i 's/^multiversion\.kernels =.*/multiversion.kernels = '"${current_kernel}"'/g' /etc/zypp/zypp.conf
+    zypper --non-interactive purge-kernels --details
+    zypper addlock kernel-default
+    zypper locks
+    echo 'Done'
 }

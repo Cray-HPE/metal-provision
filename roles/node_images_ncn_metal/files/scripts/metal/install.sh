@@ -120,10 +120,6 @@ csm() {
     printf 'Metal Install: [ % -20s ]\n' "running: BMC Reset" >&2
     [ -n "$METAL_TIME" ] && time bmc_reset || bmc_reset
     
-    # 5. 
-    printf 'Metal Install: [ % -20s ]\n' 'running: CSM layer' >&2
-    [ -n "$METAL_TIME" ] && time csm || csm
-
 ) >/var/log/cloud-init-metal.log
 
 printf 'Metal Install: [ % -20s ]\n' 'done and complete'

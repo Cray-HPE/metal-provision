@@ -446,6 +446,61 @@ function nexus-create-repo() {
     return "$error"
 }
 
+nexus-create-repo-docker() {
+    local error=0
+    local repo_name="${1:-}"
+    local method="${2:-POST}"
+    local uri="service/rest/v1/repositories/docker/hosted/"
+
+    if [ -z "$repo_name" ];then
+        return 1
+    fi
+
+    if [ "$method" = PUT ]; then
+        uri="$uri/$repo_name"
+    fi
+
+    if ! curl \
+    -f \
+    -L \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/$uri" \
+    --header "Content-Type: application/json" \
+    --request "$method" \
+    --data-binary \
+   @-; then
+       error=1
+   fi << EOF
+{
+  "name": "$repo_name",
+  "online": true,
+  "storage": {
+    "blobStoreName": "default",
+    "strictContentTypeValidation": true,
+    "writePolicy": "ALLOW"
+  },
+  "cleanup": null,
+  "docker": {
+    "v1Enabled": false,
+    "forceBasicAuth": false,
+    "httpPort": 5000,
+    "httpsPort": null
+  },
+  "component": {
+    "proprietaryComponents": false
+  },
+  "format": "docker",
+  "type": "hosted"
+}
+EOF
+    if [ "$error" -ne 0 ]; then
+        echo >&2 'Errors found.'
+    else
+        echo 'Done'
+    fi
+    return "$error"
+}
+
 nexus-create-repo-raw() {
     local error=0
     local repo_name="${1:-}"
@@ -672,6 +727,7 @@ function nexus-upload-docker-images() {
 
     # overwrite default NEXUS_REGISTRY value in install.sh
     export NEXUS_REGISTRY
+    nexus-create-repo registry docker
     echo -n "Uploading CSM docker images to nexus ... "
     echo "This can take up to 20 minutes."
     {

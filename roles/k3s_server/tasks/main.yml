@@ -1,0 +1,139 @@
+# MIT License
+#
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+---
+- name: Stop k3s-init if exists
+  ansible.builtin.systemd:
+    name: k3s-init
+    state: stopped
+  failed_when: false
+
+- name: Clean previous run of k3s-init if exists
+  ansible.builtin.command: systemctl reset-failed k3s-init
+  failed_when: false
+  changed_when: false
+
+- name: Initialize cluster with transient k3s-init service
+  ansible.builtin.command:
+    cmd: >-
+      systemd-run -p RestartSec=2
+      -p Restart=on-failure
+      --unit=k3s-init
+      /usr/local/bin/k3s server {{ server_init_args }}
+    creates: "{{ systemd_dir }}/k3s.service"
+
+- name: Verification
+  when: not ansible_check_mode
+  block:
+    - name: Verify all server nodes joined cluster
+      ansible.builtin.command:
+        cmd: /usr/local/bin/k3s kubectl get nodes -l "node-role.kubernetes.io/master=true" -o=jsonpath="{.items[*].metadata.name}"
+      register: nodes
+      until: nodes.rc == 0 and (nodes.stdout.split() | length) == (groups['master'] | length)
+      retries: "{{ retry_count | default(20) }}"
+      delay: 15
+      changed_when: false
+  always:
+    - name: Stop temporary service used for initialization
+      ansible.builtin.systemd:
+        name: k3s-init
+        state: stopped
+      failed_when: false
+
+- name: Copy k3s service
+  register: k3s_service
+  ansible.builtin.template:
+    src: "k3s.service.j2"
+    dest: "{{ systemd_dir }}/k3s.service"
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable k3s service
+  ansible.builtin.systemd:
+    name: k3s
+    daemon_reload: true
+    state: restarted
+    enabled: true
+
+- name: Wait for node-token to populate
+  ansible.builtin.wait_for:
+    path: "{{ k3s_server_location }}/server/node-token"
+
+- name: Register node-token file access mode
+  ansible.builtin.stat:
+    path: "{{ k3s_server_location }}/server/node-token"
+  register: p
+
+- name: Change node-token file access mode
+  ansible.builtin.file:
+    path: "{{ k3s_server_location }}/server/node-token"
+    mode: '0644'
+
+- name: Read node-token from master
+  ansible.builtin.slurp:
+    path: "{{ k3s_server_location }}/server/node-token"
+  register: node_token
+
+- name: Store node-token from master
+  ansible.builtin.set_fact:
+    token: "{{ node_token.content | b64decode | regex_replace('\n', '') }}"
+    cacheable: true
+
+- name: Restore node-token file access
+  ansible.builtin.file:
+    path: "{{ k3s_server_location }}/server/node-token"
+    mode: "{{ p.stat.mode }}"
+
+- name: Create .kube directory for deployment user
+  ansible.builtin.file:
+    path: "{{ ansible_user_dir }}/.kube"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    mode: '0750'
+
+- name: Copy config file to deployment user home directory
+  ansible.builtin.copy:
+    src: "/etc/rancher/k3s/k3s.yaml"
+    dest: "{{ ansible_user_dir }}/.kube/config"
+    remote_src: true
+    owner: "{{ ansible_user_id }}"
+    mode: '0750'
+
+- name: Replace localhost with master IP address
+  ansible.builtin.command: >-
+    /usr/local/bin/k3s kubectl config set-cluster default
+    --server=https://{{ apiserver_endpoint }}:{{ apiserver_port }}
+    --kubeconfig {{ ansible_user_dir }}/.kube/config
+  changed_when: true
+
+- name: Create kubectl symlink
+  ansible.builtin.file:
+    src: /usr/local/bin/k3s
+    dest: /usr/local/bin/kubectl
+    state: link
+
+- name: Create crictl symlink
+  ansible.builtin.file:
+    src: /usr/local/bin/k3s
+    dest: /usr/local/bin/crictl
+    state: link

@@ -22,9 +22,10 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-iso_url: "http://{{ server_name }}/nexus/repository/os-images/hypervisor/hypervisor-{{ ansible_architecture }}.iso"
-kernel_path: "/ephemeral/boot/{{ ansible_architecture }}/loader/kernel"
-initrd_path: "/ephemeral/boot/{{ ansible_architecture }}/loader/initrd.img.xz"
+iso_urn: ''
+iso_url: "http://{{ server_name }}/nexus/repository/fawkes-images/{{ iso_urn }}"
+kernel_path: "/nexus/repository/fawkes-images/hypervisor/boot/{{ ansible_architecture }}/loader/kernel"
+initrd_path: "/nexus/repository/fawkes-images/hypervisor/boot/{{ ansible_architecture }}/loader/initrd.img.xz"
 kernel_params:
   - biosdevname=1
   - console=tty0

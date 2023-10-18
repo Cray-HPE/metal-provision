@@ -6,8 +6,7 @@ group=tftp
 # and packets with private IP addresses from leaving our scoped network.
 domain-needed
 bogus-priv
-# Never serve external or isolated networks:
-except-interface=eth0
+# Never serve external networks:
 except-interface={{ interface_ext }}
 # DHCP:
 domain=local

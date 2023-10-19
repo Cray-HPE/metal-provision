@@ -72,20 +72,3 @@
     state: present
   notify:
     - 'bootserver : Restart apparmor'
-
-- name: Make ephemeral
-  ansible.builtin.file:
-    mode: '0755'
-    owner: root
-    group: root
-    state: directory
-    path: '{{ web_root }}/ephemeral'
-
-- name: Mount the hypervisor ISO
-  ansible.posix.mount:
-    path: "{{ web_root }}/ephemeral"
-    src: /vms/assets/images/hypervisor-{{ ansible_architecture }}.iso
-    fstype: iso9660
-    state: mounted
-    boot: false
-    opts: ro

@@ -29,8 +29,8 @@ dhcp-vendorclass=efi-arm64-sb-http,HTTPClient:Arch:00013
 dhcp-option-force=tag:efi-x86_64-sb-http,60,HTTPClient
 dhcp-option-force=tag:efi-arm64-sb-http,60,HTTPClient
 
-dhcp-boot=tag:efi-x86_64-sb-http,"http://{{ server_name }}/boot/{{ bootloaderx64 }}"
-dhcp-boot=tag:efi-arm64-sb-http,"http://{{ server_name }}/boot/{{ bootloaderaa64 }}"
+dhcp-boot=tag:efi-arm64-sb-http,"http://{{ server_name }}/boot/bootaa64.efi"
+dhcp-boot=tag:efi-x86_64-sb-http,"http://{{ server_name }}/boot/bootx64.efi"
 
 interface-name={{ server_name }},{{ interface_mtl }}
 interface-name=packages,{{ interface_mtl }}

@@ -5,6 +5,7 @@ Before=containerd.service etcd.service kubelet.service
 [Service]
 Type=oneshot
 ExecStartPre=/bin/bash -c '(while ! /sbin/blkid | grep -q BOOTRAID; do echo "metalfs: waiting for BOOTRAID volume..."; sleep 1; done; sleep 1);'
+ExecStartPre=/bin/bash -c '(while ! [ -f /etc/fstab.metal ]; do echo "metalfs: waiting for /etc/fstab.metal to exist..."; sleep 1; done; sleep 1);'
 ExecCondition=/bin/bash -c "[ -f /etc/fstab.metal ]"
 ExecStart=/usr/bin/mount -a -T /etc/fstab.metal
 RemainAfterExit=false

@@ -21,34 +21,17 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-- name: Bootserver
-  hosts: localhost
-  become: true # Enable builds that do not login as root to escalate privilege.
-  vars:
-    services:
-      - enabled: true
-        name: apache2.service
-        state: started
-      - enabled: true
-        name: dnsmasq.service
-        state: started
-      - enabled: true
-        name: nexus.service
-        state: started
-      - enabled: true
-        name: grafana.service
-        state: started
-      - enabled: true
-        name: grok-exporter.service
-        state: started
-      - enabled: true
-        name: prometheus.service
-        state: started
-  vars_files:
-    - vars/fawkes.yml
-  roles:
-    - apache2
-    - dnsmasq
-    - grub
-    - services
+
+# PXE/HTTPv4 Booting:
+dhcp-vendorclass=efi-x86_64-sb-http,HTTPClient:Arch:00010 # Less commonly used x86_64
+dhcp-vendorclass=efi-x86_64-sb-http,HTTPClient:Arch:00016 # Commonly used x86_64
+dhcp-vendorclass=efi-arm64-sb-http,HTTPClient:Arch:00013
+dhcp-option-force=tag:efi-x86_64-sb-http,60,HTTPClient
+dhcp-option-force=tag:efi-arm64-sb-http,60,HTTPClient
+
+dhcp-boot=tag:efi-arm64-sb-http,"http://{{ server_name }}/boot/bootaa64.efi"
+dhcp-boot=tag:efi-x86_64-sb-http,"http://{{ server_name }}/boot/bootx64.efi"
+
+interface-name={{ server_name }},{{ interface_mtl }}
+interface-name=packages,{{ interface_mtl }}
+interface-name=registry,{{ interface_mtl }}

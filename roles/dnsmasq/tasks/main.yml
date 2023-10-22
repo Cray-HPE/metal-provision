@@ -22,33 +22,25 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Bootserver
-  hosts: localhost
-  become: true # Enable builds that do not login as root to escalate privilege.
-  vars:
-    services:
-      - enabled: true
-        name: apache2.service
-        state: started
-      - enabled: true
-        name: dnsmasq.service
-        state: started
-      - enabled: true
-        name: nexus.service
-        state: started
-      - enabled: true
-        name: grafana.service
-        state: started
-      - enabled: true
-        name: grok-exporter.service
-        state: started
-      - enabled: true
-        name: prometheus.service
-        state: started
-  vars_files:
-    - vars/fawkes.yml
-  roles:
-    - apache2
-    - dnsmasq
-    - grub
-    - services
+- name: Initialize tftp/http boot directory
+  ansible.builtin.file:
+    path: "{{ web_root }}/boot"
+    state: directory
+    mode: '0755'
+    owner: dnsmasq
+    group: tftp
+
+- name: DNSMasq templates
+  ansible.builtin.template:
+    mode: '0644'
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  loop:
+    - {src: dnsmasq.conf.j2, dest: /etc/dnsmasq.conf }
+    - {src: dnsmasq.d/boot.conf.j2, dest: /etc/dnsmasq.d/boot.conf }
+    - {src: dnsmasq.d/MTL.conf.j2, dest: /etc/dnsmasq.d/MTL.conf }
+    - {src: dnsmasq.d/HMN.conf.j2, dest: /etc/dnsmasq.d/HMN.conf }
+  notify:
+    - 'dnsmasq : Restart dnsmasq'
+
+- meta: flush_handlers

@@ -22,33 +22,14 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Bootserver
-  hosts: localhost
-  become: true # Enable builds that do not login as root to escalate privilege.
-  vars:
-    services:
-      - enabled: true
-        name: apache2.service
-        state: started
-      - enabled: true
-        name: dnsmasq.service
-        state: started
-      - enabled: true
-        name: nexus.service
-        state: started
-      - enabled: true
-        name: grafana.service
-        state: started
-      - enabled: true
-        name: grok-exporter.service
-        state: started
-      - enabled: true
-        name: prometheus.service
-        state: started
-  vars_files:
-    - vars/fawkes.yml
-  roles:
-    - apache2
-    - dnsmasq
-    - grub
-    - services
+- name: Update apparmor's dnsmasq profile for the webroot
+  ansible.builtin.lineinfile:
+    path: /etc/apparmor.d/usr.sbin.dnsmasq
+    regexp: ^(@{TFTP_DIR}=)(?!{{ web_root }})(.*)
+    line: \1{{ web_root }} \2
+    backrefs: true
+    state: present
+  notify:
+    - 'apparmor : Restart apparmor'
+
+- meta: flush_handlers

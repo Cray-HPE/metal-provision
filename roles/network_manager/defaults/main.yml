@@ -22,6 +22,11 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
+network_default_mtu: 1500
+network_default_bond_mode: 802.3ad
+network_default_bond_miimon: 100
+network_default_bond_runner_fast_rate: true
+network_default_bond_xmit_hash_policy: layer2+3
 networks:
   interfaces:
     bonds:

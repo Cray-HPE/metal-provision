@@ -39,13 +39,13 @@
   community.general.nmcli:
     type: bond
     conn_name: '{{ item.name }}'
-    mtu: "{{ item.mtu | default(networks.interface_defaults.mtu) }}"
+    mtu: "{{ item.mtu | default(network_default_mtu) }}"
     ip4: '{{ item.ip4 | default(omit) }}'
     gw4: '{{ item.ip4 | default(omit) }}'
-    mode: '{{ item.mode | default(networks.interface_defaults.bonds.mode) }}'
-    miimon: '{{ item.miimon | default(networks.interface_defaults.bonds.miimon) }}'
-    runner_fast_rate: '{{ item.runner_fast_rate | default(networks.interface_defaults.bonds.runner_fast_rate) }}'
-    xmit_hash_policy: '{{ item.xmit_hash_policy | default(networks.interface_defaults.bonds.xmit_hash_policy) }}'
+    mode: '{{ item.mode | default(network_default_bond_mode) }}'
+    miimon: '{{ item.miimon | default(network_default_bond_miimon) }}'
+    runner_fast_rate: '{{ item.runner_fast_rate | default(network_default_bond_runner_fast_rate) }}'
+    xmit_hash_policy: '{{ item.xmit_hash_policy | default(network_default_bond_xmit_hash_policy) }}'
     method4: "{{ item.method4 | default('disabled') }}"
     method6: "{{ item.method6 | default('disabled') }}"
     state: present
@@ -55,7 +55,7 @@
   community.general.nmcli:
     type: "{{ item.type | default('ethernet') }}"
     conn_name: '{{ item.name }}'
-    mtu: "{{ item.mtu | default(networks.interface_defaults.mtu) }}"
+    mtu: "{{ item.mtu | default(network_default_mtu) }}"
     ip4: '{{ item.ip4 | default(omit) }}'
     gw4: '{{ item.gw4 | default(omit) }}'
     method4: "{{ item.method4 | default('disabled') }}"
@@ -68,7 +68,7 @@
   community.general.nmcli:
     type: vlan
     conn_name: "{{ '%s.%s' | format(item.vlandev, item.name) }}"
-    mtu: "{{ item.mtu | default(networks.interface_defaults.mtu) }}"
+    mtu: "{{ item.mtu | default(network_default_mtu) }}"
     ip4: '{{ item.ip4 | default(omit) }}'
     gw4: '{{ item.gw4 | default(omit) }}'
     vlandev: "{{ item.vlandev }}"

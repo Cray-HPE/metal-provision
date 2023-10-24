@@ -21,29 +21,29 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-network_default_mtu: 9000
+isolated_network: 192.168.0.0/30
+server_name: bootserver
+
+# These must correspond to the pre-programmed ports of Grafana, Nexus, and Prometheus.
+port_grafana: 3000
+port_nexus: 8081
+port_prometheus: 9090
+
+# Control the http port for gitea on the management VM.
+gitea_secret_key: 3a9Flqoj # TODO: Very insecure. Remove it.
+port_gitea_http: 3030
+port_gitea_ssh: 2222
+
+# Control apache2 on the management VM.
+port_web_http: 80
+port_web_https: 443
+web_root: /var/www
+
+# Interfaces for local dev.
 networks:
   interfaces:
     ethernets:
-      - name: mgmt0
+      - name: eth0
         type: ethernet
-        slave-type: bond # if unset, Ansible sets to bond automatically but also emits a warning
-        master: bond0
-      - name: mgmt1
-        type: ethernet
-        slave-type: bond # if unset, Ansible sets to bond automatically but also emits a warning
-        master: bond0
     bonds:
-      - name: bond0
-        method4: "auto"
     vlans:
-      - name: nmn0
-        id: 2
-        vlandev: bond0
-      - name: hmn0
-        id: 4
-        vlandev: bond0
-      - name: cmn0
-        id: 7
-        vlandev: bond0

@@ -35,5 +35,4 @@ dhcp:
       max: 300
 
 interface_mtl: eth1
-interface_hmn: eth2
-interface_ext: eth3
+interface_ext: eth2

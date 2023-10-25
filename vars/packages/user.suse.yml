@@ -76,7 +76,7 @@ packages:
   - perl-File-BaseDir=0.09-bp155.2.12
   - perl-File-Which=1.22-1.22
   - perl-MailTools=2.19-1.20
-  - perl-doc=5.26.1-150300.17.11.1
+  - perl-doc=5.26.1-150300.17.14.1
   - pixz=1.0.6-1.13
   - postfix=3.7.2-150500.1.19
   - rsyslog=8.2106.0-150400.5.11.1

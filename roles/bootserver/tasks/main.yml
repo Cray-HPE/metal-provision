@@ -52,7 +52,8 @@
   notify:
     - 'bootserver : Restart apparmor'
 
-- meta: flush_handlers
+- name: Restart daemons
+  ansible.builtin.meta: flush_handlers
 
 - name: Initialize tftp/http boot directory
   ansible.builtin.file:
@@ -75,4 +76,5 @@
   notify:
     - 'bootserver : Restart dnsmasq'
 
-- meta: flush_handlers
+- name: Restart daemons
+  ansible.builtin.meta: flush_handlers

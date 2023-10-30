@@ -32,4 +32,5 @@
   notify:
     - 'apparmor : Restart apparmor'
 
-- meta: flush_handlers
+- name: Restart daemons
+  ansible.builtin.meta: flush_handlers

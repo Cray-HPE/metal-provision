@@ -24,15 +24,17 @@
 ---
 
 - name: Find wired connections
-  ansible.builtin.shell: "nmcli connection | grep Wired | wc -l"
+  ansible.builtin.shell: |
+    set -o pipefail
+    nmcli connection | grep Wired | wc -l
   changed_when: wired_connections.stdout | int > 0
   register: wired_connections
 
-- name: Destroy bootstrapped ethernets
+- name: Destroy bootstrapped Ethernet
   community.general.nmcli:
     conn_name: "Wired connection {{ item }}"
     state: absent
-  loop: "{{ range(1, wired_connections.stdout|int + 1) | list }}"
+  loop: "{{ range(1, wired_connections.stdout | int + 1) | list }}"
   when: wired_connections.stdout | int > 0
 
 - name: Create Bonds

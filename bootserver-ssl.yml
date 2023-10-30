@@ -28,4 +28,4 @@
   vars_files:
     - vars/fawkes.yml
   roles:
-    - bootserver_ssl
+    - apache2_ssl

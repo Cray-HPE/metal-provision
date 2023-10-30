@@ -58,6 +58,7 @@ function exclude_docs {
 function install_ansible {
 
     local requirements=( boto3 netaddr )
+    local galaxies=( ansible.posix community.general )
 
     echo "Installing Ansible ${ANSIBLE_VERSION} (ansible-core: ${ANSIBLE_CORE_VERSION})"
     mkdir -pv /etc/ansible /opt/cray/ansible
@@ -79,6 +80,9 @@ function install_ansible {
     echo "Installing requirements: ${requirements[*]}"
     for requirement in "${requirements[@]}"; do
         python3 -m pip install --retries 25 -U "${requirement}"
+    done
+    for galaxy in "${galaxies[@]}"; do
+        ansible-galaxy collection install "${galaxy}" --upgrade
     done
     deactivate
 }

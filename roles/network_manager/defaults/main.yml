@@ -22,33 +22,12 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Bootserver
-  hosts: localhost
-  become: true # Enable builds that do not login as root to escalate privilege.
-  vars:
-    services:
-      - enabled: true
-        name: apache2.service
-        state: started
-      - enabled: true
-        name: dnsmasq.service
-        state: started
-      - enabled: true
-        name: nexus.service
-        state: started
-      - enabled: true
-        name: grafana.service
-        state: started
-      - enabled: true
-        name: grok-exporter.service
-        state: started
-      - enabled: true
-        name: prometheus.service
-        state: started
-  vars_files:
-    - vars/fawkes.yml
-  roles:
-    - apache2
-    - dnsmasq
-    - grub
-    - services
+network_default_mtu: 1500
+network_default_bond_mode: 802.3ad
+network_default_bond_miimon: 100
+network_default_bond_runner_fast_rate: true
+network_default_bond_xmit_hash_policy: layer2+3
+networks:
+  interfaces:
+    bonds:
+    vlans:

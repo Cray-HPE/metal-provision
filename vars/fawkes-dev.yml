@@ -21,34 +21,29 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-- name: Bootserver
-  hosts: localhost
-  become: true # Enable builds that do not login as root to escalate privilege.
-  vars:
-    services:
-      - enabled: true
-        name: apache2.service
-        state: started
-      - enabled: true
-        name: dnsmasq.service
-        state: started
-      - enabled: true
-        name: nexus.service
-        state: started
-      - enabled: true
-        name: grafana.service
-        state: started
-      - enabled: true
-        name: grok-exporter.service
-        state: started
-      - enabled: true
-        name: prometheus.service
-        state: started
-  vars_files:
-    - vars/fawkes.yml
-  roles:
-    - apache2
-    - dnsmasq
-    - grub
-    - services
+isolated_network: 192.168.0.0/30
+server_name: bootserver
+
+# These must correspond to the pre-programmed ports of Grafana, Nexus, and Prometheus.
+port_grafana: 3000
+port_nexus: 8081
+port_prometheus: 9090
+
+# Control the http port for gitea on the management VM.
+gitea_secret_key: 3a9Flqoj # TODO: Very insecure. Remove it.
+port_gitea_http: 3030
+port_gitea_ssh: 2222
+
+# Control apache2 on the management VM.
+port_web_http: 80
+port_web_https: 443
+web_root: /var/www
+
+# Interfaces for local dev.
+networks:
+  interfaces:
+    ethernets:
+      - name: eth0
+        type: ethernet
+    bonds:
+    vlans:

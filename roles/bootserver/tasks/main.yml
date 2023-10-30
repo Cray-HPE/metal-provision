@@ -42,6 +42,19 @@
     owner: root
     group: root
 
+- name: Update apparmor's dnsmasq profile for the webroot
+  ansible.builtin.lineinfile:
+    path: /etc/apparmor.d/usr.sbin.dnsmasq
+    regexp: ^(@{TFTP_DIR}=)(?!{{ web_root }})(.*)
+    line: \1{{ web_root }} \2
+    backrefs: true
+    state: present
+  notify:
+    - 'bootserver : Restart apparmor'
+
+- name: Restart daemons
+  ansible.builtin.meta: flush_handlers
+
 - name: Initialize tftp/http boot directory
   ansible.builtin.file:
     path: "{{ web_root }}/boot"
@@ -63,12 +76,5 @@
   notify:
     - 'bootserver : Restart dnsmasq'
 
-- name: Update apparmor's dnsmasq profile for the webroot
-  ansible.builtin.lineinfile:
-    path: /etc/apparmor.d/usr.sbin.dnsmasq
-    regexp: ^(@{TFTP_DIR}=)(?!{{ web_root }})(.*)
-    line: \1{{ web_root }} \2
-    backrefs: true
-    state: present
-  notify:
-    - 'bootserver : Restart apparmor'
+- name: Restart daemons
+  ansible.builtin.meta: flush_handlers

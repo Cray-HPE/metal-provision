@@ -1,0 +1,81 @@
+#
+# MIT License
+#
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+#
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included
+# in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+---
+
+- name: Find wired connections
+  ansible.builtin.shell: |
+    set -o pipefail
+    nmcli connection | grep Wired | wc -l
+  changed_when: wired_connections.stdout | int > 0
+  register: wired_connections
+
+- name: Destroy bootstrapped Ethernet
+  community.general.nmcli:
+    conn_name: "Wired connection {{ item }}"
+    state: absent
+  loop: "{{ range(1, wired_connections.stdout | int + 1) | list }}"
+  when: wired_connections.stdout | int > 0
+
+- name: Create Bonds
+  community.general.nmcli:
+    type: bond
+    conn_name: '{{ item.name }}'
+    mtu: "{{ item.mtu | default(network_default_mtu) }}"
+    ip4: '{{ item.ip4 | default(omit) }}'
+    gw4: '{{ item.ip4 | default(omit) }}'
+    mode: '{{ item.mode | default(network_default_bond_mode) }}'
+    miimon: '{{ item.miimon | default(network_default_bond_miimon) }}'
+    runner_fast_rate: '{{ item.runner_fast_rate | default(network_default_bond_runner_fast_rate) }}'
+    xmit_hash_policy: '{{ item.xmit_hash_policy | default(network_default_bond_xmit_hash_policy) }}'
+    method4: "{{ item.method4 | default('disabled') }}"
+    method6: "{{ item.method6 | default('disabled') }}"
+    state: present
+  loop: "{{ networks.interfaces.bonds }}"
+
+- name: Create ethernets
+  community.general.nmcli:
+    type: "{{ item.type | default('ethernet') }}"
+    conn_name: '{{ item.name }}'
+    mtu: "{{ item.mtu | default(network_default_mtu) }}"
+    ip4: '{{ item.ip4 | default(omit) }}'
+    gw4: '{{ item.gw4 | default(omit) }}'
+    method4: "{{ item.method4 | default('disabled') }}"
+    method6: "{{ item.method6 | default('disabled') }}"
+    master: "{{ item.master | default(omit) }}"
+    state: present
+  loop: "{{ networks.interfaces.ethernets }}"
+
+- name: Create VLANs
+  community.general.nmcli:
+    type: vlan
+    conn_name: "{{ '%s.%s' | format(item.vlandev, item.name) }}"
+    mtu: "{{ item.mtu | default(network_default_mtu) }}"
+    ip4: '{{ item.ip4 | default(omit) }}'
+    gw4: '{{ item.gw4 | default(omit) }}'
+    vlandev: "{{ item.vlandev }}"
+    vlanid: "{{ item.id }}"
+    method4: "{{ item.method4 | default('disabled') }}"
+    method6: "{{ item.method6 | default('disabled') }}"
+    state: present
+  loop: "{{ networks.interfaces.vlans }}"

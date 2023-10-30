@@ -22,5 +22,5 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-terraform_repo_version: v1.0.0
+terraform_repo_version: v1.2.0
 web_root: /var/www

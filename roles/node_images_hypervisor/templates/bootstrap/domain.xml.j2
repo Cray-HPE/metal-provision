@@ -37,13 +37,7 @@
     <apic/>
     <pae/>
   </features>
-  <cpu mode='custom' match='exact' check='full'>
-    <model fallback='forbid'>qemu64</model>
-    <feature policy='require' name='x2apic'/>
-    <feature policy='require' name='hypervisor'/>
-    <feature policy='require' name='lahf_lm'/>
-    <feature policy='disable' name='svm'/>
-  </cpu>
+  <cpu mode='host-model' check='partial'/>
   <clock offset='utc'/>
   <on_poweroff>destroy</on_poweroff>
   <on_reboot>restart</on_reboot>

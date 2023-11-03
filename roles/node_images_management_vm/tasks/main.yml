@@ -63,3 +63,9 @@
     delete: false
     src: chrony/
     dest: /etc/
+
+- name: Configure podman for netavark
+  ansible.posix.synchronize:
+    delete: false
+    src: containers.conf.d/
+    dest: /etc/containers/containers.conf.d/

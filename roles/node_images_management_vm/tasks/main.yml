@@ -69,3 +69,7 @@
     delete: false
     src: containers.conf.d/
     dest: /etc/containers/containers.conf.d/
+
+- name: Reset podman for netavark
+  ansible.builtin.command:
+    cmd: podman system reset -f

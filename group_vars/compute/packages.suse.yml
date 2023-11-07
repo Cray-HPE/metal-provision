@@ -30,7 +30,6 @@ packages:
   - csm-node-heartbeat=2.4-1
   # CMS Team
   - bos-reporter=2.9.0-1
-  - cfs-debugger=1.5.0-1
   - cfs-state-reporter=1.11.0-1
   - cfs-trust=1.6.8-1
   # CDST GUI Packages

@@ -22,17 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Restart apache2
+- name: Restart NetworkManager
   ansible.builtin.systemd:
-    name: apache2
-    state: restarted
-
-- name: Restart apparmor
-  ansible.builtin.systemd:
-    name: apparmor
-    state: restarted
-
-- name: Restart dnsmasq
-  ansible.builtin.systemd:
-    name: dnsmasq
+    name: NetworkManager
     state: restarted

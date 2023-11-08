@@ -39,7 +39,6 @@
     - {src: dnsmasq.conf.j2, dest: /etc/dnsmasq.conf }
     - {src: dnsmasq.d/boot.conf.j2, dest: /etc/dnsmasq.d/boot.conf }
     - {src: dnsmasq.d/MTL.conf.j2, dest: /etc/dnsmasq.d/MTL.conf }
-    - {src: dnsmasq.d/HMN.conf.j2, dest: /etc/dnsmasq.d/HMN.conf }
   notify:
     - 'dnsmasq : Restart dnsmasq'
 

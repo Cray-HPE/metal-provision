@@ -28,14 +28,8 @@
     set -o pipefail
     nmcli connection | grep Wired | wc -l
   changed_when: wired_connections.stdout | int > 0
+  failed_when: wired_connections.rc not in [0, 1]
   register: wired_connections
-
-- name: Destroy bootstrapped Ethernet
-  community.general.nmcli:
-    conn_name: "Wired connection {{ item }}"
-    state: absent
-  loop: "{{ range(1, wired_connections.stdout | int + 1) | list }}"
-  when: wired_connections.stdout | int > 0
 
 - name: Create Bonds
   community.general.nmcli:
@@ -53,9 +47,10 @@
     state: present
   loop: "{{ networks.interfaces.bonds }}"
 
-- name: Create ethernets
+- name: Create Ethernet
   community.general.nmcli:
     type: "{{ item.type | default('ethernet') }}"
+    slave_type: "bond"
     conn_name: '{{ item.name }}'
     mtu: "{{ item.mtu | default(network_default_mtu) }}"
     ip4: '{{ item.ip4 | default(omit) }}'
@@ -65,6 +60,17 @@
     master: "{{ item.master | default(omit) }}"
     state: present
   loop: "{{ networks.interfaces.ethernets }}"
+  notify:
+    - 'network_manager : Restart NetworkManager'
+
+- name: Destroy bootstrapped Ethernet
+  community.general.nmcli:
+    conn_name: "Wired connection {{ item }}"
+    state: absent
+  loop: "{{ range(1, wired_connections.stdout | int + 1) | list }}"
+  when: wired_connections.stdout | int > 0
+  notify:
+    - 'network_manager : Restart NetworkManager'
 
 - name: Create VLANs
   community.general.nmcli:
@@ -79,3 +85,5 @@
     method6: "{{ item.method6 | default('disabled') }}"
     state: present
   loop: "{{ networks.interfaces.vlans }}"
+  notify:
+    - 'network_manager : Restart NetworkManager'

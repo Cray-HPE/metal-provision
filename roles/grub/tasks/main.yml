@@ -1,7 +1,7 @@
 ---
 - name: Resolve available hypervisor ISO
   ansible.builtin.uri:
-    url: "http://bootserver/nexus/service/rest/v1/search/assets?q=hypervisor&repository=fawkes-images"
+    url: "http://{{ server_name }}/nexus/service/rest/v1/search/assets?q=hypervisor&repository=fawkes-images"
     method: GET
     use_proxy: false
     return_content: true

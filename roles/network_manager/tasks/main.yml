@@ -87,4 +87,3 @@
   loop: "{{ networks.interfaces.vlans }}"
   notify:
     - 'network_manager : Restart NetworkManager'
-

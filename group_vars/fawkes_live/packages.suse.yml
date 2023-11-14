@@ -24,6 +24,6 @@
 ---
 packages:
   # rationale: Application for facilitating configuring a hypervisor node.
-  - crucible=0.0.13-1
+  - crucible=0.0.14-1
   # rationale: Used for poking around the system
   - gru=0.0.4-1

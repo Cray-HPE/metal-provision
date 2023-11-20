@@ -1,26 +1,26 @@
 # {{ ansible_managed }}
 # See https://chrony.tuxfamily.org/documentation.html for details on this file
 
-driftfile {{ chrony_driftfile }}
+driftfile {{ ntp_chrony_driftfile }}
 makestep 1.0 3
 
-{% if chrony_port %}
-port {{ chrony_port }}
+{% if ntp_chrony_port %}
+port {{ ntp_chrony_port }}
 {% endif %}
 
-{% if chrony_acquisitionport %}
-acquisitionport {{ chrony_acquisitionport }}
+{% if ntp_chrony_acquisitionport %}
+acquisitionport {{ ntp_chrony_acquisitionport }}
 {% endif %}
 
-keyfile {{ chrony_keyfile }}
+keyfile {{ ntp_chrony_keyfile }}
 
-log {{ chrony_log }}
-logdir {{ chrony_logdir }}
-maxupdateskew {{ chrony_maxupdateskew }}
+log {{ ntp_chrony_log }}
+logdir {{ ntp_chrony_logdir }}
+maxupdateskew {{ ntp_chrony_maxupdateskew }}
 dumponexit
 
 # Specify directory for dumping measurements.
-dumpdir {{ chrony_dumpdir }}
+dumpdir {{ ntp_chrony_dumpdir }}
 
 # This directive forces `chronyd' to send a message to syslog if it
 # makes a system clock adjustment larger than a threshold value in seconds.

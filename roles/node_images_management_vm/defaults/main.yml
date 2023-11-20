@@ -22,5 +22,5 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-terraform_repo_version: v1.2.0
-web_root: /var/www
+node_images_management_vm_terraform_repo_version: v1.2.0
+node_images_management_vm_web_root: /var/www

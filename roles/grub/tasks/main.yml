@@ -7,9 +7,9 @@
     return_content: true
   register: result
 
-- name: Set iso_urn
+- name: Set grub_iso_urn
   ansible.builtin.set_fact:
-    iso_urn: "{{ result.content | from_json | json_query('items[*].path') | select('search', 'iso$') | list | first }}"
+    grub_iso_urn: "{{ result.content | from_json | json_query('items[*].path') | select('search', 'iso$') | list | first }}"
 
 - name: Grub templates
   ansible.builtin.template:

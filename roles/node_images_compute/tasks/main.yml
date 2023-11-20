@@ -59,4 +59,4 @@
     path: /etc/sysconfig/network/dhcp
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
-  loop: "{{ dhcp }}"
+  loop: "{{ node_images_compute_dhcp }}"

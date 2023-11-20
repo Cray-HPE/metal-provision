@@ -22,5 +22,5 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-ssl_ca_cert: /etc/apache2/ssl.crt/ca.crt
-ssl_ca_key: /etc/apache2/ssl.key/ca.key
+apache2_ssl_ca_cert: /etc/apache2/ssl.crt/ca.crt
+apache2_ssl_ca_key: /etc/apache2/ssl.key/ca.key

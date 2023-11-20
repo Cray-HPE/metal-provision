@@ -32,6 +32,6 @@ dhcp-option-force=tag:efi-arm64-sb-http,60,HTTPClient
 dhcp-boot=tag:efi-arm64-sb-http,"http://{{ server_name }}/boot/bootaa64.efi"
 dhcp-boot=tag:efi-x86_64-sb-http,"http://{{ server_name }}/boot/bootx64.efi"
 
-interface-name={{ server_name }},{{ interface_mtl }}
-interface-name=packages,{{ interface_mtl }}
-interface-name=registry,{{ interface_mtl }}
+interface-name={{ server_name }},{{ dnsmasq_interface_mtl }}
+interface-name=packages,{{ dnsmasq_interface_mtl }}
+interface-name=registry,{{ dnsmasq_interface_mtl }}

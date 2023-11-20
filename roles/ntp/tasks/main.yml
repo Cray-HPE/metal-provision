@@ -30,7 +30,7 @@
 - name: Render chrony template
   ansible.builtin.template:
     src: chrony.conf.j2
-    dest: "{{ chrony_conf_file }}"
+    dest: "{{ ntp_chrony_conf_file }}"
     owner: root
     group: root
     mode: '0644'
@@ -40,7 +40,7 @@
 - name: Render cray template
   ansible.builtin.template:
     src: cray.conf.j2
-    dest: "{{ cray_conf_file }}"
+    dest: "{{ ntp_cray_conf_file }}"
     owner: root
     group: root
     mode: '0644'

@@ -7,7 +7,7 @@ group=tftp
 domain-needed
 bogus-priv
 # Never serve external networks:
-except-interface={{ interface_ext }}
+except-interface={{ dnsmasq_interface_ext }}
 # DHCP:
 domain=local
 dhcp-fqdn
@@ -29,8 +29,8 @@ dhcp-boot=tag:efi-arm64-sb,ipxe.arm64.efi,{{ server_name }}
 # DNS:
 # Use lo interface, OS needs to have set NETCONFIG_DNS_FORWARDER="dnsmasq" (/etc/sysconfig/network/config)
 interface=lo
-address=/local,{% for key in dhcp.keys() %}{{ key }}{% if not loop.last %},{% endif %}{% endfor %}/127.0.0.1
-server=/local,{% for key in dhcp.keys() %}{{ key }}{% if not loop.last %},{% endif %}{% endfor %}/127.0.0.1
+address=/local,{% for key in dnsmasq_dhcp.keys() %}{{ key }}{% if not loop.last %},{% endif %}{% endfor %}/127.0.0.1
+server=/local,{% for key in dnsmasq_dhcp.keys() %}{{ key }}{% if not loop.last %},{% endif %}{% endfor %}/127.0.0.1
 no-resolv
 no-poll
 no-hosts

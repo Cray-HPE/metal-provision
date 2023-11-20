@@ -1,14 +1,14 @@
 ---
-chrony_port: 123
-chrony_acquisitionport: 1123
-chrony_service_name: 'chrony'
-chrony_conf_file: '/etc/chrony/chrony.conf.j2'
-cray_conf_file: '/etc/chrony.d/cray.conf'
-chrony_keyfile: '/etc/chrony/chrony.keys'
-chrony_driftfile: '/var/lib/chrony/chrony.drift'
-chrony_log: 'tracking measurements statistics'
-chrony_logdir: '/var/log/chrony'
-chrony_maxupdateskew: 100.0
-chrony_dumpdir: '/var/lib/chrony'
-chrony_initstepslew: false
-chrony_initstepslew_threshold: 30
+ntp_chrony_port: 123
+ntp_chrony_acquisitionport: 1123
+ntp_chrony_service_name: 'chrony'
+ntp_chrony_conf_file: '/etc/chrony/chrony.conf.j2'
+ntp_cray_conf_file: '/etc/chrony.d/cray.conf'
+ntp_chrony_keyfile: '/etc/chrony/chrony.keys'
+ntp_chrony_driftfile: '/var/lib/chrony/chrony.drift'
+ntp_chrony_log: 'tracking measurements statistics'
+ntp_chrony_logdir: '/var/log/chrony'
+ntp_chrony_maxupdateskew: 100.0
+ntp_chrony_dumpdir: '/var/lib/chrony'
+ntp_chrony_initstepslew: false
+ntp_chrony_initstepslew_threshold: 30

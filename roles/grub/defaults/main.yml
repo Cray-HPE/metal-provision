@@ -22,11 +22,11 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-iso_urn: ''
-iso_url: "http://{{ server_name }}/nexus/repository/fawkes-images/{{ iso_urn }}"
-kernel_path: "/nexus/repository/fawkes-images/hypervisor/boot/{{ ansible_architecture }}/loader/kernel"
-initrd_path: "/nexus/repository/fawkes-images/hypervisor/boot/{{ ansible_architecture }}/loader/initrd.img.xz"
-kernel_params:
+grub_iso_urn: ''
+grub_iso_url: "http://{{ server_name }}/nexus/repository/fawkes-images/{{ grub_iso_urn }}"
+grub_kernel_path: "/nexus/repository/fawkes-images/hypervisor/boot/{{ ansible_architecture }}/loader/kernel"
+grub_initrd_path: "/nexus/repository/fawkes-images/hypervisor/boot/{{ ansible_architecture }}/loader/initrd.img.xz"
+grub_kernel_params:
   - biosdevname=1
   - console=tty0
   - console=ttyS0,115200
@@ -41,6 +41,6 @@ kernel_params:
   - rd.neednet=1
   - rd.peerdns=1
   - rd.shell
-  - root=live:{{ iso_url }}
+  - root=live:{{ grub_iso_url }}
   - split_lock_detect=off
   - transparent_hugepage=never

@@ -22,7 +22,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-dhcp:
+dnsmasq_dhcp:
   mtl:
     ttl: 10m
     range:
@@ -34,5 +34,5 @@ dhcp:
       min: 10
       max: 300
 
-interface_mtl: eth1
-interface_ext: eth2
+dnsmasq_interface_mtl: eth1
+dnsmasq_interface_ext: eth2

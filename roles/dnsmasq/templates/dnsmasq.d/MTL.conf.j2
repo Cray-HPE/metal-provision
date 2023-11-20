@@ -23,18 +23,18 @@
 #
 
 # MTL:
-{% set server = ansible_facts[interface_mtl].ipv4.address %}
-{% set network = '%s/%s' | format(ansible_facts[interface_mtl].ipv4.network, ansible_facts[interface_mtl].ipv4.prefix) %}
+{% set server = ansible_facts[dnsmasq_interface_mtl].ipv4.address %}
+{% set network = '%s/%s' | format(ansible_facts[dnsmasq_interface_mtl].ipv4.network, ansible_facts[dnsmasq_interface_mtl].ipv4.prefix) %}
 server=/mtl/
 address=/mtl/
 domain=mtl,{{ network | ansible.utils.ipaddr('1') | ansible.utils.ipv4('address') }},{{ network | ansible.utils.ipaddr('-1') | ansible.utils.ipv4('address') }},local
-interface-name={{ server_name }}.mtl,{{ interface_mtl }}
+interface-name={{ server_name }}.mtl,{{ dnsmasq_interface_mtl }}
 cname=fawkes.mtl,{{ server_name }}
 cname=packages.mtl,{{ server_name }}
 cname=registry.mtl,{{ server_name }}
-dhcp-option=interface:{{ interface_mtl }},option:domain-search,mtl
-interface={{ interface_mtl }}
-dhcp-option=interface:{{ interface_mtl }},option:dns-server,{{ server }}
-dhcp-option=interface:{{ interface_mtl }},option:ntp-server,{{ server }}
-dhcp-option=interface:{{ interface_mtl }},option:router,{{ network | ansible.utils.ipaddr('1') | ansible.utils.ipv4('address') }}
-dhcp-range=interface:{{ interface_mtl }},{{ network | ansible.utils.ipaddr(dhcp.mtl.range.min) | ansible.utils.ipv4('address') }},{{ network | ansible.utils.ipaddr(dhcp.mtl.range.max) | ansible.utils.ipv4('address') }},{{ dhcp.mtl.ttl }}
+dnsmasq_dhcp-option=interface:{{ dnsmasq_interface_mtl }},option:domain-search,mtl
+interface={{ dnsmasq_interface_mtl }}
+dnsmasq_dhcp-option=interface:{{ dnsmasq_interface_mtl }},option:dns-server,{{ server }}
+dnsmasq_dhcp-option=interface:{{ dnsmasq_interface_mtl }},option:ntp-server,{{ server }}
+dnsmasq_dhcp-option=interface:{{ dnsmasq_interface_mtl }},option:router,{{ network | ansible.utils.ipaddr('1') | ansible.utils.ipv4('address') }}
+dnsmasq_dhcp-range=interface:{{ dnsmasq_interface_mtl }},{{ network | ansible.utils.ipaddr(dnsmasq_dhcp.mtl.range.min) | ansible.utils.ipv4('address') }},{{ network | ansible.utils.ipaddr(dnsmasq_dhcp.mtl.range.max) | ansible.utils.ipv4('address') }},{{ dnsmasq_dhcp.mtl.ttl }}

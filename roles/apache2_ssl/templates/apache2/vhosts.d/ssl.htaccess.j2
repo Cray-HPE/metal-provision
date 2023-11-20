@@ -23,6 +23,6 @@
 #
 <VirtualHost *:443>
     SSLEngine on
-    SSLCertificateFile "{{ ssl_ca_cert }}"
-    SSLCertificateKeyFile "{{ ssl_ca_key }}"
+    SSLCertificateFile "{{ apache2_ssl_ca_cert }}"
+    SSLCertificateKeyFile "{{ apache2_ssl_ca_key }}"
 </VirtualHost>

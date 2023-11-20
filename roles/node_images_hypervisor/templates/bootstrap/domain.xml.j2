@@ -26,8 +26,8 @@
 
 <domain type='kvm'>
   <name>management-vm</name>
-  <memory unit='MiB'>{{ management_vm_memory }}</memory>
-  <vcpu>{{ management_vm_vcpu }}</vcpu>
+  <memory unit='MiB'>{{ node_images_hypervisor_management_vm_memory }}</memory>
+  <vcpu>{{ node_images_hypervisor_management_vm_vcpu }}</vcpu>
   <os>
     <type arch='x86_64'>hvm</type>
     <boot dev='hd'/>

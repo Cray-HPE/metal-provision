@@ -22,6 +22,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-dhcp:
+node_images_compute_dhcp:
   - regexp: '^DHCLIENT_SET_HOSTNAME='
     line: 'DHCLIENT_SET_HOSTNAME="yes"'

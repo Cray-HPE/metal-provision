@@ -40,7 +40,6 @@ class Metal:
             #
             # cloud-init converts dashes, so we'll do the same
             #
-            key = key.replace('-', '_')
             resp = self.execute("cloud-init query -a")
             if level == 'node':
                 return resp['ds']['meta_data'][key]

@@ -83,7 +83,7 @@
         oldpackage: true
         state: present
         update_cache: false
-      when: patterns | length != 0
+      when: patterns is defined and patterns | length != 0
 
     - name: (ZYPPER) Install architecture specific packages
       community.general.zypper:

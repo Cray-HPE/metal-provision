@@ -1,4 +1,3 @@
-#
 # MIT License
 #
 # (C) Copyright 2023 Hewlett Packard Enterprise Development LP
@@ -22,17 +21,10 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Node Images Management VM
-  hosts: management_vm
-  become: true # Enable builds that do not login as root to escalate privilege.
-  environment:
-    HTTPS_PROXY: "{{ HTTPS_PROXY | default() }}"
-  vars_files:
-    - vars/fawkes.yml
-  roles:
-    - packages
-    - node_images_management_vm
-    - terragrunt
-    - gitea
-    - services
-    - sysctl
+- name: Copy terragrunt binary into place
+  ansible.builtin.get_url:
+    url: "https://github.com/gruntwork-io/terragrunt/releases/download/{{ terragrunt_version | urlencode }}/terragrunt_linux_arm64"
+    dest: "/usr/local/bin/terragrunt"
+    owner: root
+    group: root
+    mode: '0755'

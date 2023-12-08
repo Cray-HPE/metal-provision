@@ -23,10 +23,7 @@
 ---
 - name: Deploy terragrunt ARM
   ansible.builtin.include_tasks: arm.yml
-  when:
-    - ( ansible_facts.architecture is search("arm") and
-      ansible_facts.userspace_bits == "64" ) or
-      ansible_facts.architecture is search("aarch64")
+  when: ansible_architecture == "arm64" or ansible_architecture == "aarch64"
 
 - name: Deploy terragrunt x86_64
   ansible.builtin.include_tasks: x86_64.yml

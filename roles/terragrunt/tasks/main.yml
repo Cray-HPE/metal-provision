@@ -21,10 +21,21 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Deploy terragrunt ARM
-  ansible.builtin.include_tasks: arm.yml
+
+- name: Set arm64 Terragrunt architecture
+  ansible.builtin.set_fact:
+    terragrunt_architecture: "arm64"
   when: ansible_architecture == "arm64" or ansible_architecture == "aarch64"
 
-- name: Deploy terragrunt x86_64
-  ansible.builtin.include_tasks: x86_64.yml
+- name: Set amd64 Terragrunt architecture
+  ansible.builtin.set_fact:
+    terragrunt_architecture: "amd64"
   when: ansible_architecture == "x86_64"
+
+- name: Copy terragrunt binary into place
+  ansible.builtin.get_url:
+    url: "https://github.com/gruntwork-io/terragrunt/releases/download/{{ terragrunt_version | urlencode }}/terragrunt_linux_{{ terragrunt_architecture }}"
+    dest: "/usr/local/bin/terragrunt"
+    owner: root
+    group: root
+    mode: '0755'

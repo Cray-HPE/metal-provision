@@ -1,2 +1,3 @@
 ---
+# Confined by: https://github.com/Cray-HPE/fawkes-terraform/blob/main/terragrunt.hcl#L25
 terragrunt_version: "v0.52.7"

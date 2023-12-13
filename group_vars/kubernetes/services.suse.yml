@@ -44,3 +44,9 @@ services:
   - enabled: true
     name: kubelet.service
     state: stopped
+  - enabled: false
+    name: targetcli.service
+    state: stopped
+  - enabled: false
+    name: targetclid.service
+    state: stopped

@@ -33,9 +33,5 @@ packages:
   - libguestfs0=1.48.6-150500.3.5.1
   # rationale: Necessary for Mercury software proof-of-concepts.
   - libxslt-tools=1.1.34-150400.3.3.1
-  # rationale: Drivers for VMs.
-  - qemu=7.1.0-150500.49.6.1
-  # rationale: Necessary for providing consoles to VMs.
-  - qemu-ui-spice-core=7.1.0-150500.49.6.1
   # rationale: Necessary for providing timezone zoneinfo definition files.
   - timezone=2023c-150000.75.23.1

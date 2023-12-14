@@ -27,7 +27,7 @@ packages:
   # CSM Team
   - acpid=2.0.31-2.1
   - csm-auth-utils=1.0.0-1
-  - csm-node-heartbeat=2.4-1
+  - csm-node-heartbeat=2.5-1
   # CMS Team
   - bos-reporter=2.9.0-1
   - cfs-debugger=1.5.0-1

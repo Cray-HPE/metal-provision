@@ -36,5 +36,6 @@ packages:
   - metal-ipxe=2.5.1-1
   - metal-nexus=1.4.0-3.38.0_1
   - metal-observability=1.0.9-1
+  - pdsh=2.34-150500.44.1
   - sqlite3=3.39.3-150000.3.20.1
   - terraform=0.13.4-6.3.1

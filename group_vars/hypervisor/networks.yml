@@ -22,8 +22,8 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-network_default_mtu: 9000
-networks:
+network_manager_default_mtu: 9000
+network_manager_hypervisor_networks:
   interfaces:
     ethernets:
       - name: mgmt0

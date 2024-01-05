@@ -23,7 +23,7 @@
 #
 ---
 
-- name: Find wired connections
+- name: Find any unwanted wired connections
   ansible.builtin.shell: |
     set -o pipefail
     nmcli connection | grep Wired | wc -l

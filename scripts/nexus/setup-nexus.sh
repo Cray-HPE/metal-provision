@@ -461,7 +461,7 @@ nexus-create-repo-docker() {
     fi
 
     if [ "$method" = PUT ]; then
-        uri="$uri/$repo_name"
+        uri="${uri}${repo_name}"
     fi
 
     if ! curl \
@@ -516,7 +516,7 @@ nexus-create-repo-raw() {
     fi
 
     if [ "$method" = PUT ]; then
-        uri="$uri/$repo_name"
+        uri="${uri}${repo_name}"
     fi
 
     if ! curl \
@@ -566,7 +566,7 @@ nexus-create-repo-yum() {
     fi
 
     if [ "$method" = PUT ]; then
-        uri="$uri/$repo_name"
+        uri="${uri}${repo_name}"
     fi
 
     if ! curl \

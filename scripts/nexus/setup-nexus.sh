@@ -32,7 +32,7 @@ DEFAULT_NEXUS_URL='http://packages'
 # Default Nexus registry - this is where csm docker images will be pushed to
 # this does not have http or https purposefully. This is used with skopeo-sync function
 DEFAULT_NEXUS_REGISTRY="registry:5000"
-
+DEFAULT_NEXUS_REGISTRY_PORT="${DEFAULT_NEXUS_REGISTRY#*:}"
 # Defaults defined by Sonatype:
 # https://help.sonatype.com/iqserver/managing/user-management#:~:text=Enter%20the%20current%20password%20(%22admin123,then%20confirm%20the%20new%20password.
 DEFAULT_NEXUS_USERNAME='admin'
@@ -143,6 +143,9 @@ fi
 if [ -z "${NEXUS_REGISTRY:-}" ]; then
     echo >&2 'Missing NEXUS_REGISTRY, presuming default: DEFAULT_NEXUS_REGISTRY'
     NEXUS_REGISTRY="$DEFAULT_NEXUS_REGISTRY"
+    NEXUS_REGISTRY_PORT="$DEFAULT_NEXUS_REGISTRY_PORT"
+else
+    NEXUS_REGISTRY_PORT="${NEXUS_REGISTRY##:*}"
 fi
 
 function nexus-reset() {
@@ -409,6 +412,7 @@ function nexus-delete-repo() {
 }
 
 function nexus-create-repo() {
+    local error=0
     local exists
     local method
     local repo_name="${1:-}"
@@ -457,7 +461,7 @@ nexus-create-repo-docker() {
     fi
 
     if [ "$method" = PUT ]; then
-        uri="$uri/$repo_name"
+        uri="${uri}${repo_name}"
     fi
 
     if ! curl \
@@ -483,7 +487,7 @@ nexus-create-repo-docker() {
   "docker": {
     "v1Enabled": false,
     "forceBasicAuth": false,
-    "httpPort": 5000,
+    "httpPort": "$NEXUS_REGISTRY_PORT",
     "httpsPort": null
   },
   "component": {
@@ -512,7 +516,7 @@ nexus-create-repo-raw() {
     fi
 
     if [ "$method" = PUT ]; then
-        uri="$uri/$repo_name"
+        uri="${uri}${repo_name}"
     fi
 
     if ! curl \
@@ -562,7 +566,7 @@ nexus-create-repo-yum() {
     fi
 
     if [ "$method" = PUT ]; then
-        uri="$uri/$repo_name"
+        uri="${uri}${repo_name}"
     fi
 
     if ! curl \

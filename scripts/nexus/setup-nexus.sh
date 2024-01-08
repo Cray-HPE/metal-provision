@@ -409,6 +409,7 @@ function nexus-delete-repo() {
 }
 
 function nexus-create-repo() {
+    local error=0
     local exists
     local method
     local repo_name="${1:-}"

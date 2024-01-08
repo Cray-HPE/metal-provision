@@ -26,7 +26,7 @@ packages:
   # rationale: Security.
   - apparmor-profiles=3.0.4-150500.11.6.1
   # rationale: Application for facilitating configuring a hypervisor node.
-  - crucible=0.0.14-1
+  - crucible=0.0.16-1
   # rationale: Free range routing.
   - frr=8.4-150500.4.8.1
   # rationale: Necessary for Mercury software proof-of-concepts.

@@ -610,7 +610,7 @@ function nexus-create-repo-group-yum() {
     local error=0
     local exists
     local method
-    local uri='service/rest/v1/repositories/yum/group'
+    local uri='service/rest/v1/repositories/yum/group/'
     local repo_group_name="${1:-}"
     shift
     local repo_names="$*"
@@ -626,7 +626,7 @@ function nexus-create-repo-group-yum() {
         method=POST
     else
         echo -n "Updating existing repo group '$repo_group_name' with: $repo_names ... "
-        uri="$uri/$repo_group_name"
+        uri="$uri$repo_group_name"
         method=PUT
     fi
     if ! curl \

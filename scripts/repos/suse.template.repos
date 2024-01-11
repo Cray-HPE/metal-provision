@@ -93,3 +93,6 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 
 # SUSE PTF.1214754 kernel/bonding
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1214754/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1214754                                        -g -p 89
+
+# SUSE PTF.1215587 network recovery kernel panic
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1215587/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1215587                                        -g -p 89

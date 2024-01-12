@@ -83,4 +83,4 @@ packages:
   # CVT
   - cvt=1.5.16-20231117084626_6a46ee25062e
   # SMA
-  - sma-cli-utils=1.5.4-1
+  - sma-cli-utils=1.5.5-1

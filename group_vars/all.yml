@@ -28,6 +28,7 @@ kernel:
     standard:
       - libiscsi
       - rpcrdma
+      - qedr
     kdump:
       - mlx5_core
       - mlx5_ib

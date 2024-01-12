@@ -41,7 +41,7 @@ packages_x86_64:
   # rationale: Necessary for Mellanox device tools.
   - kernel-mft-mlnx-kmp-default=4.24.0_k5.14.21_150500.55.28-1.sles15sp5
   # rationale: Necessary for advanced QLogic support (CASMTRIAGE-5033)
-  - qlgc-fastlinq-kmp-default=8.72.4.1_k5.14.21_150500.53-8.sles15sp5
+  - qlgc-fastlinq-kmp-default=8.74.1.0_k5.14.21_150500.53-1.sles15sp5
   # rationale: Necessary for collecting hardware information.
   - lshw=B.02.19.2+git.20230320-150200.3.15.4
   # rationale: Necessary for inspecting, configuring, and upgrading Mellanox devices.

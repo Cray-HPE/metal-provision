@@ -60,10 +60,10 @@
     {% if item.name | default(False) -%}{{ item.name }}{%- endif %}
     {% if item.selector | default(False) -%}--selector='{{ item.selector }}'{%- endif %}
     {% if item.condition | default(False) -%}{{ item.condition }}{%- endif %}
-    --timeout='{{ metal_lb_available_timeout }}'
+    --timeout='{{ metallb_available_timeout }}'
   changed_when: false
   run_once: true
-  with_items:
+  loop:
     - description: controller
       resource: deployment
       name: controller
@@ -113,7 +113,7 @@
   ansible.builtin.command: >-
     /usr/local/bin/k3s kubectl -n metallb-system get {{ item }}
   changed_when: false
-  when: metal_lb_mode == "layer2"
-  with_items:
+  when: metallb_mode == "layer2"
+  loop:
     - IPAddressPool
     - L2Advertisement

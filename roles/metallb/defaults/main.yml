@@ -22,5 +22,5 @@
 #
 ---
 # Timeout to wait for MetalLB services to come up
-metal_lb_available_timeout: 120s
-metal_lb_ip_range: "192.168.201.240-192.168.201.250"
+metallb_available_timeout: 120s
+metallb_ip_range: 192.168.201.240/28

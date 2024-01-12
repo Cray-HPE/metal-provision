@@ -38,7 +38,7 @@
       systemd-run -p RestartSec=2
       -p Restart=on-failure
       --unit=k3s-init
-      /usr/local/bin/k3s server {{ server_init_args }}
+      /usr/local/bin/k3s server {{ k3s_server_server_init_args }}
     creates: "{{ systemd_dir }}/k3s.service"
 
 - name: Verification

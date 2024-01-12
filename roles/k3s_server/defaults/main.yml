@@ -21,7 +21,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-server_init_args: >-
+k3s_server_server_init_args: >-
   {% if ansible_hostname == hostvars[groups['master'][0]]['ansible_hostname'] %}
     --cluster-init
   {% else %}

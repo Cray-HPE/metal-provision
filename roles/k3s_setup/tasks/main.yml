@@ -28,8 +28,7 @@
     line: "{{ hostvars[item].ansible_host }} {{ item }}"
     state: present
   when: hostvars[item].ansible_host is defined and k3s_dev is true
-  loop:
-    - "{{ groups['full_cluster']* }}"
+  loop: groups['full_cluster']*
 
 - name: Copy k3s registries
   ansible.builtin.template:

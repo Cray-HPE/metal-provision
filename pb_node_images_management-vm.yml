@@ -30,9 +30,9 @@
   vars_files:
     - vars/fawkes.yml
   roles:
-    - packages
-    - node_images_management_vm
-    - terragrunt
-    - gitea
-    - services
-    - sysctl
+    - { role: packages }
+    - { role: node_images_management_vm }
+    - { role: terragrunt }
+    - { role: gitea }
+    - { role: services, when: ansible_architecture != "aarch64" }
+    - { role: sysctl }

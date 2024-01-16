@@ -25,6 +25,8 @@
 - name: Node Images Hypervisor
   hosts: hypervisor
   become: true # Enable builds that do not login as root to escalate privilege.
+  environment:
+    HTTPS_PROXY: "{{ HTTPS_PROXY | default() }}"
   vars_files:
     - vars/fawkes.yml
   roles:

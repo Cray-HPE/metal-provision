@@ -29,6 +29,8 @@ packages:
   - crucible=0.0.17-1
   # rationale: Free range routing.
   - frr=8.4-150500.4.8.1
+  # rationale: Necessary for running goss tests
+  - goss-servers=1.17.20-1
   # rationale: Necessary for Mercury software proof-of-concepts.
   - libguestfs0=1.48.6-150500.3.5.1
   # rationale: Necessary for Mercury software proof-of-concepts.

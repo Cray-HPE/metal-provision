@@ -187,6 +187,30 @@ pipeline {
                                 sh "./scripts/update-package-versions.sh -a aarch64 -p group_vars/compute/packages.suse.aarch64.yml --compute --validate --suffix ${env.SUFFIX}"
                             }
                         }
+
+                        stage('Validate fawkes-live packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a aarch64 -p group_vars/fawkes_live/packages.suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate hypervisor packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a aarch64 -p group_vars/hypervisor/packages.suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate kubernetes-vm packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a aarch64 -p group_vars/kubernetes_vm/packages.suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
+
+                        stage('Validate management-vm packages') {
+                            steps {
+                                sh "./scripts/update-package-versions.sh -a aarch64 -p group_vars/management_vm/packages.suse.yml --validate --suffix ${env.SUFFIX}"
+                            }
+                        }
                     }
                 }
             }

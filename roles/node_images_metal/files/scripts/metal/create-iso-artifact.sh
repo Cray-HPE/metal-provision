@@ -30,8 +30,13 @@ function cleanup {
 
 # Fetch ARCH from the buildenv, if it is defined.
 ARCH="${ARCH:-}"
+
 if [ -z "${ARCH}" ]; then
     ARCH="$(uname -m)"
+fi
+
+if [ "${ARCH}" = "aarch64" ]; then
+    ARCH="arm64"
 fi
 
 EFI_DIR='EFI/BOOT'

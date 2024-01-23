@@ -23,9 +23,9 @@
 #
 ---
 packages:
-  - apache2=2.4.51-150400.6.11.1
-  - apparmor-profiles=3.0.4-150500.11.6.1
-  - crucible=0.0.16-1
+  - apache2=2.4.51-150400.6.14.1
+  - apparmor-profiles=3.0.4-150500.11.9.1
+  - crucible=0.0.17-1
   - dnsmasq=2.86-150400.14.3
   - fawkes-httpboot-grub=1.0-1
   - gnu_parallel=20230122-bp155.1.5
@@ -35,5 +35,5 @@ packages:
   - gru=0.0.4-1
   - metal-init=1.4.7-1
   - metal-ipxe=2.5.1-1
-  - sqlite3=3.39.3-150000.3.20.1
+  - sqlite3=3.44.0-150000.3.23.1
   - terraform=0.13.4-6.3.1

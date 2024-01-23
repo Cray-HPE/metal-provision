@@ -33,7 +33,7 @@ packages:
   - gnu_parallel-zsh-completion=20230122-bp155.1.5
   - goss-servers=1.17.20-1
   - gru=0.0.4-1
-  - metal-init=1.4.7-1
+  - metal-init=1.4.8-1
   - metal-ipxe=2.5.1-1
   - sqlite3=3.44.0-150000.3.23.1
   - terraform=0.13.4-6.3.1

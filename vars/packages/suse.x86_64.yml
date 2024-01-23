@@ -28,18 +28,18 @@ packages_x86_64:
   # rationale: Runs tests
   - hpe-csm-goss-package=0.3.21-hpe4
   # rationale: Necessary for standardized network interface device names.
-  - biosdevname=0.7.3-5.3.1
+  - biosdevname=0.7.3.7.g495ab76-150000.5.6.1
   # rationale: A dependency of SLES's GRUB package.
   - grub2-branding-SLE=15-150400.38.3.1
   # rationale: Provides a boot loader for booting into Linux.
-  - grub2=2.06-150500.29.3.1
+  - grub2=2.06-150500.29.11.1
   # rationale: A dependency needed for the x86_64 EFI GRUB boot loader.
-  - grub2-i386-pc=2.06-150500.29.3.1
+  - grub2-i386-pc=2.06-150500.29.11.1
   # rationale: Necessary for creating and managing an x86_64 EFI GRUB boot loader.
-  - grub2-x86_64-efi=2.06-150500.29.3.1
+  - grub2-x86_64-efi=2.06-150500.29.11.1
   # Drivers
   # rationale: Necessary for Mellanox device tools.
-  - kernel-mft-mlnx-kmp-default=4.24.0_k5.14.21_150500.55.28-1.sles15sp5
+  - kernel-mft-mlnx-kmp-default=4.24.0_k5.14.21_150500.55.44-1.sles15sp5
   # rationale: Necessary for advanced QLogic support (CASMTRIAGE-5033)
   - qlgc-fastlinq-kmp-default=8.74.1.0_k5.14.21_150500.53-1.sles15sp5
   # rationale: Necessary for collecting hardware information.
@@ -48,7 +48,7 @@ packages_x86_64:
   # mft: DO NOT INSTALL MFT FROM THE SPP REPO, NEVER APPEND "slesXspY"
   - mft=4.24.0-72
   # rationale: Provides a mechanism to apply CVE mitigations for certain classes of issues.
-  - msr-tools=1.3-bp155.2.10
+  - msr-tools=1.3-bp155.3.3.1
   # rationale: Provides a mechanism to release updates for security advisories and functional issues.
-  - ucode-amd=20230724-150500.3.6.1
-  - ucode-intel=20230808-150200.27.1
+  - ucode-amd=20230724-150500.3.9.1
+  - ucode-intel=20231114-150200.35.1

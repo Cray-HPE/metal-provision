@@ -23,7 +23,7 @@
 #
 ---
 packages:
-  - cri-tools=1.25.0-0
+  - cri-tools=1.18.0-bp155.2.18
   - ipvsadm=1.29-4.3.1
   - kubeadm="{{ kubernetes_release }}-0"
   - kubelet="{{ kubernetes_release }}-0"
@@ -43,3 +43,4 @@ packages:
   - cray-sdu-rda=2.1.3-shasta_20230912173723_0800580a3dc6
   # iSCSI
   - targetcli-fb-common=2.1.54-150500.6.2
+

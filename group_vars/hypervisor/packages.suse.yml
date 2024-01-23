@@ -24,15 +24,15 @@
 ---
 packages:
   # rationale: Security.
-  - apparmor-profiles=3.0.4-150500.11.6.1
+  - apparmor-profiles=3.0.4-150500.11.9.1
   # rationale: Application for facilitating configuring a hypervisor node.
   - crucible=0.0.17-1
   # rationale: Free range routing.
-  - frr=8.4-150500.4.8.1
+  - frr=8.4-150500.4.15.1
   # rationale: Necessary for running goss tests
   - goss-servers=1.17.20-1
   # rationale: Necessary for Mercury software proof-of-concepts.
-  - libguestfs0=1.48.6-150500.3.5.1
+  - libguestfs0=1.48.6-150500.3.8.1
   # rationale: Necessary for Mercury software proof-of-concepts.
   - libxslt-tools=1.1.34-150400.3.3.1
   # rationale: Necessary for providing timezone zoneinfo definition files.

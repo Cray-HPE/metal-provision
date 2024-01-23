@@ -23,5 +23,5 @@
 #
 ---
 packages:
-  - apparmor-profiles=3.0.4-150500.11.6.1
+  - apparmor-profiles=3.0.4-150500.11.9.1
   - goss-servers=1.17.20-1

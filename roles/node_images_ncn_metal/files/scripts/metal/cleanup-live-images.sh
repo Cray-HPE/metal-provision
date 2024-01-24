@@ -116,10 +116,10 @@ fi
 
 to_remove_squashfs="$(printf ${SQUASHFS_BASE}'/%s ' "${LIVE_DIRS[@]}")"
 to_remove_overlayfs="$(printf ${OVERLAYFS_BASE}'/%s ' "${LIVE_DIRS[@]}")"
-mount -o rw,remount ${DISK} ${BASE}
+mount -o rw,remount ${DISK} ${SQUASHFS_BASE}
 echo 'Removing squashFS directories ... '
 if [ ${ALL} -eq 1 ]; then
-    echo "-a was present; removing ALL images including the currently booted image [${BASE}/${LIVE_DIR}]"
+    echo "-a was present; removing ALL images including the currently booted image [${SQUASHFS_BASE}/${LIVE_DIR}]"
     echo >&2 "This node will be unable to diskboot until it is reimaged with a netboot."
     rm -rf ${to_remove_squashfs} "${SQUASHFS_BASE:?}/${LIVE_DIR}"
 else
@@ -134,8 +134,8 @@ fi
 echo 'Done'
 
 # Attempt to remount as ro, but don't fail
-if ! mount -o ro,remount ${DISK} ${BASE} 2>/dev/null; then
-    echo >&2 "Attempted to remount ${BASE} as read-only but the device was busy. This will correct itself on the next reboot."
+if ! mount -o ro,remount ${DISK} ${SQUASHFS_BASE} 2>/dev/null; then
+    echo >&2 "Attempted to remount ${SQUASHFS_BASE} as read-only but the device was busy. This will correct itself on the next reboot."
 fi 
 
 # Do not reprint the size, for some reason it doesn't report properly for a given amount of time.

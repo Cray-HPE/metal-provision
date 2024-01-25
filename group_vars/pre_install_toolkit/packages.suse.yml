@@ -24,15 +24,15 @@
 ---
 packages:
   - acl=2.2.52-4.3.1
-  - apache2=2.4.51-150400.6.11.1
+  - apache2=2.4.51-150400.6.14.1
   - dnsmasq=2.86-150400.14.3
   - wol=0.7.1-2.5
   # CSM
   - canu=1.8.0-1
   - cray-site-init=1.32.5-1
   - ilorest=4.2.0.0-20
-  - metal-basecamp=1.2.6-1
-  - metal-ipxe=2.4.7-1
-  - metal-init=1.4.6-1
+  - metal-basecamp=1.2.7-1
+  - metal-ipxe=2.5.1-1
+  - metal-init=1.4.8-1
   - metal-nexus=1.4.0-3.38.0_1
   - metal-observability=1.0.9-1

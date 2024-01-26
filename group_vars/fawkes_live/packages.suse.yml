@@ -28,4 +28,4 @@ packages:
   # rationale: Goss Health Check Endpoint Service
   - goss-servers=1.17.20-1
   # rationale: Used for poking around the system
-  - gru=0.0.4-1
+  - gru=0.0.5-1

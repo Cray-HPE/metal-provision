@@ -45,6 +45,9 @@ services:
     name: grok-exporter.service
     state: stopped
   - enabled: true
+    name: fawkes-discovery-frontend.service
+    state: stopped
+  - enabled: true
     name: prometheus.service
     state: stopped
   - enabled: true

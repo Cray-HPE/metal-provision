@@ -67,6 +67,7 @@ pipeline {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p vars/packages/suse.x86_64.yml --validate --suffix ${env.SUFFIX}"
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p group_vars/google/packages.suse.yml --validate --suffix ${env.SUFFIX}"
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p group_vars/metal/packages.suse.yml --validate --suffix ${env.SUFFIX}"
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p group_vars/metal/packages.suse.x86_64.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 
@@ -118,6 +119,7 @@ pipeline {
                         stage('Validate management-vm packages') {
                             steps {
                                 sh "./scripts/update-package-versions.sh -a x86_64 -p group_vars/management_vm/packages.suse.yml --validate --suffix ${env.SUFFIX}"
+                                sh "./scripts/update-package-versions.sh -a x86_64 -p group_vars/management_vm/packages.suse.x86_64.yml --validate --suffix ${env.SUFFIX}"
                             }
                         }
 

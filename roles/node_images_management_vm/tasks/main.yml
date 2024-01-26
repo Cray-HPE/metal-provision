@@ -63,3 +63,9 @@
     delete: false
     src: chrony/
     dest: /etc/
+
+- name: Configure container network backend
+  ansible.builtin.lineinfile:
+    path: /usr/share/containers/containers.conf
+    regexp: '^#?\s*?network_backend\s*?.*'
+    line: 'network_backend = "netavark"'

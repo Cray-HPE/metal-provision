@@ -250,13 +250,6 @@ function fix_livecd_systemd_remount {
     sed -i -E 's:^(LABEL=)\w+(\s+/\s+):\1cow\2:' /etc/fstab
 }
 
-# Deletes fastlinq.conf.
-function remove_fastlinq_conf {
-    if [ -f /etc/dracut.conf.d/fastlinq.conf ]; then
-        rm -vf /etc/dracut.conf.d/fastlinq.conf
-    fi
-}
-
 function create_release_file {
     local name
     local artifact_version

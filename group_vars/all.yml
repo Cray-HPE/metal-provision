@@ -24,6 +24,12 @@
 ---
 # Kernel options to set by default.
 kernel:
+  drivers:
+    standard:
+      - qed
+      - qede
+      - qedf
+      - qedi
   blacklists:
     standard:
       - libiscsi

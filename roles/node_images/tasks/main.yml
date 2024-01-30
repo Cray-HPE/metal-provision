@@ -32,11 +32,16 @@
     state: present
   loop: "{{ kernel.blacklists.standard }}"
 
-- name: Blacklist kernel modules from dracut
+- name: Dracut kernel tweaks
   ansible.builtin.template:
     mode: '0644'
-    src: dracut.conf.d/01-blacklist.conf.j2
-    dest: /etc/dracut.conf.d/01-blacklist.conf
+    src: dracut.conf.d/99-csm-ansible.conf.j2
+    dest: /etc/dracut.conf.d/99-csm-ansible.conf
+
+- name: Remove fastlinq.conf
+  ansible.builtin.file:
+    path: /etc/dracut.conf.d/fastlinq.conf
+    state: absent
 
 - name: Blacklist kernel modules for kdump
   ansible.builtin.lineinfile:

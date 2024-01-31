@@ -61,6 +61,11 @@ ISO_NAME="${ISO_NAME:-'ISO'}"
 ISO_OUTPUT='/tmp/iso'
 ISO_SOURCE="${ISO_OUTPUT}_src"
 
+# Cleanup the /boot/efi entry in /etc/fstab to avoid trying to mount the EFI partition on ISO boot.
+function cleanup-fstab {
+    sed -i '/UUID=.*\/boot\/efi.*/d' /etc/fstab
+}
+
 # The default image name for dracut is squashfs.img, and the default directory for dracut is LiveOS.
 function install-squashimg {
     mkdir -pv ${ISO_SOURCE}/LiveOS || return 1
@@ -134,6 +139,7 @@ function create-iso {
     tagmedia --md5 --check --pad 150 "${iso}"
 }
 
+cleanup-fstab
 cleanup
 mkdir -pv "${ISO_SOURCE}" || exit 1
 

@@ -63,7 +63,10 @@ ISO_SOURCE="${ISO_OUTPUT}_src"
 
 # Cleanup the /boot/efi entry in /etc/fstab to avoid trying to mount the EFI partition on ISO boot.
 function cleanup-fstab {
-    sed -i '/UUID=.*\/boot\/efi.*/d' /etc/fstab
+    # temporarily mount a new /etc/fstab
+    cp /etc/fstab /tmp/fstab.new
+    sed -i '/UUID=.*\/boot\/efi.*/d' /tmp/fstab.new
+    mount --bind /tmp/fstab.new /etc/fstab
 }
 
 # The default image name for dracut is squashfs.img, and the default directory for dracut is LiveOS.

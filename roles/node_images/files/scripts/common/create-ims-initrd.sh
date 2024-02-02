@@ -46,7 +46,7 @@ elif [[ -f /boot/vmlinux-${KVER}.gz ]]; then
     # aarch64 kernel
   cp -pv /boot/vmlinux-${KVER}.gz /squashfs/${KVER}.kernel
 else
-    echo "ERROR: No kernel found for version ${KVER}."
+    echo >&2 "ERROR: No kernel found for version ${KVER}."
     exit 1
 fi
 

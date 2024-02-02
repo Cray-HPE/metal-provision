@@ -37,8 +37,18 @@ dracut \
 
 echo "Copying vmlinuz and initrd into /squashfs for disk-bootloader setup."
 rm -f /squashfs/*
-cp -pv /boot/vmlinuz-${KVER} /squashfs/${KVER}.kernel
 cp -pv /boot/initrd-${KVER} /squashfs/initrd.img.xz
+
+if [[ -f /boot/vmlinuz-${KVER} ]]; then
+  # x86_64 kernel
+  cp -pv /boot/vmlinuz-${KVER} /squashfs/${KVER}.kernel
+elif [[ -f /boot/vmlinux-${KVER}.gz ]]; then
+    # aarch64 kernel
+  cp -pv /boot/vmlinux-${KVER}.gz /squashfs/${KVER}.kernel
+else
+    echo "ERROR: No kernel found for version ${KVER}."
+    exit 1
+fi
 
 echo "Purging old kdumps initrd; kdump.service will generate a new one on first boot."
 rm -f /boot/initrd-*-kdump

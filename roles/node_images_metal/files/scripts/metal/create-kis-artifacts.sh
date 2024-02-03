@@ -88,6 +88,11 @@ fi
 if [[ "$1" != "kernel-initrd-only" ]]; then
   echo "Removing character special files from the filesystem"
   find /mnt/squashfs -type c -exec rm -f '{}' \;
+  
+  echo "Temporarily removing UUID mounts from /etc/fstab"
+  cp -pv /mnt/squashfs/etc/fstab /mnt/squashfs/etc/fstab.orig
+  sed -i '/UUID=.*\/boot\/efi.*/d' /mnt/squashfs/etc/fstab
+
   echo "Creating squashfs artifact"
   mksquashfs /mnt/squashfs \
       /squashfs/filesystem.squashfs \
@@ -98,4 +103,7 @@ if [[ "$1" != "kernel-initrd-only" ]]; then
       -no-recovery \
       -processors "$(nproc)" \
       -e /mnt/squashfs/squashfs/filesystem.squashfs
+
+  echo "Restoring mounts in /etc/fstab"
+  mv -v /mnt/squashfs/etc/fstab.orig /mnt/squashfs/etc/fstab
 fi

@@ -123,9 +123,9 @@ menuentry "$name" --class sles --class gnu-linux --class gnu {
     insmod ext2
     insmod xfs
     echo    'Loading kernel ...'
-    linuxefi \$prefix/../$disk_cmdline
+    linux \$prefix/../$disk_cmdline
     echo    'Loading initial ramdisk ...'
-    initrdefi \$prefix/../initrd.img.xz
+    initrd \$prefix/../initrd.img.xz
 }
 EOF
 }

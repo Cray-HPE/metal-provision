@@ -32,11 +32,17 @@ services:
   - enabled: true
     name: cmdline-perm.service
     state: stopped
+  - enabled: false
+    name: cray-memory-spread.service
+    state: stopped
   - enabled: true
     name: csm-node-heartbeat.service
     state: stopped
   - enabled: true
     name: csm-node-identity.service
+    state: stopped
+  - enabled: false
+    name: mlx-set-irq-affinity.service
     state: stopped
   - enabled: true
     name: spire-agent.service

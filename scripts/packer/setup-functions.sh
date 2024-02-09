@@ -37,6 +37,35 @@ else
     echo "Detected OS family: ${OS}"
 fi
 
+function create_release_file {
+    local name
+    local artifact_version
+    local epoch
+    local hash
+    local timestamp
+    name="${1:-''}"
+    artifact_version="${2:-''}"
+    if [ -z "${name}" ]; then
+        echo >&2 'Missing name for release file. Aborting!'
+        return 1
+    fi
+    echo "Making /etc/$name-release ... "
+    if [[ -z "$artifact_version" ]] || [[ "$artifact_version" = 'none' ]]; then
+        hash="dev"
+        epoch="$(date -u +%s%N | cut -b1-13)"
+    else
+        hash="$(echo "$artifact_version" | awk -F- '{print $1}')"
+        epoch="$(echo "$artifact_version" | awk -F- '{print $NF}')"
+    fi
+    timestamp="$(date -d "@${epoch:0:-3}" '+%Y-%m-%d_%H:%M:%S')"
+    cat << EOF > "/etc/${name}-release"
+VERSION=$hash-$epoch
+TIMESTAMP=$timestamp
+EOF
+echo 'Done. Preview:'
+cat "/etc/${name}-release"
+}
+
 # Prevent the package manager from installing documentation.
 function exclude_docs {
     case "${OS}" in

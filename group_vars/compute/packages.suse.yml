@@ -30,9 +30,8 @@ packages:
   - csm-node-heartbeat=2.5-1
   # CMS Team
   - bos-reporter=2.15.0-1
-  - cfs-debugger=1.5.0-1
   - cfs-state-reporter=1.11.0-1
-  - cfs-trust=1.6.8-1
+  - cfs-trust=1.7.0-1
   # CDST GUI Packages
   - libGLU1=9.0.0-8.45
   - libatk-1_0-0=2.36.0-150400.2.9

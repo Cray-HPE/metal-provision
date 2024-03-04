@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -23,7 +23,7 @@
 #
 ---
 packages:
-  - craycli=0.82.12-1
+  - craycli=0.82.13-1
   - csm-auth-utils=1.0.0-1
   - csm-node-heartbeat=2.5-1
   - csm-node-identity=1.0.22-1

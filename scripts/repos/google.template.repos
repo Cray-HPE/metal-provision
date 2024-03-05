@@ -1,1 +1,1 @@
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/google-packages-mirror/kubernetes-el7-${basearch}?auth=basic                        google-packages-mirror               --no-gpgcheck -p 99
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/google-packages-tmp?auth=basic                        google-packages-tmp               --no-gpgcheck -p 99

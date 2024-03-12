@@ -39,27 +39,27 @@ packages:
   # rationale: Necessary for viewing and managing routing tables.
   - iproute2=5.14-150400.1.8
   # rationale: Dependency for daemon necessities.
-  - libsystemd0=249.16-150400.8.35.5
+  - libsystemd0=249.17-150400.8.40.1
   # rationale: Dependency for daemon necessities.
-  - libudev1=249.16-150400.8.35.5
+  - libudev1=249.17-150400.8.40.1
   # rationale: Required by kdump
   - sysconfig-netconfig=0.85.9-150200.12.1
   # rationale: Dependency for daemon necessities.
-  - systemd-coredump=249.16-150400.8.35.5
+  - systemd-coredump=249.17-150400.8.40.1
   # rationale: Dependency for daemon necessities.
-  - systemd-lang=249.16-150400.8.35.5
+  - systemd-lang=249.17-150400.8.40.1
   # rationale: Necessary for daemons.
-  - systemd-sysvinit=249.16-150400.8.35.5
+  - systemd-sysvinit=249.17-150400.8.40.1
   # rationale: Necessary for daemons.
-  - systemd=249.16-150400.8.35.5
+  - systemd=249.17-150400.8.40.1
   # rationale: Necessary for TPM2.
   - tpm2.0-abrmd=2.4.0-150400.1.6
   # rationale: Necessary for TPM2.
   - tpm2.0-tools=5.2-150400.4.6
   # rationale: Necessary for hardware interfaces.
-  - udev=249.16-150400.8.35.5
+  - udev=249.17-150400.8.40.1
   # rationale: Necessary for fetching recovery items
-  - wget=1.20.3-150000.3.15.1
+  - wget=1.20.3-150000.3.17.1
   #
   ## Filesystems and block device helpers
   #
@@ -125,15 +125,15 @@ packages:
   # rationale: Necessary for running CVE scans.
   - openscap=1.3.6-150400.11.3.1
   # rationale: Necessary for link layer discovery protocol (LLDP) during early startup.
-  - open-lldp=1.1+58.8ca361bab766-150500.1.3
+  - open-lldp=1.1+77.75e83b6-150500.3.3.1
   # rationale: Dependency of openssh, pinned to prevent Zypper conflicts with pre-existing openssh-clients.
-  - openssh-clients=8.4p1-150300.3.27.1
+  - openssh-clients=8.4p1-150300.3.30.1
   # rationale: Dependency of openssh, pinned to prevent Zypper conflicts with pre-existing openssh-common.
-  - openssh-common=8.4p1-150300.3.27.1
+  - openssh-common=8.4p1-150300.3.30.1
   # rationale: Dependency of openssh, pinned to prevent Zypper conflicts with pre-existing openssh-server.
-  - openssh-server=8.4p1-150300.3.27.1
+  - openssh-server=8.4p1-150300.3.30.1
   # rationale: Necessary for incoming and outgoing secure shells.
-  - openssh=8.4p1-150300.3.27.1
+  - openssh=8.4p1-150300.3.30.1
   # rationale: Necessary for viewing, dumping, and inspecting PCI devices.
   - pciutils=3.5.6-150300.13.6.1
   # rationale: Necessary for efficient file transfers.
@@ -147,7 +147,7 @@ packages:
   # rationale: Necessary for triaging and debugging packet routes.
   - traceroute=2.0.21-150000.3.3.1
   # rationale: Provides `lsblk` and other useful block device tools.
-  - util-linux-systemd=2.37.4-150500.7.2
+  - util-linux-systemd=2.37.4-150500.9.3.1
   # rationale: Necessary for viewing, dumping, and inspecting USB devices.
   - usbutils=014-3.3.1
   # rationale: Necessary for resolving where an application is actually running from.

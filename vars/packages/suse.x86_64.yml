@@ -28,7 +28,7 @@ packages_x86_64:
   # rationale: Runs tests
   - hpe-csm-goss-package=0.3.21-hpe4
   # rationale: Necessary for standardized network interface device names.
-  - biosdevname=0.7.3.7.g495ab76-150000.5.6.1
+  - biosdevname=0.7.3-5.3.1
   # rationale: A dependency of SLES's GRUB package.
   - grub2-branding-SLE=15-150400.38.3.1
   # rationale: Provides a boot loader for booting into Linux.

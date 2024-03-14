@@ -30,7 +30,7 @@ packages:
   # CSM
   # platform-utils is also installed by cloud-init. However, we need to *also* bake it in
   # for proper vshasta-v2 functionality.
-  - platform-utils=1.6.9-1
+  - platform-utils=1.6.10-1
   # Metal
   - dracut-metal-dmk8s=2.1.1-1
   - dracut-metal-luksetcd=2.1.1-1

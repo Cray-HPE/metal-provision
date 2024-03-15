@@ -27,4 +27,4 @@ packages_x86_64:
   - fawkes-discovery=0.0.2-1
   - metal-nexus=1.4.0-3.38.0_1
   - metal-observability=1.0.9-1
-  - pdsh=2.34-150500.44.1
+  - pdsh=2.35-150500.46.3.1

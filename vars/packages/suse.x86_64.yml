@@ -24,7 +24,7 @@
 ---
 packages_x86_64:
   # rationale: prevents apparmor for spamming dmesg
-  - audit=3.0.6-150400.4.13.1
+  - audit=3.0.6-150400.4.16.1
   # rationale: Runs tests
   - hpe-csm-goss-package=0.3.21-hpe4
   # rationale: Necessary for standardized network interface device names.
@@ -32,14 +32,14 @@ packages_x86_64:
   # rationale: A dependency of SLES's GRUB package.
   - grub2-branding-SLE=15-150400.38.3.1
   # rationale: Provides a boot loader for booting into Linux.
-  - grub2=2.06-150500.29.16.1
+  - grub2=2.06-150500.29.19.1
   # rationale: A dependency needed for the x86_64 EFI GRUB boot loader.
-  - grub2-i386-pc=2.06-150500.29.16.1
+  - grub2-i386-pc=2.06-150500.29.19.1
   # rationale: Necessary for creating and managing an x86_64 EFI GRUB boot loader.
-  - grub2-x86_64-efi=2.06-150500.29.16.1
+  - grub2-x86_64-efi=2.06-150500.29.19.1
   # Drivers
   # rationale: Necessary for Mellanox device tools.
-  - kernel-mft-mlnx-kmp-default=4.24.0_k5.14.21_150500.55.49-1.sles15sp5
+  - kernel-mft-mlnx-kmp-default=4.24.0_k5.14.21_150500.55.52-1.sles15sp5
   # rationale: Necessary for advanced QLogic support (CASMTRIAGE-5033)
   - qlgc-fastlinq-kmp-default=8.74.1.0_k5.14.21_150500.53-1.sles15sp5
   # rationale: Necessary for collecting hardware information.

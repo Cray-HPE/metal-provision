@@ -45,10 +45,21 @@ EOF
 }
 
 function list-hpe-repos-files() {
+
+    # NOTE: HPE SDR Repositories capitalize their AARCH64 repo names.
+#    local hpe_arch
+#    if [ "$ARCH" = 'aarch64' ]; then
+#        hpe_arch="${ARCH^^}"
+#    else
+#        hpe_arch="$ARCH"
+#    fi
+#    export hpe_arch
+#    /usr/bin/envsubst '$ARTIFACTORY_USER $ARTIFACTORY_TOKEN $hpe_arch' < ${BASE_DIR}/scripts/repos/hpe.template.repos > ${BASE_DIR}/scripts/repos/hpe.repos
     /usr/bin/envsubst '$ARTIFACTORY_USER $ARTIFACTORY_TOKEN' < ${BASE_DIR}/scripts/repos/hpe.template.repos > ${BASE_DIR}/scripts/repos/hpe.repos
     cat <<-EOF
 ${BASE_DIR}/scripts/repos/hpe.repos
 EOF
+#    unset hpe_arch
 }
 
 function list-suse-repos-files() {
@@ -69,7 +80,7 @@ function create-fake-conntrack {
     rm /tmp/conntrack/conntrack.spec
     mv /tmp/conntrack/* /var/local-repos/conntrack/
     createrepo /var/local-repos/conntrack
-    zypper -n addrepo --refresh --no-gpgcheck "${BASE_DIR}/scripts/repos/conntrack" buildonly-local-conntrack
+    zypper -n addrepo --no-refresh --no-gpgcheck "${BASE_DIR}/scripts/repos/conntrack" buildonly-local-conntrack
     zypper --non-interactive remove --clean-deps rpm-build createrepo_c
 }
 

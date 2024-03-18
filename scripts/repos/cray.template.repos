@@ -15,5 +15,5 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 # CVT
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/csm-diags-rpm-stable-local/release/csm-diags-1.5.0/noos?auth=basic                                                             csm-diags-noos-1.5.0                                                                       --no-gpgcheck -p 89
 
-#TEMP Slingshot
+#TEMP Slingshot (Only uncomment if commenting the HPE cx4plus repository in hpe.template.repos).
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/dst-rpm-mirror/slingshot-host-software-rpm-stable-local/release/slingshot-2.1/sle${releasever_major}_sp${releasever_minor}_ncn?auth=basic     slingshot-2.1                                                                              --no-gpgcheck -p 89

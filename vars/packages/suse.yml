@@ -33,7 +33,7 @@ packages:
   # rationale: provides /sbin/mkinitrd
   - dracut-mkinitrd-deprecated=055+suse.375.g1167ed75-150500.3.15.1
   # rationale: Needed for Ansible (already installed in base, pinned here for RMT lag).
-  - glibc-locale-base=2.31-150300.63.1
+  - glibc-locale-base=2.31-150300.68.1
   # rationale: Required by kdump
   - hostname=3.16-2.22
   # rationale: Necessary for viewing and managing routing tables.
@@ -141,7 +141,7 @@ packages:
   # rationale: Necessary for inspecting stack traces for applications.
   - strace=5.14-150400.1.7
   # rationale: Necessary for changing users.
-  - sudo=1.9.12p1-150500.5.1
+  - sudo=1.9.12p1-150500.7.10.1
   # rationale: Necessary for monitoring and triaging IP connections.
   - tcpdump=4.99.1-150400.1.8
   # rationale: Necessary for triaging and debugging packet routes.

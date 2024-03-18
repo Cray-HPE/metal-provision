@@ -1,1 +1,1 @@
-ansible-lint~=6.22.2 # 6.17.0-6.18.0 has a bug where it always runs in offline mode.
+ansible-lint~=24.2.1 # 6.17.0-6.18.0 has a bug where it always runs in offline mode.

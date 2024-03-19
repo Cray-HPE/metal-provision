@@ -30,8 +30,8 @@ packages_x86_64:
   # - cray-libhugetlbfs                   :
   # - cray-libhugetlbfs-devel             :
   # - cray-rasdaemon                      :
-  - cray-libhugetlbfs=2.20_2.1.28-2.6_2.7__gc581ee4.shasta
-  - cray-libhugetlbfs-devel=2.20_2.1.28-2.6_2.7__gc581ee4.shasta
+  - cray-libhugetlbfs=2.20_2.1.28-2.6_2.12__gc581ee4.shasta
+  - cray-libhugetlbfs-devel=2.20_2.1.28-2.6_2.12__gc581ee4.shasta
   - cray-rasdaemon=0.6.8-3_2.6_20230804001511__gd39151e8176f
   # COS General Packages
   # These COS RPM package names vary by timestamp between architectures

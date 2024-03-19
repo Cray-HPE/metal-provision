@@ -24,8 +24,8 @@
 ---
 packages:
   # rationale: Enables GCE platform features.
-  - google-guest-agent=20231031.01-150000.1.40.1
+  - google-guest-agent=20231031.01-150000.1.43.1
   # rationale: Support for GCE guest environment and functionality.
   - google-guest-configs=20230808.00-150400.13.6.1
   # rationale: Google account authentication.
-  - google-guest-oslogin=20231101.00-150000.1.35.1
+  - google-guest-oslogin=20231101.00-150000.1.38.1

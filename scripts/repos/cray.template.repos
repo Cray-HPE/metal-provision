@@ -1,5 +1,9 @@
 # CSM / CLOUD / PET / MTL / NET
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/noos?auth=basic                                                                                                           cray-algol60-csm-rpms-stable-noos                                                          --no-gpgcheck -p 87
+
+# TEMPORARY UNSTABLE REPO. REMOVE_ME
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/unstable/noos?auth=basic                                                                                                           cray-algol60-csm-rpms-unstable-noos                                                          --no-gpgcheck -p 87
+
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/csm-rpms/hpe/stable/sle-${releasever_major}sp${releasever_minor}?auth=basic                                                                   cray-algol60-csm-rpms-stable-sle                                                           --no-gpgcheck -p 88
 
 # Fawkes

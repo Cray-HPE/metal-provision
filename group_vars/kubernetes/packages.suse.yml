@@ -32,7 +32,7 @@ packages:
   # for proper vshasta-v2 functionality.
   - platform-utils=1.6.10-1
   # Metal
-  - dracut-metal-dmk8s=2.1.1-1
+  - dracut-metal-dmk8s=3.0.0-1
   - dracut-metal-luksetcd=2.1.1-1
   # DVS
   - insserv-compat=0.1-4.6.1

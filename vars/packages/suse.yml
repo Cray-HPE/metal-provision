@@ -31,7 +31,7 @@ packages:
   # rationale: Necessary for network time protocol (NTP).
   - chrony=4.1-150400.19.4
   # rationale: provides /sbin/mkinitrd
-  - dracut-mkinitrd-deprecated=055+suse.375.g1167ed75-150500.3.15.1
+  - dracut-mkinitrd-deprecated=055+suse.382.g80b55af2-150500.3.18.1
   # rationale: Needed for Ansible (already installed in base, pinned here for RMT lag).
   - glibc-locale-base=2.31-150300.68.1
   # rationale: Required by kdump

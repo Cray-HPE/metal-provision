@@ -31,14 +31,14 @@ packages:
   - emacs=27.2-150400.3.6.1
   - gperftools=2.5-4.12
   - gptfdisk=1.0.8-150400.1.7
-  - haproxy=2.0.14-bp152.1.1
+  - haproxy=2.4.22+git0.f8e3218e2-150400.3.19.1
   - hplip=3.21.10-150400.3.5.1
   - ipmitool=1.8.19.gb7c0d66-0
   - ipset=7.15-150400.12.3.2
   - java-1_8_0-ibm-plugin=1.8.0_sr8.10-150000.3.80.1
   - java-1_8_0-ibm=1.8.0_sr8.10-150000.3.80.1
   - jq=1.6-3.3.1
-  - keepalived=2.0.19-bp152.1.9
+  - keepalived=2.2.2-150500.6.2
   - kubectl="{{ kubernetes_release }}-0"
   - lsof=4.91-1.11
   - ltrace=0.7.91-150500.18.1

@@ -104,11 +104,11 @@ function install_ansible {
     esac
 
     . /opt/cray/ansible/bin/activate
-    python3 -m pip install --retries 25 ansible-core==$ANSIBLE_CORE_VERSION ansible==${ANSIBLE_VERSION}
+    python3 -m pip install --retries 25 --timeout 600 ansible-core==$ANSIBLE_CORE_VERSION ansible==${ANSIBLE_VERSION}
 
     echo "Installing requirements: ${requirements[*]}"
     for requirement in "${requirements[@]}"; do
-        python3 -m pip install --retries 25 -U "${requirement}"
+        python3 -m pip install --retries 25 --timeout 600 -U "${requirement}"
     done
     for galaxy in "${galaxies[@]}"; do
         ansible-galaxy collection install "${galaxy}" --upgrade

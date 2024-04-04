@@ -32,7 +32,7 @@ packages:
   - cray-site-init=1.32.6-1
   - ilorest=4.2.0.0-20
   - metal-basecamp=1.2.7-1
-  - metal-ipxe=2.4.7-1
+  - metal-ipxe=2.4.8-1
   - metal-init=1.4.8-1
   - metal-nexus=1.4.0-3.38.0_1
   - metal-observability=1.0.9-1

@@ -1,6 +1,6 @@
 certifi==2021.10.8
 charset-normalizer==2.0.12
-idna==3.3
+idna==3.7
 Jinja2==3.0.3
 MarkupSafe==2.0.1
 PyYAML==6.0

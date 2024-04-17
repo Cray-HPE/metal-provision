@@ -28,7 +28,7 @@ packages:
   - ceph-common<17.2.7
   - conman=0.3.1-150500.1.2
   - cpupower=5.14-150500.9.3.1
-  - emacs=27.2-150400.3.6.1
+  - emacs=27.2-150400.3.11.1
   - gperftools=2.5-4.12
   - gptfdisk=1.0.8-150400.1.7
   - haproxy=2.4.22+git0.f8e3218e2-150400.3.19.1
@@ -50,15 +50,15 @@ packages:
   - nmap=7.92-150400.1.8
   - pdsh=2.35-150500.46.3.1
   - podman-cni-config=4.4.4-150500.1.4
-  - podman=4.4.4-150500.1.4
+  - podman=4.8.3-150500.3.9.1
   - rarpd=20211215-150400.3.3.2
-  - rasdaemon=0.6.7.18.git+7ccf12f-150400.2.7
+  - rasdaemon=0.6.7.18.git+7ccf12f-150400.4.3.1
   - rollback-helper=1.0+git20181218.5394d6e-4.3.1
   - rzsz=0.12.21~rc-150000.3.3.2
   - s3fs=1.91-150000.3.9.1
   - smartmontools=7.2-150300.8.8.1
   - socat=1.7.3.2-4.10
-  - squid=5.7-150400.3.23.1
+  - squid=5.7-150400.3.26.1
   - systemtap=4.6-150400.1.7
   - wget=1.20.3-150000.3.17.1
   - wireshark=3.6.20-150000.3.109.1
@@ -72,7 +72,7 @@ packages:
   - cloud-init=23.3.3-1
   - cray-kubectl-hns-plugin=1.0.2-1
   - cray-kubectl-kubelogin-plugin=1.25.3-1
-  - goss-servers=1.17.21-1
+  - goss-servers=1.17.26-1
   - hpe-csm-scripts=0.7.0-1
   - hpe-yq=4.33.3-1
   - loftsman=1.2.0-3

@@ -25,6 +25,6 @@
 packages_x86_64:
   - conman=0.3.1-150500.1.2
   - fawkes-discovery=0.0.2-1
-  - metal-nexus=1.4.0-3.38.0_1
+  - metal-nexus=1.5.0-3.67.1_1
   - metal-observability=1.0.9-1
   - pdsh=2.35-150500.46.3.1

@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -34,5 +34,5 @@ packages:
   - metal-basecamp=1.2.7-1
   - metal-ipxe=2.4.8-1
   - metal-init=1.4.8-1
-  - metal-nexus=1.4.0-3.38.0_1
+  - metal-nexus=1.5.0-3.67.1_1
   - metal-observability=1.0.9-1

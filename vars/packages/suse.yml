@@ -27,13 +27,13 @@ packages:
   ## OS Packages
   #
   # rationale: Necessary for fetching recovery items
-  - curl=8.0.1-150400.5.41.1
+  - curl=8.0.1-150400.5.44.1
   # rationale: Necessary for network time protocol (NTP).
   - chrony=4.1-150400.19.4
   # rationale: provides /sbin/mkinitrd
   - dracut-mkinitrd-deprecated=055+suse.382.g80b55af2-150500.3.18.1
   # rationale: Needed for Ansible (already installed in base, pinned here for RMT lag).
-  - glibc-locale-base=2.31-150300.68.1
+  - glibc-locale-base=2.31-150300.71.1
   # rationale: Required by kdump
   - hostname=3.16-2.22
   # rationale: Necessary for viewing and managing routing tables.
@@ -64,7 +64,7 @@ packages:
   ## Filesystems and block device helpers
   #
   # rationale: Necessary for validating media before destructive operations.
-  - checkmedia=6.1-150400.1.5
+  - checkmedia=6.3-150400.3.3.1
   # rationale: Necessary for Linux unified key setup devices (LUKS).
   - cryptsetup=2.4.3-150400.3.3.1
   # rationale: Necessary for file allocation table file systems (FAT/FAT32/vfat).
@@ -82,13 +82,13 @@ packages:
   # rationale: Necessary for constructing boot loader images.
   - mtools=4.0.35-150400.1.11
   # rationale: Necessary for NVME control in a failed initramFS (required by dracut).
-  - nvme-cli=2.4+31.gf7ec09-150500.4.12.1
+  - nvme-cli=2.4+32.g2e2531a-150500.4.15.3
   # rationale: Necessary for disk resizing and partition table management.
   - parted=3.2-150300.21.3.1
   # rationale: Necessary for manipulating squash file systems.
   - squashfs=4.6.1-150300.3.3.1
   # rationale: Necessary for extended file system (XFS) support.
-  - xfsprogs=5.13.0-150400.3.3.1
+  - xfsprogs=5.13.0-150400.3.7.1
   # rationale: Necessary for creating ISO disk images.
   - xorriso=1.4.6-1.29
   #
@@ -106,11 +106,11 @@ packages:
   # rationale: Desired for easy viewing of kernel modules.
   - kmod-bash-completion=29-4.15.1
   # rationale: Desired for easy viewing of files.
-  - less=590-150400.3.3.1
+  - less=590-150400.3.6.2
   # rationale: Desired for easy navigation of NVME devices in bourne again shell (BASH).
-  - nvme-cli-bash-completion=2.4+31.gf7ec09-150500.4.12.1
+  - nvme-cli-bash-completion=2.4+32.g2e2531a-150500.4.15.3
   # rationale: Desired for easy navigation of NVME devices in Zshell.
-  - nvme-cli-zsh-completion=2.4+31.gf7ec09-150500.4.12.1
+  - nvme-cli-zsh-completion=2.4+32.g2e2531a-150500.4.15.3
   # Analysis / Triage data Collection
   # rationale: Desired for viewing and dumping Ethernet controller and port information.
   - ethtool=5.14-150400.1.6
@@ -147,7 +147,7 @@ packages:
   # rationale: Necessary for triaging and debugging packet routes.
   - traceroute=2.0.21-150000.3.3.1
   # rationale: Provides `lsblk` and other useful block device tools.
-  - util-linux-systemd=2.37.4-150500.9.3.1
+  - util-linux-systemd=2.37.4-150500.9.6.1
   # rationale: Necessary for viewing, dumping, and inspecting USB devices.
   - usbutils=014-3.3.1
   # rationale: Necessary for resolving where an application is actually running from.

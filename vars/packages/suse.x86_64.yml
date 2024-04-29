@@ -32,11 +32,11 @@ packages_x86_64:
   # rationale: A dependency of SLES's GRUB package.
   - grub2-branding-SLE=15-150400.38.3.1
   # rationale: Provides a boot loader for booting into Linux.
-  - grub2=2.06-150500.29.19.1
+  - grub2=2.06-150500.29.22.2
   # rationale: A dependency needed for the x86_64 EFI GRUB boot loader.
-  - grub2-i386-pc=2.06-150500.29.19.1
+  - grub2-i386-pc=2.06-150500.29.22.2
   # rationale: Necessary for creating and managing an x86_64 EFI GRUB boot loader.
-  - grub2-x86_64-efi=2.06-150500.29.19.1
+  - grub2-x86_64-efi=2.06-150500.29.22.2
   # Drivers
   # rationale: Necessary for Mellanox device tools.
   - kernel-mft-mlnx-kmp-default=4.24.0_k5.14.21_150500.55.52-1.sles15sp5
@@ -51,4 +51,4 @@ packages_x86_64:
   - msr-tools=1.3-bp155.3.3.1
   # rationale: Provides a mechanism to release updates for security advisories and functional issues.
   - ucode-amd=20230724-150500.3.9.1
-  - ucode-intel=20231114-150200.35.1
+  - ucode-intel=20240312-150200.38.1

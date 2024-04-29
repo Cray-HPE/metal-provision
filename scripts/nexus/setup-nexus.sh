@@ -2,7 +2,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -737,30 +737,12 @@ function nexus-upload-docker-images() {
     {
     load-install-deps
     # Upload images
-    skopeo-sync-with-retry "${CSM_PATH}/docker"
+    skopeo-sync "${CSM_PATH}/docker"
     to_return=$?
     clean-install-deps
     } >/var/log/setup-nexus-docker.log 2>&1
     echo 'Done - Logs available at /var/log/setup-nexus-docker.log'
     return $to_return
-}
-
-function skopeo-sync-with-retry() {
-    local src="$1"
-
-    [[ -d "$src" ]] || return 0
-    declare -a podman_run_flags=(--network host)
-    nexus-setdefault-credential
-    # Note: Have to default NEXUS_USERNAME below since
-    # nexus-setdefault-credential returns immediately if NEXUS_PASSWORD is set.
-    # retries 10 times, takes approx. 15 minutes for all retries
-    podman run --rm "${podman_run_flags[@]}" \
-        -v "$(realpath "$src"):/image:ro" \
-        "$SKOPEO_IMAGE" \
-        sync --scoped --retry-times 10 --src dir --dest docker \
-        --dest-creds "${NEXUS_USERNAME:-admin}:${NEXUS_PASSWORD}" \
-        --dest-tls-verify=false \
-        /image "$NEXUS_REGISTRY"
 }
 
 # If no overrides are set, fetch the credentials.

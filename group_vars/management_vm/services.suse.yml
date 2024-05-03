@@ -30,6 +30,9 @@ services:
     name: conman.service
     state: stopped
   - enabled: false
+    name: crucible-update.service
+    state: stopped
+  - enabled: false
     name: dnsmasq.service
     state: stopped
   - enabled: true

@@ -87,3 +87,36 @@
   loop: "{{ network_manager_hypervisor_networks.interfaces.vlans }}"
   notify:
     - 'network_manager : Restart NetworkManager'
+
+# requires: HTTPS_PROXY=http://10.79.90.46:443 ansible-galaxy collection install community.libvirt
+# requires: HTTPS_PROXY=http://10.79.90.46:443 pip --proxy http://10.79.90.46:443 install libvirt-python lxml
+- name: Gather facts about networks
+  community.libvirt.virt_net:
+    state: present
+    name: isolated
+    uri: qemu+ssh://hypervisor.local/system
+  delegate_to: localhost
+  run_once: true
+  ignore_errors: true
+  register: isolated_network_exists
+
+- name: Get name of management VM's bridge interface
+  community.libvirt.virt_net:
+    command: info
+    uri: qemu+ssh://hypervisor.local/system
+  delegate_to: localhost
+  register: virt_nets
+  run_once: true
+  when: not isolated_network_exists.failed
+
+- name: Configure DNS on the local hypervisor
+  community.general.nmcli:
+    state: present
+    conn_name: "{{ virt_nets.networks.isolated.bridge }}"
+    dns4: "{{ virt_nets.networks.isolated.dhcp_leases | selectattr('iface', 'match', virt_nets.networks.isolated.bridge) | map(attribute='ipaddr') | list }}"
+    dns4_search:
+      - mtl
+  run_once: true
+  when: not isolated_network_exists.failed
+  notify:
+    - 'network_manager : Restart NetworkManager'

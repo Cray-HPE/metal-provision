@@ -29,3 +29,6 @@ services:
   - enabled: true
     name: ssh-import-id.service
     state: stopped
+  - enabled: true
+    name: crucible-update.service
+    state: stopped

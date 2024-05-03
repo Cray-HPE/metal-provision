@@ -26,3 +26,6 @@ services:
   - enabled: true
     name: NetworkManager.service
     state: started
+  - enabled: false
+    name: crucible-update.service
+    state: stopped

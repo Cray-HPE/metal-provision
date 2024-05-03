@@ -120,3 +120,23 @@
   when: not isolated_network_exists.failed
   notify:
     - 'network_manager : Restart NetworkManager'
+
+- name: Configure DNS overrides on the local hypervisor
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: "^{{ virt_nets.networks.isolated.dhcp_leases | selectattr('iface', 'match', virt_nets.networks.isolated.bridge)\
+            | map(attribute='ipaddr') | list | first }} {{ item }}.mtl {{ item }}"
+    line: "{{ virt_nets.networks.isolated.dhcp_leases | selectattr('iface', 'match', virt_nets.networks.isolated.bridge)\
+          | map(attribute='ipaddr') | list | first }} {{ item }}.mtl {{ item }}"
+  run_once: true
+  when: not isolated_network_exists.failed
+  loop: "{{ network_manager_local_hypervisor_aliases }}"
+
+- name: Remove old DNS overrides on the local hypervisor
+  ansible.builtin.lineinfile:
+    state: absent
+    path: /etc/hosts
+    regexp: "^{{ virt_nets.networks.isolated.dhcp_leases | selectattr('iface', 'match', virt_nets.networks.isolated.bridge)\
+            | map(attribute='ipaddr') | list | first }} {{ item }}.mtl {{ item }}"
+  when: isolated_network_exists.failed
+  loop: "{{ network_manager_local_hypervisor_aliases }}"

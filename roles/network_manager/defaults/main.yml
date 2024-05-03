@@ -31,3 +31,8 @@ network_manager_hypervisor_networks:
   interfaces:
     bonds:
     vlans:
+network_manager_local_hypervisor_aliases:
+  - bootserver
+  - fawkes
+  - packages
+  - registry

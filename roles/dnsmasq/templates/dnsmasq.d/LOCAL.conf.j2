@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -21,27 +21,6 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
----
-- name: Initialize tftp/http boot directory
-  ansible.builtin.file:
-    path: "{{ web_root }}/boot"
-    state: directory
-    mode: '0755'
-    owner: dnsmasq
-    group: tftp
 
-- name: DNSMasq templates
-  ansible.builtin.template:
-    mode: '0644'
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-  loop:
-    - {src: dnsmasq.conf.j2, dest: /etc/dnsmasq.conf }
-    - {src: dnsmasq.d/LOCAL.conf.j2, dest: /etc/dnsmasq.d/LOCAL.conf }
-    - {src: dnsmasq.d/boot.conf.j2, dest: /etc/dnsmasq.d/boot.conf }
-    - {src: dnsmasq.d/MTL.conf.j2, dest: /etc/dnsmasq.d/MTL.conf }
-  notify:
-    - 'dnsmasq : Restart dnsmasq'
-
-- name: Restart daemons
-  ansible.builtin.meta: flush_handlers
+# Local:
+interface={{ dnsmasq_interface_tun }}

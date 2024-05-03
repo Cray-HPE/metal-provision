@@ -34,5 +34,6 @@ dnsmasq_dhcp:
       min: 10
       max: 300
 
+dnsmasq_interface_tun: eth0
 dnsmasq_interface_mtl: eth1
 dnsmasq_interface_ext: eth2

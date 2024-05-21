@@ -32,3 +32,6 @@ services:
   - enabled: true
     name: crucible-update.service
     state: stopped
+  - enabled: false
+    name: goss-servers.service
+    state: stopped

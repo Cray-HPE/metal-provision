@@ -30,7 +30,7 @@ packages:
   # rationale: Free range routing.
   - frr=8.4-150500.4.15.1
   # rationale: Necessary for running goss tests
-  - goss-servers=1.17.26-1
+  - goss-servers=1.17.27-1
   # rationale: Necessary for Mercury software proof-of-concepts.
   - libguestfs0=1.48.6-150500.3.8.1
   # rationale: Necessary for Mercury software proof-of-concepts.

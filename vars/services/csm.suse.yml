@@ -29,6 +29,9 @@ services:
   - enabled: false
     name: csm-node-identity.service
     state: stopped
+  - enabled: true
+    name: goss-servers.service
+    state: stopped
   - enabled: false
     name: spire-agent.service
     state: stopped

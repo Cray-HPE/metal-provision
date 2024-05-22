@@ -23,6 +23,8 @@
 #
 ---
 packages_aarch64:
+  # rationale: Required for running goss tests on aarch64
+  - goss=0.3.18-bp155.1.10
   # rationale: A dependency of SLES's GRUB package.
   - grub2-branding-SLE=15-150400.38.3.1
   # rationale: A dependency needed for the x86_64 EFI GRUB boot loader.

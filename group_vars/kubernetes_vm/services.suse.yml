@@ -23,6 +23,9 @@
 #
 ---
 services:
+  - enabled: false
+    name: goss-servers.service
+    state: stopped
   - enabled: true
     name: wicked.service
     state: started

@@ -32,7 +32,7 @@ packages:
   - gnu_parallel=20230122-bp155.1.5
   - gnu_parallel-bash-completion=20230122-bp155.1.5
   - gnu_parallel-zsh-completion=20230122-bp155.1.5
-  - goss-servers=1.17.26-1
+  - goss-servers=1.17.28-1
   - gru=0.0.5-1
   - libcontainers-common=20230214-150500.4.6.1
   - metal-init=1.4.8-1

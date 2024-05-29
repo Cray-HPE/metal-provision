@@ -147,7 +147,7 @@ packages:
   # rationale: Necessary for triaging and debugging packet routes.
   - traceroute=2.0.21-150000.3.3.1
   # rationale: Provides `lsblk` and other useful block device tools.
-  - util-linux-systemd=2.37.4-150500.9.6.1
+  - util-linux-systemd=2.37.4-150500.9.11.1
   # rationale: Necessary for viewing, dumping, and inspecting USB devices.
   - usbutils=014-3.3.1
   # rationale: Necessary for resolving where an application is actually running from.

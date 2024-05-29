@@ -28,7 +28,7 @@ packages:
   # rationale: Application for facilitating configuring a hypervisor node.
   - crucible=0.0.19-1
   # rationale: Free range routing.
-  - frr=8.4-150500.4.15.1
+  - frr=8.4-150500.4.20.1
   # rationale: Necessary for running goss tests
   - goss-servers=1.17.29-1
   # rationale: Necessary for Mercury software proof-of-concepts.

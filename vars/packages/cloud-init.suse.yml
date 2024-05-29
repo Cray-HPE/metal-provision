@@ -23,6 +23,7 @@
 #
 ---
 packages:
-  - cloud-init-config-suse=23.3-150100.8.74.7
-  - cloud-init=23.3-150100.8.74.7
+  - cloud-init-config-suse=23.3.3-1
+  - cloud-init=23.3.3-1
   - supportutils-plugin-cloud-init=1.1-150400.1.5
+

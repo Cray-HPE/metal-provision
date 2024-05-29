@@ -33,7 +33,7 @@ packages:
   # rationale: provides /sbin/mkinitrd
   - dracut-mkinitrd-deprecated=055+suse.382.g80b55af2-150500.3.18.1
   # rationale: Needed for Ansible (already installed in base, pinned here for RMT lag).
-  - glibc-locale-base=2.31-150300.71.1
+  - glibc-locale-base=2.31-150300.74.1
   # rationale: Required by kdump
   - hostname=3.16-2.22
   # rationale: Necessary for viewing and managing routing tables.
@@ -55,7 +55,7 @@ packages:
   # rationale: Necessary for TPM2.
   - tpm2.0-abrmd=2.4.0-150400.1.6
   # rationale: Necessary for TPM2.
-  - tpm2.0-tools=5.2-150400.4.6
+  - tpm2.0-tools=5.2-150400.6.3.1
   # rationale: Necessary for hardware interfaces.
   - udev=249.17-150400.8.40.1
   # rationale: Necessary for fetching recovery items
@@ -106,7 +106,7 @@ packages:
   # rationale: Desired for easy viewing of kernel modules.
   - kmod-bash-completion=29-4.15.1
   # rationale: Desired for easy viewing of files.
-  - less=590-150400.3.6.2
+  - less=590-150400.3.9.1
   # rationale: Desired for easy navigation of NVME devices in bourne again shell (BASH).
   - nvme-cli-bash-completion=2.4+32.g2e2531a-150500.4.15.3
   # rationale: Desired for easy navigation of NVME devices in Zshell.
@@ -127,13 +127,13 @@ packages:
   # rationale: Necessary for link layer discovery protocol (LLDP) during early startup.
   - open-lldp=1.1+77.75e83b6-150500.3.3.1
   # rationale: Dependency of openssh, pinned to prevent Zypper conflicts with pre-existing openssh-clients.
-  - openssh-clients=8.4p1-150300.3.30.1
+  - openssh-clients=8.4p1-150300.3.37.1
   # rationale: Dependency of openssh, pinned to prevent Zypper conflicts with pre-existing openssh-common.
-  - openssh-common=8.4p1-150300.3.30.1
+  - openssh-common=8.4p1-150300.3.37.1
   # rationale: Dependency of openssh, pinned to prevent Zypper conflicts with pre-existing openssh-server.
-  - openssh-server=8.4p1-150300.3.30.1
+  - openssh-server=8.4p1-150300.3.37.1
   # rationale: Necessary for incoming and outgoing secure shells.
-  - openssh=8.4p1-150300.3.30.1
+  - openssh=8.4p1-150300.3.37.1
   # rationale: Necessary for viewing, dumping, and inspecting PCI devices.
   - pciutils=3.5.6-150300.13.6.1
   # rationale: Necessary for efficient file transfers.

@@ -24,4 +24,4 @@
 ---
 packages_x86_64:
   # rationale: Necessary for interacting with Agentless Management Service (iLO)
-  - amsd=3.4.0-1790.3.sles15
+  - amsd=3.5.0-1803.47.sles15

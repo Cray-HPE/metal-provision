@@ -23,20 +23,20 @@
 #
 ---
 packages:
-  - java-11-openjdk-devel=11.0.22.0-150000.3.110.1
+  - java-11-openjdk-devel=11.0.23.0-150000.3.113.1
   # CSM Team
   - acpid=2.0.31-2.1
   - csm-auth-utils=1.0.0-1
   - csm-node-heartbeat=2.6-1
   # CMS Team
-  - bos-reporter=2.17.7-1
+  - bos-reporter=2.18.0-1
   - cfs-state-reporter=1.11.0-1
   - cfs-trust=1.7.0-1
   # CDST GUI Packages
   - libGLU1=9.0.0-8.45
   - libatk-1_0-0=2.36.0-150400.2.9
-  - libcairo-gobject2=1.16.0-150400.9.6
-  - libcairo2=1.16.0-150400.9.6
+  - libcairo-gobject2=1.16.0-150400.11.3.1
+  - libcairo2=1.16.0-150400.11.3.1
   - libgcrypt20=1.9.4-150500.10.19
   - libgdk_pixbuf-2_0-0=2.42.9-150400.5.6.1
   - libgio-2_0-0=2.70.5-150400.3.8.1

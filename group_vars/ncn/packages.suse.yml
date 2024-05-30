@@ -24,7 +24,7 @@
 ---
 packages:
   - apparmor-profiles=3.0.4-150500.11.9.1
-  - aws-cli=1.32.31-150400.35.3.1
+  - aws-cli=1.27.89-150200.30.11.1
   - ceph-common<17.2.7
   - conman=0.3.1-150500.1.2
   - cpupower=5.14-150500.9.3.1

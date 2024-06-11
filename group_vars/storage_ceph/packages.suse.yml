@@ -24,6 +24,6 @@
 ---
 packages:
   - cephadm<17.2.7
-  - golang-github-prometheus-node_exporter=1.5.0-150100.3.26.2
+  - golang-github-prometheus-node_exporter=1.7.0-150100.3.29.1
   - libfmt8=8.0.1-150400.1.8
   - smart-mon=1.0.3-1

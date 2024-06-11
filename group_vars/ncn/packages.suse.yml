@@ -52,7 +52,7 @@ packages:
   - pdsh=2.35-150500.46.3.1
   - pdsh-dshgroup=2.35-150500.46.3.1
   - podman-cni-config=4.4.4-150500.1.4
-  - podman=4.8.3-150500.3.9.1
+  - podman=4.4.4-150500.1.4
   - rarpd=20211215-150400.3.8.2
   - rasdaemon=0.6.7.18.git+7ccf12f-150400.4.3.1
   - rollback-helper=1.0+git20181218.5394d6e-4.3.1

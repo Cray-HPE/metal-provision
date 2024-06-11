@@ -289,7 +289,7 @@ function update-package-versions() {
                     echo "Packages file updated"
                 fi
             else
-                echo "WARNING: ${package} isn't pinned to a specific version with '=', skipping update"
+                echo >&2 "WARNING: ${package} isn't pinned to a specific version with '=', skipping update"
             fi
         elif [[ $output_diffs_only != "true" ]]; then
             echo "Version already up to date"

@@ -33,7 +33,7 @@ packages:
   # rationale: provides /sbin/mkinitrd
   - dracut-mkinitrd-deprecated=055+suse.382.g80b55af2-150500.3.18.1
   # rationale: Needed for Ansible (already installed in base, pinned here for RMT lag).
-  - glibc-locale-base=2.31-150300.74.1
+  - glibc-locale-base=2.31-150300.83.1
   # rationale: Required by kdump
   - hostname=3.16-2.22
   # rationale: Necessary for viewing and managing routing tables.
@@ -117,7 +117,7 @@ packages:
   # rationale: Desired for easy usage of ip commands.
   - iproute2-bash-completion=5.14-150400.1.8
   # rationale: Desired for basic IPv4 and IPv6 probing (provides ping).
-  - iputils=20221126-150500.1.1
+  - iputils=20221126-150500.3.5.3
   # rationale: Desired for viewing and dumping small computer system interface (SCSI) devices.
   - lsscsi=0.28-1.24
   # rationale: Necessary for openscap.

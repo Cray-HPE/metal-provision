@@ -280,12 +280,16 @@ function update-package-versions() {
         fi
 
         if [[ "$current_version" != "$latest_version" && $output_diffs_only != "true" ]]; then
-            if [[ "$auto_yes" != "true" ]]; then
-                read -rp "Update package lock version (y/N)?" answer
-            fi
-            if [[ "$auto_yes" == "true" || "$answer" == "y" ]]; then
-                update-package-version $packages_path $package $current_version $latest_version
-                echo "Packages file updated"
+            if grep -q "$package=$current_version" "$packages_path"; then
+                if [[ "$auto_yes" != "true" ]]; then
+                    read -rp "Update package lock version (y/N)?" answer
+                fi
+                if [[ "$auto_yes" == "true" || "$answer" == "y" ]]; then
+                    update-package-version $packages_path $package $current_version $latest_version
+                    echo "Packages file updated"
+                fi
+            else
+                echo >&2 "WARNING: ${package} isn't pinned to a specific version with '=', skipping update"
             fi
         elif [[ $output_diffs_only != "true" ]]; then
             echo "Version already up to date"

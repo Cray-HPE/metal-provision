@@ -24,7 +24,7 @@
 ---
 packages:
   - aardvark-dns=1.10.0-150500.3.3.1
-  - apache2=2.4.51-150400.6.14.1
+  - apache2=2.4.51-150400.6.17.1
   - apparmor-profiles=3.0.4-150500.11.9.1
   - crucible=0.0.19-1
   - dnsmasq=2.86-150400.14.3
@@ -34,7 +34,7 @@ packages:
   - gnu_parallel-zsh-completion=20230122-bp155.1.5
   - goss-servers=1.17.29-1
   - gru=0.0.5-1
-  - libcontainers-common=20230214-150500.4.6.1
+  - libcontainers-common=20240206-150500.4.9.2
   - metal-init=1.4.9-1
   - metal-ipxe=2.5.1-1
   - netavark=1.10.2-150500.3.3.3

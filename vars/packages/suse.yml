@@ -30,6 +30,8 @@ packages:
   - curl=8.0.1-150400.5.32.1
   # rationale: Necessary for network time protocol (NTP).
   - chrony=4.1-150400.19.4
+  # rationale: Necessary for running dracut modules
+  - dracut=055+suse.375.g1167ed75-150500.3.15.1
   # rationale: provides /sbin/mkinitrd
   - dracut-mkinitrd-deprecated=055+suse.375.g1167ed75-150500.3.15.1
   # rationale: Needed for Ansible (already installed in base, pinned here for RMT lag).

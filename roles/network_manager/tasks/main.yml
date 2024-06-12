@@ -42,7 +42,7 @@
     miimon: '{{ item.miimon | default(network_manager_default_bond_miimon) }}'
     runner_fast_rate: '{{ item.runner_fast_rate | default(network_manager_default_bond_runner_fast_rate) }}'
     xmit_hash_policy: '{{ item.xmit_hash_policy | default(network_manager_default_bond_xmit_hash_policy) }}'
-    method4: "{{ item.method4 | default('disabled') }}"
+    method4: "{{ item.method4 | default('auto') }}"
     method6: "{{ item.method6 | default('disabled') }}"
     state: present
   loop: "{{ network_manager_hypervisor_networks.interfaces.bonds }}"

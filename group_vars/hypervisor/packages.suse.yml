@@ -26,7 +26,7 @@ packages:
   # rationale: Security.
   - apparmor-profiles=3.0.4-150500.11.9.1
   # rationale: Application for facilitating configuring a hypervisor node.
-  - crucible=0.0.19-1
+  - crucible=0.0.20-1
   # rationale: Free range routing.
   - frr=8.4-150500.4.20.1
   # rationale: Necessary for running goss tests

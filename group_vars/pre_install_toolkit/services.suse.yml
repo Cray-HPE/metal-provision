@@ -32,3 +32,12 @@ services:
   - enabled: false
     name: spire-agent
     state: stopped
+  - enabled: true
+    name: dnsmasq
+    state: stopped
+  - enabled: true
+    name: apache2
+    state: stopped
+  - enabled: true
+    name: nexus
+    state: stopped

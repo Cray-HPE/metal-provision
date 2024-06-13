@@ -26,5 +26,4 @@
   hosts: storage_ceph
   become: true # Enable builds that do not login as root to escalate privilege.
   roles:
-    - packages
     - services

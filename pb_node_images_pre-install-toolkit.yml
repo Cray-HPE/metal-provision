@@ -26,5 +26,7 @@
   hosts: pre_install_toolkit
   become: true # Enable builds that do not login as root to escalate privilege.
   roles:
-    - node_images_pre_install_toolkit
-    - services
+    - role: packages
+      when: install_packages | default('true') == 'true'
+    - role: node_images_pre_install_toolkit
+    - role: services

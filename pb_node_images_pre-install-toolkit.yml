@@ -25,12 +25,7 @@
 - name: Node Images PIT
   hosts: pre_install_toolkit
   become: true # Enable builds that do not login as root to escalate privilege.
-  tasks:
-    - name: Debug
-      debug:
-        var: install_packages
   roles:
     - role: packages
-      when: install_packages | default('true') == 'true'
     - role: node_images_pre_install_toolkit
     - role: services

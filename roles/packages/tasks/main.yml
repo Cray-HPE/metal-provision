@@ -23,7 +23,9 @@
 #
 ---
 - name: Debian Packages
-  when: ansible_distribution_file_variety == "Debian"
+  when: >
+    ansible_distribution_file_variety == "Debian" and
+    install_packages | default('true') == 'true'
   block:
 
     - name: (APT) Install packages
@@ -41,7 +43,9 @@
         install_recommends: false
 
 - name: RHEL Packages
-  when: ansible_distribution_file_variety == "RedHat"
+  when: >
+    ansible_distribution_file_variety == "RedHat" and
+    install_packages | default('true') == 'true'
   block:
 
     - name: (YUM) Install packages
@@ -59,7 +63,9 @@
         update_cache: false
 
 - name: SUSE Packages
-  when: ansible_distribution_file_variety == "SUSE"
+  when: >
+    ansible_distribution_file_variety == "SUSE" and
+    install_packages | default('true') == 'true'
   block:
   # NOTE: Never set force_resolution to true, always inspect the error(s). Usually a package is obsoleting another, and one can be removed from our lists.
 

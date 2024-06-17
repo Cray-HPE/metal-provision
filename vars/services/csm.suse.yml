@@ -31,7 +31,7 @@ services:
     state: stopped
   - enabled: true
     name: goss-servers.service
-    state: stopped
+    state: started
   - enabled: false
     name: spire-agent.service
     state: stopped

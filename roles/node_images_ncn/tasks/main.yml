@@ -112,3 +112,14 @@
     path: /etc/profile.d/cray.sh
     regexp: '^export PYTHONPATH='
     line: 'export PYTHONPATH="/srv/cray/utilities/common"'
+
+- name: Do not log commands executed with sudo
+  ansible.builtin.lineinfile:
+    line: "{{ item }}"
+    state: present
+    insertafter: EOF
+    path: /etc/sudoers
+    validate: 'visudo -cf %s'
+  loop:
+    - "Defaults syslog_badpri=none"
+    - "Defaults syslog_goodpri=none"

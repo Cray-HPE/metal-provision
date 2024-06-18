@@ -35,6 +35,9 @@ file:
   /var/adm/autoinstall/cache:
     exists: false
 command:
+  no_artifactory_credentials:
+    exit-status: 1
+    exec: "grep -i 'ARTIFACTORY_' /var/log/messages"
   no_root_password:
     exit-status: 0
     exec: "grep root /etc/shadow"

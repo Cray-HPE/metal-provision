@@ -29,7 +29,7 @@ packages:
   - wol=0.7.1-2.5
   # CSM
   - canu=1.8.1-1
-  - cray-site-init=1.33.1-1
+  - cray-site-init=1.33.2-1
   - ilorest=4.2.0.0-20
   - metal-basecamp=1.2.7-1
   - metal-ipxe=2.4.8-1

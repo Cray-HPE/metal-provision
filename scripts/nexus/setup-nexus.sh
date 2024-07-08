@@ -38,6 +38,8 @@ DEFAULT_NEXUS_REGISTRY_PORT="${DEFAULT_NEXUS_REGISTRY#*:}"
 DEFAULT_NEXUS_USERNAME='admin'
 DEFAULT_NEXUS_PASSWORD='admin123'
 
+KUBERNETES_NEXUS_CREDENTIAL_SECRET_NAME="${KUBERNETES_NEXUS_CREDENTIAL_SECRET_NAME:-nexus-admin-credential}"
+
 function usage {
 
 cat << EOF
@@ -330,7 +332,7 @@ function nexus-get-credential() {
       return 1
     fi
 
-    [[ $# -gt 0 ]] || set -- -n nexus nexus-admin-credential
+    [[ $# -gt 0 ]] || set -- -n nexus "$KUBERNETES_NEXUS_CREDENTIAL_SECRET_NAME"
 
     kubectl get secret "${@}" >/dev/null || return $?
 
@@ -796,11 +798,13 @@ function nexus-upload-docker-images() {
 }
 
 # If no overrides are set, fetch the credentials.
-if [ -z "${NEXUS_USERNAME:-}" ] && [ -z "${NEXUS_PASSWORD:-}" ]; then
+if [ -z "${NEXUS_USERNAME:-}" ] || [ -z "${NEXUS_PASSWORD:-}" ]; then
     if ! nexus-get-credential; then
         echo >&2 'Unable to resolve NEXUS_USERNAME and NEXUS_PASSWORD from Kubernetes secret, assuming default ..'
         NEXUS_USERNAME="$DEFAULT_NEXUS_USERNAME"
         NEXUS_PASSWORD="$DEFAULT_NEXUS_PASSWORD"
+    else
+        echo "Successfully resolved NEXUS_USERNAME and NEXUS_PASSWORD from Kubernetes secret: $KUBERNETES_NEXUS_CREDENTIAL_SECRET_NAME"
     fi
 fi
 

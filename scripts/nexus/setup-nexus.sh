@@ -163,13 +163,36 @@ function nexus-reset() {
         fi
         mapfile -t repos < <(remove-comments-and-empty-lines "${repo_file}" | awk '{print $1","$2}')
         for repo in "${repos[@]}"; do
-            name="$(echo "${repo}" | awk -F, '{print $NF}')"
-            curl \
+            repo_name="$(echo "${repo}" | awk -F, '{print $NF}')"
+            exists="$(
+            if ! curl \
+            -f \
             -L \
             -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
-            --request DELETE \
-            "${NEXUS_URL}/service/rest/v1/repositories/${name}"
-            zypper rr ${name} || echo 'Zypper already clean'
+            "${NEXUS_URL}/service/rest/v1/repositories" \
+            -s \
+            --header "Content-type: application/json" \
+            | jq -r '.[] | select(.name=="'"${repo_name}"'")'; then
+                echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+                return 1
+            fi)"
+            if [ -z "$exists" ] || [ "$exists" = '' ]; then
+                echo "$repo_name does not exist ... skipping "
+                continue
+            else
+                echo -n "Deleting repo '$repo_name' ... "
+                if ! curl \
+                -f \
+                -L \
+                -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+                --request DELETE \
+                "${NEXUS_URL}/service/rest/v1/repositories/${repo_name}"; then
+                    echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+                else
+                    echo 'Done'
+                fi
+            fi
+            zypper rr "${repo_name}"
         done
     done
 }
@@ -219,14 +242,18 @@ function nexus-proxy() {
 	        name="$(echo $name | sed -e 's/${releasever_major}/'"${sle_major}"'/' -e 's/${releasever_minor}/'"${sle_minor}"'/' -e 's/${basearch}/'"${basearch}"'/' -e 's/${releasever}/'"${sle_version}"'/')"
 	        url="$(echo $url | sed -e 's/${releasever_major}/'"${sle_major}"'/' -e 's/${releasever_minor}/'"${sle_minor}"'/' -e 's/${basearch}/'"${basearch}"'/' -e 's/${releasever}/'"${sle_version}"'/')"
             echo $name $url
-            curl \
+            if ! curl \
+            -f \
             -L \
             -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
            "${NEXUS_URL}/service/rest/v1/repositories/yum/proxy" \
            --header "Content-Type: application/json" \
            --request POST \
            --data-binary \
-           @- << EOF
+           @-; then
+               echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+               return 1
+           fi << EOF
 {
   "name": "$name",
   "online": true,
@@ -419,14 +446,20 @@ function nexus-create-repo() {
     local repo_type="${2:-}"
 
 
-    exists="$(curl \
+    exists="$(
+    if ! curl \
+    -f \
     -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/service/rest/v1/repositories" \
     -s \
     --header "Content-type: application/json" \
-    | jq -r '.[] | select(.name=="'"${repo_name}"'")')"
-    if [ -z "$exists" ]; then
+    | jq -r '.[] | select(.name=="'"${repo_name}"'")'; then
+        echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+        return 1
+    fi
+    )"
+    if [ -z "$exists" ] || [ "$exists" = '' ]; then
         echo -n "Creating repo '$repo_name' ... "
         method=POST
     else
@@ -436,14 +469,20 @@ function nexus-create-repo() {
 
     "nexus-create-repo-${repo_type}" "${repo_name}" "${method}"
 
-    exists="$(curl \
+    exists="$(
+    if ! curl \
+    -f \
     -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/service/rest/v1/repositories" \
     -s \
     --header "Content-type: application/json" \
-    | jq -r '.[] | select(.name=="'"${repo_name}"'")')"
-    if [ -z "$exists" ]; then
+    | jq -r '.[] | select(.name=="'"${repo_name}"'")'; then
+        echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+        return 1
+    fi
+    )"
+    if [ -z "$exists" ] || [ "$exists" = '' ]; then
         echo >&2 "Error! The repository ${repo_name} failed to create! Please double-check the running nexus instance's health."
         error=1
     fi
@@ -614,13 +653,18 @@ function nexus-create-repo-group-yum() {
     local repo_group_name="${1:-}"
     shift
     local repo_names="$*"
-    exists="$(curl \
+    exists="$(
+    if ! curl \
     -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/service/rest/v1/repositories" \
     -s \
     --header "Content-type: application/json" \
-    | jq '.[] | select(.name=="'"${repo_group_name}"'")')"
+    | jq '.[] | select(.name=="'"${repo_group_name}"'")'; then
+        echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+        return 1
+    fi
+    )"
     if [ -z "$exists" ]; then
         echo -n "Creating repo group '$repo_group_name' with: $repo_names ... "
         method=POST
@@ -654,14 +698,20 @@ function nexus-create-repo-group-yum() {
      }
    }
 EOF
-    exists="$(curl \
+    exists="$(
+    if ! curl \
+    -f \
     -L \
     -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
     "${NEXUS_URL}/service/rest/v1/repositories" \
     -s \
     --header "Content-type: application/json" \
-    | jq '.[] | select(.name=="'"${repo_name}"'")')"
-    if [ -z "$exists" ]; then
+    | jq '.[] | select(.name=="'"${repo_name}"'")'; then
+        echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+        return 1
+    fi
+    )"
+    if [ -z "$exists" ] || [ "$exists" = '' ]; then
         echo >&2 "Error! The repository ${repo_group_name} failed to create! Please double-check the running nexus instance's health."
         error=1
     fi

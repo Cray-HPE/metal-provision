@@ -194,7 +194,7 @@ function nexus-reset() {
                     echo 'Done'
                 fi
             fi
-            zypper rr "${repo_name}"
+            zypper rr "${repo_name}" >/dev/null 2>&1 || echo "$repo_name is not defined for Zypper. Nothing to remove."
         done
     done
 }
@@ -215,7 +215,7 @@ function zypper-reset() {
         mapfile -t repos < <(remove-comments-and-empty-lines "${repo_file}" | awk '{print $1","$2}')
         for repo in "${repos[@]}"; do
             name="$(echo ${repo} | awk -F, '{print $NF}')"
-            zypper rr "${name}"
+            zypper rr "${name}" >/dev/null 2>&1 || echo "$name is not defined for Zypper. Nothing to remove."
         done
     done
 }
@@ -324,11 +324,11 @@ function setup-zypper-nexus() {
 function nexus-get-credential() {
 
     if ! command -v kubectl 1>&2 >/dev/null; then
-      echo "Requires kubectl for auto-fetching credentials from Kubernetes secrets."
+      echo >&2 "Requires kubectl for auto-fetching credentials from Kubernetes secrets."
       return 1
     fi
     if ! command -v base64 1>&2 >/dev/null ; then
-      echo "Requires base64 for decoding credentials from Kubernetes secrets."
+      echo >&2 "Requires base64 for decoding credentials from Kubernetes secrets."
       return 1
     fi
 

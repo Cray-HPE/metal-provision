@@ -716,11 +716,12 @@ function nexus-create-repo-group-yum() {
      },
      "group": {
        "memberNames": [
-         "$(echo $repo_names | sed 's/ /,/')"
+         "${repo_names// /,}"
        ]
      }
    }
 EOF
+
     exists="$(
     if ! curl \
     -f \

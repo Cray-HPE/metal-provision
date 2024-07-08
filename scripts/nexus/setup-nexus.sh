@@ -491,7 +491,7 @@ function nexus-create-repo() {
     return "$error"
 }
 
-nexus-create-repo-docker() {
+function nexus-create-repo-docker() {
     local error=0
     local repo_name="${1:-}"
     local method="${2:-POST}"
@@ -546,7 +546,7 @@ EOF
     return "$error"
 }
 
-nexus-create-repo-raw() {
+function nexus-create-repo-raw() {
     local error=0
     local repo_name="${1:-}"
     local method="${2:-POST}"
@@ -596,7 +596,7 @@ EOF
     return "$error"
 }
 
-nexus-create-repo-yum() {
+function nexus-create-repo-yum() {
     local error=0
     local repo_name="${1:-}"
     local method="${2-POST}"

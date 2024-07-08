@@ -152,6 +152,10 @@ fi
 
 function nexus-reset() {
 
+    local exists
+    local repo_name
+    local repos
+
     . "${WORKING_DIR}/../rpm-functions.sh"
     list-google-repos-files
     list-hpe-repos-files
@@ -201,6 +205,8 @@ function nexus-reset() {
 
 function zypper-reset() {
 
+    local repo_name
+
     . "${WORKING_DIR}/../rpm-functions.sh"
     list-google-repos-files
     list-hpe-repos-files
@@ -214,13 +220,22 @@ function zypper-reset() {
         fi
         mapfile -t repos < <(remove-comments-and-empty-lines "${repo_file}" | awk '{print $1","$2}')
         for repo in "${repos[@]}"; do
-            name="$(echo ${repo} | awk -F, '{print $NF}')"
-            zypper rr "${name}" >/dev/null 2>&1 || echo "$name is not defined for Zypper. Nothing to remove."
+            repo_name="$(echo "${repo}" | awk -F, '{print $NF}')"
+            zypper rr "${repo_name}" >/dev/null 2>&1 || echo "$repo_name is not defined for Zypper. Nothing to remove."
         done
     done
 }
 
 function nexus-proxy() {
+
+    local basearch
+    local sle_version
+    local sle_major
+    local sle_minor
+    local repo_url
+    local repo_name
+    local repo_flags
+
 
     . "${WORKING_DIR}/../rpm-functions.sh"
     list-google-repos-files
@@ -239,11 +254,11 @@ function nexus-proxy() {
             continue
         fi
 	remove-comments-and-empty-lines "$repo_file" | \
-	while read -r url name flags; do
-            url="$(echo ${url} | sed 's/'"${ARTIFACTORY_USER}"':'"${ARTIFACTORY_TOKEN}"'@//' | awk -F, '{print $1}')"
-	        name="$(echo $name | sed -e 's/${releasever_major}/'"${sle_major}"'/' -e 's/${releasever_minor}/'"${sle_minor}"'/' -e 's/${basearch}/'"${basearch}"'/' -e 's/${releasever}/'"${sle_version}"'/')"
-	        url="$(echo $url | sed -e 's/${releasever_major}/'"${sle_major}"'/' -e 's/${releasever_minor}/'"${sle_minor}"'/' -e 's/${basearch}/'"${basearch}"'/' -e 's/${releasever}/'"${sle_version}"'/')"
-            echo $name $url
+	while read -r repo_url repo_name repo_flags; do
+            repo_url="$(echo "$repo_url" | sed 's/'"${ARTIFACTORY_USER}"':'"${ARTIFACTORY_TOKEN}"'@//' | awk -F, '{print $1}')"
+	        repo_name="$(echo "$repo_name" | sed -e 's/${releasever_major}/'"${sle_major}"'/' -e 's/${releasever_minor}/'"${sle_minor}"'/' -e 's/${basearch}/'"${basearch}"'/' -e 's/${releasever}/'"${sle_version}"'/')"
+	        repo_url="$(echo "$repo_url" | sed -e 's/${releasever_major}/'"${sle_major}"'/' -e 's/${releasever_minor}/'"${sle_minor}"'/' -e 's/${basearch}/'"${basearch}"'/' -e 's/${releasever}/'"${sle_version}"'/')"
+            echo $repo_name $repo_url
             if ! curl \
             -f \
             -L \
@@ -257,14 +272,14 @@ function nexus-proxy() {
                return 1
            fi << EOF
 {
-  "name": "$name",
+  "name": "$repo_name",
   "online": true,
   "storage": {
     "blobStoreName": "default",
     "strictContentTypeValidation": true
   },
   "proxy": {
-    "remoteUrl": "$url",
+    "remoteUrl": "$repo_url",
     "contentMaxAge": 1440,
     "metadataMaxAge": 1440
   },
@@ -291,17 +306,22 @@ function nexus-proxy() {
   }
 }
 EOF
-        zypper ar $flags "${NEXUS_URL}/repository/${name}" "${name}"
+        # shellcheck disable=SC2086
+        zypper ar $repo_flags "${NEXUS_URL}/repository/${repo_name}" "${repo_name}"
 
         # FIXME: The GPG check won't work because nexus does not have the GPG keys necessary. Disable GPG check for all.
-        zypper mr --no-gpgcheck "${name}"
+        zypper mr --no-gpgcheck "${repo_name}"
         done
     done
 }
 
 function setup-zypper-nexus() {
 
-    . ${WORKING_DIR}/../rpm-functions.sh
+    local repo_url
+    local repo_name
+    local repo_flags
+
+    . "${WORKING_DIR}/../rpm-functions.sh"
     list-google-repos-files
     list-hpe-repos-files
     list-suse-repos-files
@@ -313,10 +333,11 @@ function setup-zypper-nexus() {
             continue
         fi
     	remove-comments-and-empty-lines "$repo_file" | \
-	    while read -r url name flags; do
-            url="$(echo ${repo} | sed 's/.*@//' | awk -F, '{print $1}')"
-        zypper ar $flags "${NEXUS_URL}/repository/${name}" "${name}"
-        zypper mr --no-gpgcheck "${name}"
+	    while read -r repo_url repo_name repo_flags; do
+            repo_url="$(echo "${repo_url}" | sed 's/.*@//' | awk -F, '{print $1}')"
+            # shellcheck disable=SC2086
+            zypper ar $repo_flags "${NEXUS_URL}/repository/${repo_name}" "${repo_name}"
+            zypper mr --no-gpgcheck "${repo_name}"
         done
     done
 }

@@ -35,7 +35,7 @@ packages:
   - goss-servers=1.17.29-1
   - gru=0.0.5-1
   - libcontainers-common=20240206-150500.4.9.2
-  - metal-init=1.4.9-1
+  - metal-init=1.4.10-1
   - metal-ipxe=2.5.1-1
   - netavark=1.10.2-150500.3.3.3
   - podman=4.4.4-150500.1.4

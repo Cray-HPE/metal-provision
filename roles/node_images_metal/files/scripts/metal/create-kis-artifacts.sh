@@ -88,7 +88,7 @@ fi
 if [[ "$1" != "kernel-initrd-only" ]]; then
   echo "Removing character special files from the filesystem"
   find /mnt/squashfs -type c -exec rm -f '{}' \;
-  
+
   echo "Temporarily removing UUID mounts from /etc/fstab"
   cp -pv /mnt/squashfs/etc/fstab /mnt/squashfs/etc/fstab.orig
   sed -i '/UUID=.*\/boot\/efi.*/d' /mnt/squashfs/etc/fstab

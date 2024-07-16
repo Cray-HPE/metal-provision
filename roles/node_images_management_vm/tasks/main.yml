@@ -34,17 +34,17 @@
     regexp: "^NETCONFIG_DNS_FORWARDER="
     line: 'NETCONFIG_DNS_FORWARDER="dnsmasq"'
 
-- name: Git clone terraform configuration
-  ansible.builtin.git:
-    repo: https://github.com/Cray-HPE/fawkes-terraform.git
-    dest: /srv/cray/terraform
-    version: "{{ node_images_management_vm_terraform_repo_version }}"
+#- name: Git clone terraform configuration
+#  ansible.builtin.git:
+#    repo: https://github.com/Cray-HPE/fawkes-terraform.git
+#    dest: /srv/cray/terraform
+#    version: "{{ node_images_management_vm_terraform_repo_version }}"
 
-- name: (air gap) Terraform init
-  ansible.builtin.command:
-    creates: /srv/cray/terraform/.terraform
-    chdir: /srv/cray/terraform
-    cmd: terraform init
+#- name: (air gap) Terraform init
+#  ansible.builtin.command:
+#    creates: /srv/cray/terraform/.terraform
+#    chdir: /srv/cray/terraform
+#    cmd: terraform init
 
 - name: Copy sysctl configuration
   ansible.posix.synchronize:

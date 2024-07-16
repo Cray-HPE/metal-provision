@@ -193,30 +193,6 @@ function setup_legacy_python {
     ln -s "/usr/bin/python$python_default" /usr/bin/python3 # /usr/bin/python is set by Ansible later.
 }
 
-
-# HPC metal clusters reflect their nature through the SLES HPC Release RPM.
-# The conflicting RPM needs to be removed
-# Forcing the the HPC rpm because removing sles-release auto removes dependencies
-# even with -U when installing with inventory file
-function hpc-release {
-
-echo "Etching release file"
-local restore_lock=0
-if zypper removelock kernel-default; then
-    echo '- removing zypper lock for kernel-default'
-    restore_lock=1
-fi
-
-    # Needs --force-install in order to remove suse-release if it is present.
-    # Don't PIN this, just install the latest one. If the base image already has this package, then pinning it here will
-    # cause it to be reinstalled (rather pointlessly). This package is really trivial.
-    zypper -n install --auto-agree-with-licenses --force-resolution SLE_HPC-release
-    if [ "$restore_lock" -ne 0 ]; then
-        echo '- restoring zypper lock for kernel-default'
-        zypper addlock kernel-default
-    fi
-}
-
 # Removes Zypper locks for wicked and its service programs. Needed when installing cloud-init from SUSE.
 # Cloud-init supports both Wicked and NetworkManager, but both must be installed.
 function remove_wicked_locks {

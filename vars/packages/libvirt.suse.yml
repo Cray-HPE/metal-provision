@@ -23,8 +23,8 @@
 #
 ---
 packages:
-  - libvirt-client=9.0.0-150500.6.23.1
-  - libvirt-devel=9.0.0-150500.6.23.1
-  - libvirt=9.0.0-150500.6.23.1
-  - qemu=7.1.0-150500.49.15.1
-  - qemu-ui-spice-core=7.1.0-150500.49.15.1
+  - libvirt-client=10.0.0-150600.8.6.2
+  - libvirt-devel=10.0.0-150600.8.6.2
+  - libvirt=10.0.0-150600.8.6.2
+  - qemu=8.2.4-150600.3.3.1
+  - qemu-ui-spice-core=8.2.4-150600.3.3.1

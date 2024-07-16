@@ -28,7 +28,7 @@ packages_aarch64:
   - cray-cos-release=1.4.0-2.6_20230804001619__gc3d4504a78a1
   # COS SHASTA-3RD Packages
   # - cray-rasdaemon                      :
-  - cray-rasdaemon=0.6.8-3_2.6_20230804001438__gd39151e8176f
+  - cray-rasdaemon=0.6.8-3_2.6_20240710201952__gd39151e8176f
   # COS General Packages
   # These COS RPM package names vary by timestamp between architectures
   # so they can't be listed in base.packages

@@ -31,21 +31,21 @@ packages:
   # CMS Team
   - bos-reporter=2.22.0-1
   - cfs-state-reporter=1.11.0-1
-  - cfs-trust=1.7.0-1
+  - cfs-trust=1.7.1-1
   # CDST GUI Packages
   - libGLU1=9.0.0-8.45
-  - libatk-1_0-0=2.36.0-150400.2.9
-  - libcairo-gobject2=1.16.0-150400.11.3.1
-  - libcairo2=1.16.0-150400.11.3.1
-  - libgcrypt20=1.9.4-150500.10.19
-  - libgdk_pixbuf-2_0-0=2.42.9-150400.5.6.1
-  - libgio-2_0-0=2.70.5-150400.3.11.1
-  - libglvnd=1.5.0-150500.1.2
-  - libgtk-3-0=3.24.34-150400.3.6.1
-  - libgtksourceview-3_0-1=3.24.11-150400.10.11
+  - libatk-1_0-0=2.50.0-150600.1.2
+  - libcairo-gobject2=1.18.0-150600.1.3
+  - libcairo2=1.18.0-150600.1.3
+  - libgcrypt20=1.10.3-150600.1.23
+  - libgdk_pixbuf-2_0-0=2.42.12-150600.3.3.1
+  - libgio-2_0-0=2.78.6-150600.4.3.1
+  - libglvnd=1.7.0-150600.1.2
+  - libgtk-3-0=3.24.38+111-150600.1.3
+  - libgtksourceview-3_0-1=3.24.11-150600.17.2
   - libopenblas_pthreads0=0.3.25-150500.4.5.2
-  - munge=0.5.15-150400.18.3.6
-  - typelib-1_0-Gtk-3_0=3.24.34-150400.3.6.1
+  - munge=0.5.15-150600.23.4
+  - typelib-1_0-Gtk-3_0=3.24.38+111-150600.1.3
   # COS General Packages
   # - cray-hugepage-setup                 : Customizing hugepage setup
   # - cray-network-dracut                 : Custom ifup.sh scripts for generic distribution
@@ -65,18 +65,18 @@ packages:
   - check-devel=0.15.2-150400.1.6
   - glu-devel=9.0.0-8.45
   - libLLVM7=7.0.1-150100.3.22.2
-  - libdrm-devel=2.4.114-150500.3.2
+  - libdrm-devel=2.4.118-150600.1.4
   - libglut3=3.2.1-1.24
   - libnuma-devel=2.0.14.20.g4ee5e0c-150400.1.24
   - libvdpau1=1.1.1-150000.3.4.1
-  - libvulkan1=1.2.133-1.26
-  - mokutil=0.5.0-150400.3.3.1
+  - libvulkan1=1.3.275.0-150600.1.2
+  - mokutil=0.5.0-150600.8.3
   # perl-URI-Encode # Unable to find
   - x11-tools=0.1-2.18
   # PE Base SLES Packages for cray-lmod
   - lua53=5.3.6-3.6.1
   - lua53-luafilesystem=1.8.0-150500.3.2.1
-  - lua53-luaposix=34.1.1-3.2.3
+  - lua53-luaposix=34.1.1-150200.3.5.1
   # PE Base SLES Packages for cray-R
-  - libicu69=69.1-7.3.2
-  - libicu69-ledata=69.1-7.3.2
+  - libicu75=75.1-1.1
+  - libicu75-ledata=75.1-1.1

@@ -58,9 +58,9 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Web-Scripting/${releasever_major}-SP${releasever_minor}/${basearch}/update?auth=basic                 SUSE-SLE-Module-Web-Scripting-Updates                    -g -p 89
 #https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Module-Web-Scripting/${releasever_major}-SP${releasever_minor}/${basearch}/update_debug?auth=basic           SUSE-SLE-Module-Web-Scripting-Debuginfo-Updates         -g -p 89
 
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-HPC/${releasever_major}-SP${releasever_minor}/${basearch}/product?auth=basic                        SUSE-SLE-Product-HPC-Pool                                -g -p 89
+#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-HPC/${releasever_major}-SP${releasever_minor}/${basearch}/product?auth=basic                        SUSE-SLE-Product-HPC-Pool                                -g -p 89
 #https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-HPC/${releasever_major}-SP${releasever_minor}/${basearch}/product_debug?auth=basic                  SUSE-SLE-Product-HPC-Debuginfo-Pool                     -g -p 89
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-HPC/${releasever_major}-SP${releasever_minor}/${basearch}/update?auth=basic                          SUSE-SLE-Product-HPC-Updates                             -g -p 89
+#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-HPC/${releasever_major}-SP${releasever_minor}/${basearch}/update?auth=basic                          SUSE-SLE-Product-HPC-Updates                             -g -p 89
 #https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Updates/SLE-Product-HPC/${releasever_major}-SP${releasever_minor}/${basearch}/update_debug?auth=basic                    SUSE-SLE-Product-HPC-Debuginfo-Updates                  -g -p 89
 
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/sles-mirror/Products/SLE-Product-SLES/${releasever_major}-SP${releasever_minor}/${basearch}/product?auth=basic                       SUSE-SLE-Product-SLES-Pool                               -g -p 89
@@ -82,17 +82,11 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/step?auth=basic                                     openSUSE-Backports-step                                  -g -p 89
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/standard?auth=basic                                 openSUSE-Backports-standard                              -g -p 89
 
+# Specific versions of kubeadm, kubelet, and kubectl
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-tumbleweed-oss-${basearch}-mirror/?auth=basic                                                                                 openSUSE-tumbleweed                                      -g -p 91
+
 # free range routing
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/network/${releasever_major}.${releasever_minor}/?auth=basic                                                          openSUSE-network-SLE                                     -g -p 90
 
-# SUSE PTF.1204911 kernel
-#https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1204911/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1204911                                        -g -p 89
-
-# SUSE PTF.1214447 systemd/udev
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1214447/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1214447                                         -g -p 89
-
-# SUSE PTF.1214754 kernel/bonding
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1214754/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1214754                                         -g -p 89
-
-# SUSE PTF.1215587 network recovery kernel panic
+# SUSE PTF.1215587
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1215587/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1215587                                         -g -p 89

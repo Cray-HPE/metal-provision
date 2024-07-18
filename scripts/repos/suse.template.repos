@@ -85,9 +85,6 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 # free range routing
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/network/${releasever_major}.${releasever_minor}/?auth=basic                                                          openSUSE-network-SLE                                     -g -p 90
 
-# Specific versions of kubeadm, kubelet, and kubectl
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-tumbleweed-oss-mirror/${basearch}?auth=basic                                                                                openSUSE-tumbleweed                                      -g -p 91
-
 # SUSE PTF.1204911 kernel
 #https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-external/PTF.1204911/${releasever_major}-SP${releasever_minor}/${basearch}?auth=basic                                           SUSE-PTF.1204911                                        -g -p 89
 

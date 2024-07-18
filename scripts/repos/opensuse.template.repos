@@ -1,0 +1,2 @@
+# Specific versions of kubeadm, kubelet, and kubectl
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-tumbleweed-oss-${basearch}-mirror/?auth=basic                                                                                 openSUSE-tumbleweed                                      -g -p 91

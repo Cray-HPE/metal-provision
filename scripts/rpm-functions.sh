@@ -69,6 +69,13 @@ ${BASE_DIR}/scripts/repos/suse.repos
 EOF
 }
 
+function list-opensuse-repos-files() {
+    /usr/bin/envsubst '$ARTIFACTORY_USER $ARTIFACTORY_TOKEN' < ${BASE_DIR}/scripts/repos/opensuse.template.repos > ${BASE_DIR}/scripts/repos/opensuse.repos
+	cat <<-EOF
+${BASE_DIR}/scripts/repos/opensuse.repos
+EOF
+}
+
 function create-fake-conntrack {
     zypper --non-interactive install rpm-build createrepo_c
     echo "Building a custom local repository for conntrack dependency, pulls in conntrack-tools while mocking conntrack."
@@ -155,6 +162,10 @@ function add-suse-repos() {
     list-suse-repos-files | xargs -r cat | zypper-add-repos
 }
 
+function add-opensuse-repos() {
+    list-opensuse-repos-files | xargs -r cat | zypper-add-repos
+}
+
 function setup-package-repos-with-compute() {
     setup-package-repos -c
 }
@@ -175,6 +186,7 @@ function setup-package-repos() {
     add-google-repos
     add-hpe-repos
     add-suse-repos
+    add-opensuse-repos
 
     # fake-conntrack necessary for kubernetes on SUSE distros; must run after all repos are setup.
     if [ ! -d ${BASE_DIR}/scripts/repos/conntrack ]; then

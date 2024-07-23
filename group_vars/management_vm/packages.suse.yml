@@ -33,7 +33,7 @@ packages:
   - gnu_parallel-bash-completion=20230122-bp155.1.5
   - gnu_parallel-zsh-completion=20230122-bp155.1.5
   - goss-servers=1.17.29-1
-  - gru=0.0.5-1
+  - gru=0.0.6-1
   - libcontainers-common=20240206-150500.4.9.2
   - metal-init=1.4.10-1
   - metal-ipxe=2.6.0-1

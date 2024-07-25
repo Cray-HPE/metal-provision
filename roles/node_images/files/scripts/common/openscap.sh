@@ -23,7 +23,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 set -euo pipefail
-
+set -x
 if [ "$RUN_OSCAP" != true ]; then
     touch /tmp/oval-results.xml
     touch /tmp/oval-patch-results.xml
@@ -32,7 +32,7 @@ if [ "$RUN_OSCAP" != true ]; then
     exit 0
 fi
 
-OS_VERSION="$(awk -F= '/VERSION_ID/{gsub(/["]/,"");printf("%d", $NF)}' /etc/os-release)"
+OS_VERSION="$(awk -F= '/VERSION_ID=/{gsub(/["-]/, "") ; print tolower($NF)}' /etc/os-release)"
 
 TEMP_DIR="$(mktemp -d)"
 (

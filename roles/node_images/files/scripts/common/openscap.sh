@@ -22,47 +22,45 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 # OTHER DEALINGS IN THE SOFTWARE.
 #
-set -eu
+set -euo pipefail
 
-if [ "$RUN_OSCAP" != true ] ; then
-  touch /tmp/oval-results.xml
-  touch /tmp/oval-patch-results.xml
-  touch /tmp/oval-report.html
-  touch /tmp/oval-patch-report.html
-  exit 0
+if [ "$RUN_OSCAP" != true ]; then
+    touch /tmp/oval-results.xml
+    touch /tmp/oval-patch-results.xml
+    touch /tmp/oval-report.html
+    touch /tmp/oval-patch-report.html
+    exit 0
 fi
 
-SLES_MAJOR=$(awk -F= '/VERSION_ID/{gsub(/["]/,"");printf("%d", $NF)}' /etc/os-release)
-TEMP_DIR=$(mktemp -d)
+OS_VERSION="$(awk -F= '/VERSION_ID/{gsub(/["]/,"");printf("%d", $NF)}' /etc/os-release)"
 
-# Obtain the relevant OVAL files, download to a temporary directory.
-cd $TEMP_DIR
-wget -e use_proxy=yes \
-     -e https_proxy=${HTTPS_PROXY:-} \
-     --continue \
-     --retry-connrefused \
-     --tries=35 \
-     --waitretry=5 \
-     https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-pub-mirror/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}.xml
-
-wget -e use_proxy=yes \
-     -e https_proxy=${HTTPS_PROXY:-} \
-     --continue \
-     --retry-connrefused \
-     --tries=35 \
-     --waitretry=5 \
-     https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/suse-pub-mirror/projects/security/oval/suse.linux.enterprise.server.${SLES_MAJOR}-patch.xml
-
-# Create oval test results in /tmp so the Pipeline can find them in an expected location.
-echo 'Running OVAL test ...'
-oscap oval eval --skip-valid --results oval-results.xml suse.linux.enterprise.server.${SLES_MAJOR}.xml > oval-standard-out.txt
-oscap oval generate report --output oval-report.html oval-results.xml
-
-echo 'Running OVAL Patch test...'
-oscap oval eval --skip-valid --results oval-patch-results.xml suse.linux.enterprise.server.${SLES_MAJOR}-patch.xml > oval-patch-standard-out.txt
-oscap oval generate report --output oval-patch-report.html oval-patch-results.xml
-
-# Make available for Packer to download.
-mv oval*.xml oval*.html /tmp
-
-cd && rm -rf ${TEMP_DIR}
+TEMP_DIR="$(mktemp -d)"
+(
+    cd "$TEMP_DIR"
+    curl -fLC - \
+        --proxy "${HTTPS_PROXY:-}" \
+        --retry-all-errors \
+        --retry 25 \
+        --retry-delay 5 \
+        -O "https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.${OS_VERSION%.*}-sp${OS_VERSION#*.}.xml.bz2"
+    echo 'Running OVAL test ...'
+    oscap oval eval --skip-valid --results oval-results.xml "suse.linux.enterprise.${OS_VERSION%.*}-sp${OS_VERSION#*.}.xml.bz2" > oval-standard-out.txt
+    oscap oval generate report --output oval-report.html oval-results.xml
+    mv oval*.xml oval*.html /tmp
+)
+rm -rf "${TEMP_DIR}"
+TEMP_DIR="$(mktemp -d)"
+(
+    cd "$TEMP_DIR"
+    curl -fLC - \
+        --proxy "${HTTPS_PROXY:-}" \
+        --retry-all-errors \
+        --retry 25 \
+        --retry-delay 5 \
+        -O "https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.${OS_VERSION%.*}-sp${OS_VERSION#*.}-patch.xml.bz2"
+    echo 'Running OVAL Patch test...'
+    oscap oval eval --skip-valid --results oval-patch-results.xml "suse.linux.enterprise.${OS_VERSION%.*}-sp${OS_VERSION#*.}-patch.xml.bz2" > oval-patch-standard-out.txt
+    oscap oval generate report --output oval-patch-report.html oval-patch-results.xml
+    mv oval*.xml oval*.html /tmp
+)
+rm -rf "${TEMP_DIR}"

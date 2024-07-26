@@ -65,7 +65,7 @@ packages:
   - wireshark=3.6.23-150600.18.3.1
   - xfsdump=3.1.6-1.30
   # CMS Team
-  - cfs-debugger=1.5.0-1
+  - cfs-debugger-1.8.0-1
   - cfs-state-reporter=1.11.0-1
   - cfs-trust=1.7.1-1
   - cloud-init-config-suse=23.3.3-1

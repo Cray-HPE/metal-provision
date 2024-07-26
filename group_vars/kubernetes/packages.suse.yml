@@ -25,8 +25,8 @@
 packages:
   - cri-tools=1.18.0-bp156.3.16
   - ipvsadm=1.29-4.3.1
-  - kubeadm="{{ kubernetes_release }}-0"
-  - kubelet="{{ kubernetes_release }}-0"
+  - kubernetes1.24-kubeadm="{{ kubernetes_release }}-3.2"
+  - kubernetes1.24-kubelet="{{ kubernetes_release }}-3.2"
   # CSM
   # platform-utils is also installed by cloud-init. However, we need to *also* bake it in
   # for proper vshasta-v2 functionality.

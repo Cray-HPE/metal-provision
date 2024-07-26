@@ -40,7 +40,7 @@ packages:
   - java-1_8_0-ibm=1.8.0_sr8.25-150000.3.89.1
   - jq=1.6-3.3.1
   - keepalived=2.2.8-150600.1.12
-  - kubectl="{{ kubernetes_release }}-0"
+  - kubernetes1.24-client="{{ kubernetes_release }}-3.2"
   - lsof=4.99.0-150600.1.15
   - ltrace=0.7.91-150500.18.1
   - mariadb-tools=10.11.8-150600.4.3.1

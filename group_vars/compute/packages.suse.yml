@@ -78,5 +78,5 @@ packages:
   - lua53-luafilesystem=1.8.0-150500.3.2.1
   - lua53-luaposix=34.1.1-150200.3.5.1
   # PE Base SLES Packages for cray-R
-  - libicu75=75.1-1.1
-  - libicu75-ledata=75.1-1.1
+  - libicu73_2=73.2-150000.1.7.1
+  - libicu73_2-ledata=73.2-150000.1.7.1

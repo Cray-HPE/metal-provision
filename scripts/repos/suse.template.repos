@@ -82,8 +82,8 @@ https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifac
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/step?auth=basic                                     openSUSE-Backports-step                                  -g -p 89
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/openSUSE:Backports:SLE-${releasever_major}-SP${releasever_minor}/standard?auth=basic                                 openSUSE-Backports-standard                              -g -p 89
 
-# Specific versions of kubeadm, kubelet, and kubectl
-https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-tumbleweed-oss-${basearch}-mirror/?auth=basic                                                                                 openSUSE-tumbleweed                                      -g -p 91
+# Specific versions of kubeadm, kubelet, and kubectl (not a mirror, so gpgcheck is disabled)
+https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-tumbleweed-oss-${basearch}-mirror/?auth=basic                                                                                 openSUSE-tumbleweed                                    --no-gpgcheck -p 91
 
 # free range routing
 https://${ARTIFACTORY_USER}:${ARTIFACTORY_TOKEN}@artifactory.algol60.net/artifactory/opensuse-mirror/network/${releasever_major}.${releasever_minor}/?auth=basic                                                          openSUSE-network-SLE                                     -g -p 90

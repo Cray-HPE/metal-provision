@@ -24,4 +24,4 @@
 ---
 packages:
   - dracut-metal-dmk8s=3.0.0-1
-  - dracut-metal-luksetcd=2.1.1-1
+  - dracut-metal-luksetcd=2.1.2-1

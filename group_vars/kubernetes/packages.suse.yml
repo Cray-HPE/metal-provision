@@ -23,7 +23,7 @@
 #
 ---
 packages:
-  - cri-tools=1.18.0-bp156.3.16
+  - cri-tools=1.24.1-1.10
   - ipvsadm=1.29-4.3.1
   - kubernetes1.24-kubeadm={{ kubernetes_release }}-3.2
   - kubernetes1.24-kubelet={{ kubernetes_release }}-3.2

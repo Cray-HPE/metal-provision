@@ -36,6 +36,9 @@ services:
     name: cloud-final.service
     state: stopped
   - enabled: true
+    name: containerd.service
+    state: started
+  - enabled: true
     name: csm-node-heartbeat.service
     state: stopped
   - enabled: true

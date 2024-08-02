@@ -27,6 +27,7 @@ packages:
   - ipvsadm=1.29-4.3.1
   - kubernetes1.24-kubeadm={{ kubernetes_release }}-3.2
   - kubernetes1.24-kubelet={{ kubernetes_release }}-3.2
+  - conntrack-tools=1.4.5-1.46
   # CSM
   # platform-utils is also installed by cloud-init. However, we need to *also* bake it in
   # for proper vshasta-v2 functionality.

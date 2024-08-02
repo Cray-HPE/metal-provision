@@ -26,7 +26,7 @@ packages_x86_64:
   # rationale: prevents apparmor for spamming dmesg
   - audit=3.0.6-150400.4.16.1
   # rationale: provides /sbin/mkinitrd
-  - dracut-mkinitrd-deprecated=059+suse.521.g8412a1c0-150600.1.3
+  - dracut-mkinitrd-deprecated=059+suse.527.g7870f083-150600.3.3.2
   # rationale: Runs tests
   - hpe-csm-goss-package=0.3.21-hpe4
   # rationale: Necessary for standardized network interface device names.

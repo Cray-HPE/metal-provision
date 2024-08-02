@@ -127,9 +127,10 @@
   ansible.builtin.lineinfile:
     path: /etc/pam.d/sshd
     line: '# \1'
+    regexp: '^(session.*pam_motd\.so.*)'
+    backrefs: true
     owner: root
     group: root
-    regexp: '^(session.*pam_motd\.so.*)'
     state: present
 
 - name: Install scripts

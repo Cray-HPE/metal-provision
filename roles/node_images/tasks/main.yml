@@ -123,6 +123,15 @@
     src: rsyslog.d/
     dest: /etc/rsyslog.d/
 
+- name: Configure pam.d sshd
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/sshd
+    line: '# \1'
+    owner: root
+    group: root
+    regexp: '^(session.*pam_motd\.so.*)'
+    state: present
+
 - name: Install scripts
   ansible.posix.synchronize:
     src: scripts

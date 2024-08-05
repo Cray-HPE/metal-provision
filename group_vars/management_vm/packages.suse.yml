@@ -23,22 +23,22 @@
 #
 ---
 packages:
-  - aardvark-dns=1.10.0-150500.3.3.1
-  - apache2=2.4.51-150400.6.17.1
-  - apparmor-profiles=3.0.4-150500.11.9.1
-  - crucible=0.0.20-1
+  - aardvark-dns=1.11.0-150500.3.6.1
+  - apache2=2.4.58-150600.5.11.1
+  - apparmor-profiles=3.1.7-150600.3.4
+  - crucible=0.0.21-1
   - dnsmasq=2.86-150400.14.3
   - fawkes-httpboot-grub=1.0-1
-  - gnu_parallel=20230122-bp155.1.5
-  - gnu_parallel-bash-completion=20230122-bp155.1.5
-  - gnu_parallel-zsh-completion=20230122-bp155.1.5
+  - gnu_parallel=20230822-bp156.1.1
+  - gnu_parallel-bash-completion=20230822-bp156.1.1
+  - gnu_parallel-zsh-completion=20230822-bp156.1.1
   - goss-servers=1.17.29-1
   - gru=0.0.6-1
-  - libcontainers-common=20240206-150500.4.9.2
+  - libcontainers-common=20240408-150600.1.1
   - metal-init=1.4.10-1
-  - metal-ipxe=2.6.0-1
+  - metal-ipxe-2.6.0-1
   - netavark=1.10.2-150500.3.3.3
-  - podman=4.4.4-150500.1.4
-  - podman-cni-config=4.4.4-150500.1.4
+  - podman=4.9.5-150500.3.15.1
+  #- podman-cni-config=4.4.4-150500.1.4
   - sqlite3=3.44.0-150000.3.23.1
-  - terraform=0.13.4-6.3.1
+  #- terraform=0.13.4-6.3.1

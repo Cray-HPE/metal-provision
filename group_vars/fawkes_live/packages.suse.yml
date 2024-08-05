@@ -24,7 +24,7 @@
 ---
 packages:
   # rationale: Application for facilitating configuring a hypervisor node.
-  - crucible=0.0.20-1
+  - crucible=0.0.21-1
   # rationale: Goss Health Check Endpoint Service
   - goss-servers=1.17.29-1
   # rationale: Used for poking around the system

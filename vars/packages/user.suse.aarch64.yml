@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023-2024 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,25 +22,6 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-services:
-  - enabled: true
-    name: chronyd.service
-    state: stopped
-  - enabled: true
-    name: kdump.service
-    state: stopped
-  - enabled: true
-    name: kdump-early.service
-    state: stopped
-  - enabled: true
-    name: multi-user.target
-    state: started
-  - enabled: true
-    name: purge-kernels.service
-    state: stopped
-  - enabled: true
-    name: serial-getty@ttyS0.service
-    state: stopped
-  - enabled: true
-    name: sshd.service
-    state: started
+packages_aarch64:
+  - libldap2=2.6.7-2.1
+  - libldap-data=2.6.7-2.1

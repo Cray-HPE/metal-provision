@@ -91,9 +91,6 @@ service:
   purge-kernels:
     enabled: true
     running: false
-  rc-local:
-    enabled: true
-    running: false
   rollback.service:
     enabled: true
     running: false

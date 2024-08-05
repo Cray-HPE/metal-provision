@@ -42,4 +42,4 @@ kernel:
       - xhci_hcd
 
 # The desired release of kubeadm, kubelet, and kubectl to use.
-kubernetes_release: 1.22.13
+kubernetes_release: 1.24.17

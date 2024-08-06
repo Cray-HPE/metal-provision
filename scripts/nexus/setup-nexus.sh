@@ -442,7 +442,7 @@ function setup-apache2-https-proxy() {
 
 function nexus-delete-repo() {
   local name="${1:-}"
-  local error
+  local error=0
   echo >&2 "Deleting $name ..."
   if ! curl \
     -f \

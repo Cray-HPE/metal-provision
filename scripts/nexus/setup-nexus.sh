@@ -29,6 +29,9 @@ WORKING_DIR="$(dirname $0)"
 # Default CSM Nexus URL - does not use HTTPS on purpose!
 DEFAULT_NEXUS_URL='http://packages'
 
+# Sets the blob store name to use when invoking Nexus functions.
+BLOB_STORE_NAME="${BLOB_STORE_NAME:-default}"
+
 # Default Nexus registry - this is where csm docker images will be pushed to
 # this does not have http or https purposefully. This is used with skopeo-sync function
 DEFAULT_NEXUS_REGISTRY="registry:5000"
@@ -49,6 +52,7 @@ Environment Variables:
 
 ARTIFACTORY_USER    (for proxy mode only) username for artifactory.algol60.net
 ARTIFACTORY_TOKEN   (for proxy mode only) token for ARTIFACTORY_USER
+BLOB_STORE_NAME     (optional; default: default) sets the blob store name when creating repositories in Nexus.
 NEXUS_URL           (default: $DEFAULT_NEXUS_URL) custom URL for reaching nexus
 NEXUS_REGISTRY      (default: $DEFAULT_NEXUS_REGISTRY) Nexus registry that images should be pushed to
 NEXUS_USERNAME      (required) Nexus username (default: $DEFAULT_NEXUS_USERNAME)
@@ -275,7 +279,7 @@ function nexus-proxy() {
   "name": "$repo_name",
   "online": true,
   "storage": {
-    "blobStoreName": "default",
+    "blobStoreName": "$BLOB_STORE_NAME",
     "strictContentTypeValidation": true
   },
   "proxy": {
@@ -540,7 +544,7 @@ function nexus-create-repo-docker() {
   "name": "$repo_name",
   "online": true,
   "storage": {
-    "blobStoreName": "default",
+    "blobStoreName": "$BLOB_STORE_NAME",
     "strictContentTypeValidation": true,
     "writePolicy": "ALLOW"
   },
@@ -595,7 +599,7 @@ function nexus-create-repo-raw() {
   "name": "$repo_name",
   "online": true,
   "storage": {
-    "blobStoreName": "default",
+    "blobStoreName": "$BLOB_STORE_NAME",
     "strictContentTypeValidation": false,
     "writePolicy": "ALLOW"
   },
@@ -645,7 +649,7 @@ function nexus-create-repo-yum() {
   "name": "$repo_name",
   "online": true,
   "storage": {
-    "blobStoreName": "default",
+    "blobStoreName": "$BLOB_STORE_NAME",
     "strictContentTypeValidation": true,
     "writePolicy": "ALLOW"
   },
@@ -710,7 +714,7 @@ function nexus-create-repo-group-yum() {
      "name": "$repo_group_name",
      "online": true,
      "storage": {
-       "blobStoreName": "default",
+       "blobStoreName": "$BLOB_STORE_NAME",
        "strictContentTypeValidation": true
      },
      "group": {

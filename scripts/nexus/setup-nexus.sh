@@ -369,6 +369,7 @@ function setup-nexus-server() {
 
   local name
   local repo_name
+  local repo_type
 
   if [ -n "$repo_path" ]; then
     name="$(basename "$repo_path")"
@@ -445,8 +446,9 @@ function setup-apache2-https-proxy() {
 }
 
 function nexus-delete-repo() {
-  local name="${1:-}"
   local error=0
+  local name
+  name="${1:-}"
   echo >&2 "Deleting $name ..."
   if ! curl \
     -f \
@@ -469,8 +471,10 @@ function nexus-create-repo() {
   local error=0
   local exists
   local method
-  local repo_name="${1:-}"
-  local repo_type="${2:-}"
+  local repo_name
+  local repo_type
+  repo_name="${1:-}"
+  repo_type="${2:-}"
 
   exists="$(
     if ! curl \
@@ -517,9 +521,11 @@ function nexus-create-repo() {
 
 function nexus-create-repo-docker() {
   local error=0
-  local repo_name="${1:-}"
-  local method="${2:-POST}"
+  local repo_name
+  local method
   local uri="service/rest/v1/repositories/docker/hosted/"
+  repo_name="${1:-}"
+  method="${2:-POST}"
 
   if [ -z "$repo_name" ]; then
     return 1
@@ -572,9 +578,11 @@ EOF
 
 function nexus-create-repo-raw() {
   local error=0
-  local repo_name="${1:-}"
-  local method="${2:-POST}"
+  local repo_name
+  local method
   local uri="service/rest/v1/repositories/raw/hosted/"
+  repo_name="${1:-}"
+  method="${2:-POST}"
 
   if [ -z "$repo_name" ]; then
     return 1
@@ -622,9 +630,11 @@ EOF
 
 function nexus-create-repo-yum() {
   local error=0
-  local repo_name="${1:-}"
-  local method="${2-POST}"
+  local repo_name
+  local method
   local uri="service/rest/v1/repositories/yum/hosted/"
+  repo_name="${1:-}"
+  method="${2-POST}"
 
   if [ -z "$repo_name" ]; then
     return 1
@@ -675,10 +685,12 @@ function nexus-create-repo-group-yum() {
   local error=0
   local exists
   local method
+  local repo_group_name
+  local repo_names
   local uri='service/rest/v1/repositories/yum/group'
-  local repo_group_name="${1:-}"
+  repo_group_name="${1:-}"
   shift
-  local repo_names="$*"
+  repo_names="$*"
   exists="$(
     if ! curl \
       -L \
@@ -751,9 +763,11 @@ EOF
 }
 
 function nexus-upload-raw() {
-  local dir="${1:-}"
+  local dir
+  local repo_name
   local error=0
-  local repo_name="${2:-}"
+  dir="${1:-}"
+  repo_name="${2:-}"
   echo -n "Uploading $dir to $repo_name ... "
   mapfile -t files < <(find "$dir/" -type f)
   for i in "${files[@]}"; do
@@ -777,9 +791,11 @@ function nexus-upload-raw() {
 }
 
 function nexus-upload-yum() {
-  local dir="${1:-}"
+  local dir
+  local repo_name
   local error=0
-  local repo_name="${2:-}"
+  dir="${1:-}"
+  repo_name="${2:-}"
   echo -n "Uploading $dir to $repo_name ... "
   mapfile -t rpms < <(find "$dir/" -type f -name \*.rpm)
   for i in "${rpms[@]}"; do

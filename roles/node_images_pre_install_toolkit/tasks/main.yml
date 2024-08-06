@@ -34,3 +34,33 @@
     dest: /usr/lib/cni
     state: link
     force: yes
+
+- name: Ensure PYTHONPATH is set in /etc/profile.d/cray.sh
+  ansible.builtin.lineinfile:
+    path: /etc/profile.d/cray.sh
+    line: 'export PYTHONPATH="/srv/cray/utilities/common"'
+    state: present
+    create: yes
+
+- name: Add /var/www/boot to apparmor for dnsmasq
+  lineinfile:
+    path: /etc/apparmor.d/usr.sbin.dnsmasq
+    regexp: '(@\{TFTP_DIR\}=.*)'
+    line: '\1 /var/www/boot'
+    backrefs: yes
+
+- name: Remove /etc/dnsmasq.conf.rpmnew
+  file:
+    path: /etc/dnsmasq.conf.rpmnew
+    state: absent
+
+- name: Add aliases and commands to /root/.bashrc
+  lineinfile:
+    path: /root/.bashrc
+    line: "{{ item }}"
+    insertafter: EOF
+  loop: "{{ bashrc_aliases }}"
+
+- name: Set the default target to multi-user.target
+  ansible.builtin.command:
+    cmd: systemctl set-default multi-user.target

@@ -23,12 +23,87 @@
 #
 ---
 services:
+  - enabled: true
+    name: apache2.service
+    state: stopped
+  - enabled: true
+    name: basecamp.service
+    state: started
+  - enabled: true
+    name: ca-certificates.service
+    state: started
   - enabled: false
     name: csm-node-heartbeat
     state: stopped
   - enabled: false
     name: csm-node-identity
     state: stopped
+  - enabled: true
+    name: chronyd.service
+    state: started
+  - enabled: true
+    name: dnsmasq.service
+    state: started
+  - enabled: true
+    name: getty@tty1.service
+    state: started
+  - enabled: true
+    name: issue-generator.service
+    state: started
+  - enabled: true
+    name: kdump-early.service
+    state: started
+  - enabled: true
+    name: kdump.service
+    state: started
+  - enabled: true
+    name: lldpad.service
+    state: started
+  - enabled: false
+    name: mdcheck_continue.service
+    state: started
+  - enabled: false
+    name: mdcheck_start.service
+    state: started
+  - enabled: false
+    name: mdmonitor-oneshot.service
+    state: started
+  - enabled: false
+    name: mdmonitor.service
+    state: started
+  - enabled: true
+    name: nexus.service
+    state: stopped
+  - enabled: false
+    name: postfix.service
+    state: stopped
+  - enabled: true
+    name: purge-kernels.service
+    state: started
+  - enabled: true
+    name: rollback.service
+    state: started
+  - enabled: true
+    name: serial-getty@ttyS0.service
+    state: started
+  - enabled: true
+    name: sshd.service
+    state: started
   - enabled: false
     name: spire-agent
     state: stopped
+  - enabled: true
+    name: wicked.service
+    state: started
+  - enabled: true
+    name: wickedd-auto4.service
+    state: started
+  - enabled: true
+    name: wickedd-dhcp4.service
+    state: started
+  - enabled: true
+    name: wickedd-dhcp6.service
+    state: started
+  - enabled: true
+    name: wickedd-nanny.service
+    state: started

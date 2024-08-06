@@ -733,7 +733,7 @@ EOF
       "${NEXUS_URL}/service/rest/v1/repositories" \
       -s \
       --header "Content-type: application/json" \
-      | jq '.[] | select(.name=="'"${repo_name}"'")'; then
+      | jq '.[] | select(.name=="'"${repo_group_name}"'")'; then
       echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
       return 1
     fi

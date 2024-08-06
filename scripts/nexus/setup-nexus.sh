@@ -681,6 +681,90 @@ EOF
   return "$error"
 }
 
+function nexus-create-repo-group-raw() {
+  local error=0
+  local exists
+  local method
+  local repo_group_name
+  local repo_names
+  local uri='service/rest/v1/repositories/raw/group'
+  repo_group_name="${1:-}"
+  shift
+  repo_names="$*"
+  exists="$(
+    if ! curl \
+      -L \
+      -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+      "${NEXUS_URL}/service/rest/v1/repositories" \
+      -s \
+      --header "Content-type: application/json" \
+      | jq '.[] | select(.name=="'"${repo_group_name}"'")'; then
+      echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+      return 1
+    fi
+  )"
+  if [ -z "$exists" ]; then
+    echo -n "Creating repo group '$repo_group_name' with: $repo_names ... "
+    method=POST
+  else
+    echo -n "Updating existing repo group '$repo_group_name' with: $repo_names ... "
+    uri="$uri/$repo_group_name"
+    method=PUT
+  fi
+  if ! curl \
+    -f \
+    -L \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/$uri" \
+    --header "Content-Type: application/json" \
+    --request $method \
+    --data-binary \
+    @-; then
+    error=1
+  fi << EOF
+   {
+     "name": "$repo_group_name",
+     "online": true,
+     "storage": {
+       "blobStoreName": "$BLOB_STORE_NAME",
+       "strictContentTypeValidation": false
+     },
+     "group": {
+       "memberNames": [
+         "${repo_names// /,}"
+       ]
+     },
+     "raw": {
+       "contentDisposition": "ATTACHMENT"
+     }
+   }
+EOF
+
+  exists="$(
+    if ! curl \
+      -f \
+      -L \
+      -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+      "${NEXUS_URL}/service/rest/v1/repositories" \
+      -s \
+      --header "Content-type: application/json" \
+      | jq '.[] | select(.name=="'"${repo_group_name}"'")'; then
+      echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+      return 1
+    fi
+  )"
+  if [ -z "$exists" ] || [ "$exists" = '' ]; then
+    echo >&2 "Error! The repository ${repo_group_name} failed to create! Please double-check the running nexus instance's health."
+    error=1
+  fi
+  if [ "$error" -ne 0 ]; then
+    echo >&2 'Errors found.'
+  else
+    echo 'Done'
+  fi
+  return "$error"
+}
+
 function nexus-create-repo-group-yum() {
   local error=0
   local exists

@@ -27,3 +27,10 @@
     mode: '0644'
     src: apache2/nexus.conf
     dest: /etc/apache2/vhosts.d/nexus.conf
+
+- name: Symlink /usr/libexec/cni to /usr/lib/cni
+  ansible.builtin.file:
+    src: /usr/libexec/cni
+    dest: /usr/lib/cni
+    state: link
+    force: yes

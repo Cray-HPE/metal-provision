@@ -1,7 +1,7 @@
 #
 # MIT License
 #
-# (C) Copyright 2022 Hewlett Packard Enterprise Development LP
+# (C) Copyright 2023 Hewlett Packard Enterprise Development LP
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
@@ -22,11 +22,18 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 ---
-- name: Node Images PIT
-  hosts: pre_install_toolkit
-  become: true # Enable builds that do not login as root to escalate privilege.
-  roles:
-    - packages
-    - node_images_pre_install_toolkit
-    - services
-    - oval_scan
+oval_files:
+  - /tmp/oval-results.xml
+  - /tmp/oval-patch-results.xml
+  - /tmp/oval-report.html
+  - /tmp/oval-patch-report.html
+
+oval_urls:
+  - url: "https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.{{ os_version_major }}-sp{{ os_version_minor }}.xml.bz2"
+    result_file: oval-results.xml
+    report_file: oval-report.html
+    stdout_file: oval-standard-out.txt
+  - url: "https://ftp.suse.com/pub/projects/security/oval/suse.linux.enterprise.{{ os_version_major }}-sp{{ os_version_minor }}-patch.xml.bz2"
+    result_file: oval-patch-results.xml
+    report_file: oval-patch-report.html
+    stdout_file: oval-patch-standard-out.txt

@@ -28,7 +28,7 @@ services:
     state: stopped
   - enabled: true
     name: basecamp.service
-    state: started
+    state: stopped
   - enabled: true
     name: ca-certificates.service
     state: started

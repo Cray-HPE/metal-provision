@@ -29,6 +29,9 @@ WORKING_DIR="$(dirname $0)"
 # Default CSM Nexus URL - does not use HTTPS on purpose!
 DEFAULT_NEXUS_URL='http://packages'
 
+# Sets the blob store name to use when invoking Nexus functions.
+BLOB_STORE_NAME="${BLOB_STORE_NAME:-default}"
+
 # Default Nexus registry - this is where csm docker images will be pushed to
 # this does not have http or https purposefully. This is used with skopeo-sync function
 DEFAULT_NEXUS_REGISTRY="registry:5000"
@@ -49,6 +52,7 @@ Environment Variables:
 
 ARTIFACTORY_USER    (for proxy mode only) username for artifactory.algol60.net
 ARTIFACTORY_TOKEN   (for proxy mode only) token for ARTIFACTORY_USER
+BLOB_STORE_NAME     (optional; default: default) sets the blob store name when creating repositories in Nexus.
 NEXUS_URL           (default: $DEFAULT_NEXUS_URL) custom URL for reaching nexus
 NEXUS_REGISTRY      (default: $DEFAULT_NEXUS_REGISTRY) Nexus registry that images should be pushed to
 NEXUS_USERNAME      (required) Nexus username (default: $DEFAULT_NEXUS_USERNAME)
@@ -275,7 +279,7 @@ function nexus-proxy() {
   "name": "$repo_name",
   "online": true,
   "storage": {
-    "blobStoreName": "default",
+    "blobStoreName": "$BLOB_STORE_NAME",
     "strictContentTypeValidation": true
   },
   "proxy": {
@@ -365,6 +369,7 @@ function setup-nexus-server() {
 
   local name
   local repo_name
+  local repo_type
 
   if [ -n "$repo_path" ]; then
     name="$(basename "$repo_path")"
@@ -441,8 +446,9 @@ function setup-apache2-https-proxy() {
 }
 
 function nexus-delete-repo() {
-  local name="${1:-}"
-  local error
+  local error=0
+  local name
+  name="${1:-}"
   echo >&2 "Deleting $name ..."
   if ! curl \
     -f \
@@ -465,8 +471,10 @@ function nexus-create-repo() {
   local error=0
   local exists
   local method
-  local repo_name="${1:-}"
-  local repo_type="${2:-}"
+  local repo_name
+  local repo_type
+  repo_name="${1:-}"
+  repo_type="${2:-}"
 
   exists="$(
     if ! curl \
@@ -513,9 +521,11 @@ function nexus-create-repo() {
 
 function nexus-create-repo-docker() {
   local error=0
-  local repo_name="${1:-}"
-  local method="${2:-POST}"
+  local repo_name
+  local method
   local uri="service/rest/v1/repositories/docker/hosted/"
+  repo_name="${1:-}"
+  method="${2:-POST}"
 
   if [ -z "$repo_name" ]; then
     return 1
@@ -540,7 +550,7 @@ function nexus-create-repo-docker() {
   "name": "$repo_name",
   "online": true,
   "storage": {
-    "blobStoreName": "default",
+    "blobStoreName": "$BLOB_STORE_NAME",
     "strictContentTypeValidation": true,
     "writePolicy": "ALLOW"
   },
@@ -568,9 +578,11 @@ EOF
 
 function nexus-create-repo-raw() {
   local error=0
-  local repo_name="${1:-}"
-  local method="${2:-POST}"
+  local repo_name
+  local method
   local uri="service/rest/v1/repositories/raw/hosted/"
+  repo_name="${1:-}"
+  method="${2:-POST}"
 
   if [ -z "$repo_name" ]; then
     return 1
@@ -595,7 +607,7 @@ function nexus-create-repo-raw() {
   "name": "$repo_name",
   "online": true,
   "storage": {
-    "blobStoreName": "default",
+    "blobStoreName": "$BLOB_STORE_NAME",
     "strictContentTypeValidation": false,
     "writePolicy": "ALLOW"
   },
@@ -618,9 +630,11 @@ EOF
 
 function nexus-create-repo-yum() {
   local error=0
-  local repo_name="${1:-}"
-  local method="${2-POST}"
+  local repo_name
+  local method
   local uri="service/rest/v1/repositories/yum/hosted/"
+  repo_name="${1:-}"
+  method="${2-POST}"
 
   if [ -z "$repo_name" ]; then
     return 1
@@ -645,7 +659,7 @@ function nexus-create-repo-yum() {
   "name": "$repo_name",
   "online": true,
   "storage": {
-    "blobStoreName": "default",
+    "blobStoreName": "$BLOB_STORE_NAME",
     "strictContentTypeValidation": true,
     "writePolicy": "ALLOW"
   },
@@ -667,14 +681,16 @@ EOF
   return "$error"
 }
 
-function nexus-create-repo-group-yum() {
+function nexus-create-repo-group-raw() {
   local error=0
   local exists
   local method
-  local uri='service/rest/v1/repositories/yum/group'
-  local repo_group_name="${1:-}"
+  local repo_group_name
+  local repo_names
+  local uri='service/rest/v1/repositories/raw/group'
+  repo_group_name="${1:-}"
   shift
-  local repo_names="$*"
+  repo_names="$*"
   exists="$(
     if ! curl \
       -L \
@@ -710,7 +726,91 @@ function nexus-create-repo-group-yum() {
      "name": "$repo_group_name",
      "online": true,
      "storage": {
-       "blobStoreName": "default",
+       "blobStoreName": "$BLOB_STORE_NAME",
+       "strictContentTypeValidation": false
+     },
+     "group": {
+       "memberNames": [
+         "${repo_names// /,}"
+       ]
+     },
+     "raw": {
+       "contentDisposition": "ATTACHMENT"
+     }
+   }
+EOF
+
+  exists="$(
+    if ! curl \
+      -f \
+      -L \
+      -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+      "${NEXUS_URL}/service/rest/v1/repositories" \
+      -s \
+      --header "Content-type: application/json" \
+      | jq '.[] | select(.name=="'"${repo_group_name}"'")'; then
+      echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+      return 1
+    fi
+  )"
+  if [ -z "$exists" ] || [ "$exists" = '' ]; then
+    echo >&2 "Error! The repository ${repo_group_name} failed to create! Please double-check the running nexus instance's health."
+    error=1
+  fi
+  if [ "$error" -ne 0 ]; then
+    echo >&2 'Errors found.'
+  else
+    echo 'Done'
+  fi
+  return "$error"
+}
+
+function nexus-create-repo-group-yum() {
+  local error=0
+  local exists
+  local method
+  local repo_group_name
+  local repo_names
+  local uri='service/rest/v1/repositories/yum/group'
+  repo_group_name="${1:-}"
+  shift
+  repo_names="$*"
+  exists="$(
+    if ! curl \
+      -L \
+      -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+      "${NEXUS_URL}/service/rest/v1/repositories" \
+      -s \
+      --header "Content-type: application/json" \
+      | jq '.[] | select(.name=="'"${repo_group_name}"'")'; then
+      echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
+      return 1
+    fi
+  )"
+  if [ -z "$exists" ]; then
+    echo -n "Creating repo group '$repo_group_name' with: $repo_names ... "
+    method=POST
+  else
+    echo -n "Updating existing repo group '$repo_group_name' with: $repo_names ... "
+    uri="$uri/$repo_group_name"
+    method=PUT
+  fi
+  if ! curl \
+    -f \
+    -L \
+    -u "${NEXUS_USERNAME}":"${NEXUS_PASSWORD}" \
+    "${NEXUS_URL}/$uri" \
+    --header "Content-Type: application/json" \
+    --request $method \
+    --data-binary \
+    @-; then
+    error=1
+  fi << EOF
+   {
+     "name": "$repo_group_name",
+     "online": true,
+     "storage": {
+       "blobStoreName": "$BLOB_STORE_NAME",
        "strictContentTypeValidation": true
      },
      "group": {
@@ -729,7 +829,7 @@ EOF
       "${NEXUS_URL}/service/rest/v1/repositories" \
       -s \
       --header "Content-type: application/json" \
-      | jq '.[] | select(.name=="'"${repo_name}"'")'; then
+      | jq '.[] | select(.name=="'"${repo_group_name}"'")'; then
       echo >&2 "Failed to authenticate or communicate with $NEXUS_URL (curl: ${PIPESTATUS[0]})"
       return 1
     fi
@@ -747,9 +847,11 @@ EOF
 }
 
 function nexus-upload-raw() {
-  local dir="${1:-}"
+  local dir
+  local repo_name
   local error=0
-  local repo_name="${2:-}"
+  dir="${1:-}"
+  repo_name="${2:-}"
   echo -n "Uploading $dir to $repo_name ... "
   mapfile -t files < <(find "$dir/" -type f)
   for i in "${files[@]}"; do
@@ -773,9 +875,11 @@ function nexus-upload-raw() {
 }
 
 function nexus-upload-yum() {
-  local dir="${1:-}"
+  local dir
+  local repo_name
   local error=0
-  local repo_name="${2:-}"
+  dir="${1:-}"
+  repo_name="${2:-}"
   echo -n "Uploading $dir to $repo_name ... "
   mapfile -t rpms < <(find "$dir/" -type f -name \*.rpm)
   for i in "${rpms[@]}"; do

@@ -8,4 +8,8 @@
 -A INPUT -d {{ ip_list[0] }} -p tcp -m tcp --dport 22 -j DROP
 {% endif -%}
 {% endfor %}
+
+# nf_conntrack_helper=1 replacement for kernels 6.0.1 and higher:
+-A PREROUTING -p udp -m udp --dport 69 -j CT --helper tftp
+
 COMMIT

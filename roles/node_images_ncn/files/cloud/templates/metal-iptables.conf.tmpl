@@ -1,11 +1,25 @@
+*raw
+:PREROUTING ACCEPT [0:0]
+
+# nf_conntrack_helper=1 replacement for kernels 6.0.1 and higher:
+-A PREROUTING -p udp -m udp --dport 69 -j CT --helper tftp
+
+COMMIT
+
 *filter
 :INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
-:OUTPUT ACCEPT [0:0]
+
+{% if ds.meta_data.ipam is defined -%}
 {% for name, network in ds.meta_data.ipam.items() %}
 {% if name == 'chn' or name == 'can' %}
 {% set ip_list = network.ip.split('/') %}
 -A INPUT -d {{ ip_list[0] }} -p tcp -m tcp --dport 22 -j DROP
 {% endif -%}
 {% endfor %}
+
+{% endif %}
+:FORWARD ACCEPT [0:0]
+
+:OUTPUT ACCEPT [0:0]
+
 COMMIT

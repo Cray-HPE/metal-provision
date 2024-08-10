@@ -50,6 +50,23 @@ netconfig update -f
 printf 'net-init: [ % -20s ]\n' 'running: hosts file'
 cloud-init query --format="$(cat /etc/cloud/templates/hosts.suse.tmpl)" >/etc/hosts || fail_and_die "cloud-init query failed to render hosts.suse.tmpl"
 
+function iptables_config() {
+    mkdir -p /etc/iptables/
+
+    if [[ -f /etc/iptables/metal.conf ]]; then
+       rm /etc/iptables/metal.conf
+    fi
+
+    # Render the template
+    printf 'net-init: [ % -20s ]\n' 'running: iptables'
+    cloud-init query --format="$(cat /etc/cloud/templates/metal-iptables.conf.tmpl)" >/etc/iptables/metal.conf || fail_and_die "cloud-init query failed to render metal-iptables.conf.tmpl"
+
+    printf 'net-init: [ % -20s ]\n' 'loading: iptables'
+    systemctl enable metal-iptables
+    systemctl restart metal-iptables
+}
+iptables_config
+
 # This function runs cloud-init commands twice;
 # once to generate the ifcfg files,
 # and again to reload cloud-init metadata after network daemons restart.
@@ -143,23 +160,6 @@ if check_ips 1 ; then
 else
     printf 'net-init: [ % -20s ]\n' 'testing: IPs exist'
 fi
-
-function iptables_config() {
-    mkdir -p /etc/iptables/
-
-    if [[ -f /etc/iptables/metal.conf ]]; then
-       rm /etc/iptables/metal.conf
-    fi
-
-    # Render the template
-    printf 'net-init: [ % -20s ]\n' 'running: iptables'
-    cloud-init query --format="$(cat /etc/cloud/templates/metal-iptables.conf.tmpl)" >/etc/iptables/metal.conf || fail_and_die "cloud-init query failed to render metal-iptables.conf.tmpl"
-
-    printf 'net-init: [ % -20s ]\n' 'loading: iptables'
-    systemctl enable metal-iptables
-    systemctl restart metal-iptables
-}
-iptables_config
 
 function cloud-init-oneshot {
     printf 'net-init: [ % -20s ]\n' 'enabling: cloud-init oneshot'

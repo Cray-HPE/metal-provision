@@ -10,7 +10,7 @@ network:
       mtu: 9000
   bonds:
     bond0:
-      interfaces: [mgmt0, mgmt1]
+      interfaces: [ mgmt0, mgmt1 ]
       dhcp4: false
       mtu: 9000
       parameters:
@@ -19,6 +19,7 @@ network:
         lacp-rate: fast
         ad-select: bandwidth
         transmit-hash-policy: layer2+3
+  {% if ds.meta_data.ipam is defined -%}
   vlans:
   {% for name, network in ds.meta_data.ipam.items() if network.vlanid != 0 %}
   {{ network.parent_device }}.{{ name | lower }}0:
@@ -29,3 +30,4 @@ network:
       mtu: 9000
       addresses: [ {{ network.ip }} ]
   {% endfor %}
+  {% endif -%}

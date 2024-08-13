@@ -1,3 +1,0 @@
-roles/node_images/tasks/main.yml command-instead-of-module
-roles/node_images/tasks/main.yml no-changed-when
-roles/k3s_server/tasks/main.yml command-instead-of-module

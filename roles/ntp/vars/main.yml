@@ -1,5 +1,0 @@
----
-ntp_chrony_service_name: 'chronyd'
-ntp_chrony_driftfile: '/var/lib/chrony/drift'
-ntp_chrony_keyfile: '/etc/chrony.keys'
-ntp_chrony_conf_file: '/etc/chrony.conf'

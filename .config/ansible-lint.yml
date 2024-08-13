@@ -1,9 +1,0 @@
----
-exclude_paths:
-  - .config/
-  - .github/
-  - collections/
-offline: false # 6.17.2 and 6.18.0 have a bug that disregards this and always runs in offline mode.
-profile: null
-skip_list:
-  - experimental # Ansible Lint is struggling to find the installed ansible-galaxy collections,
